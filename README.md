@@ -1,5 +1,4 @@
 # Reversi (10x10)
-# Descripción 
 En reversi se enfrentan dos jugadores sobre un tablero. Cada jugador cuenta con fichas de un color diferente. El objetivo del juego es conseguir que en el tablero haya la mayor cantidad de fichas del color del jugador. 
 
  
