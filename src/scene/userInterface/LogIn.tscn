@@ -13,47 +13,66 @@ anchor_left = 0.5
 anchor_top = 0.25
 anchor_right = 0.5
 anchor_bottom = 0.25
-margin_left = -162.0
-margin_top = 41.0
-margin_right = 156.0
-margin_bottom = 66.0
+margin_left = -50.0
+margin_right = 50.0
+margin_bottom = 21.0
 bbcode_enabled = true
 bbcode_text = "[center][b]Reversi[/b][/center]"
 text = "Reversi"
 
 [node name="EmailLineEdit" type="LineEdit" parent="."]
-margin_left = 376.0
-margin_top = 241.0
-margin_right = 638.0
-margin_bottom = 267.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -161.0
+margin_top = -83.0
+margin_right = 161.0
+margin_bottom = -57.0
 text = "Correo"
 clear_button_enabled = true
 
 [node name="PasswordLineEdit" type="LineEdit" parent="."]
-margin_left = 375.0
-margin_top = 277.0
-margin_right = 637.0
-margin_bottom = 303.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -161.0
+margin_top = -32.0
+margin_right = 161.0
+margin_bottom = -6.0
 text = "Contraseña"
 clear_button_enabled = true
 
 [node name="RegisterButton" type="Button" parent="."]
-margin_left = 345.0
-margin_top = 337.0
-margin_right = 509.0
-margin_bottom = 367.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -161.0
+margin_top = 37.0
+margin_right = -5.0
+margin_bottom = 72.0
 text = "Registrarse"
 
 [node name="LogInButton" type="Button" parent="."]
-margin_left = 521.0
-margin_top = 337.0
-margin_right = 685.0
-margin_bottom = 367.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 10.0
+margin_top = 37.0
+margin_right = 161.0
+margin_bottom = 72.0
 text = "Iniciar sesión"
 
 [node name="ReturnButton" type="Button" parent="."]
-margin_left = 345.0
-margin_top = 381.0
-margin_right = 688.0
-margin_bottom = 411.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -161.0
+margin_top = 84.0
+margin_right = 161.0
+margin_bottom = 115.0
 text = "Regresar"
