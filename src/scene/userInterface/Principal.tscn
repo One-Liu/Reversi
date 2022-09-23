@@ -1,0 +1,61 @@
+[gd_scene format=2]
+
+[node name="Principal" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Title" type="RichTextLabel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.25
+anchor_right = 0.5
+anchor_bottom = 0.25
+margin_left = -50.0
+margin_right = 50.0
+margin_bottom = 21.0
+bbcode_enabled = true
+bbcode_text = "[center][b]Reversi[/b][/center]"
+text = "Reversi"
+
+[node name="LogInButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -162.0
+margin_top = -49.0
+margin_right = 162.0
+margin_bottom = 27.0
+text = "Iniciar Sesión"
+
+[node name="SignUpButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -161.0
+margin_top = 37.0
+margin_right = -5.0
+margin_bottom = 72.0
+text = "Registrarse"
+
+[node name="GuestButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 10.0
+margin_top = 37.0
+margin_right = 161.0
+margin_bottom = 72.0
+text = "Jugar como Invitado"
+
+[node name="ExitButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -161.0
+margin_top = 84.0
+margin_right = 161.0
+margin_bottom = 115.0
+text = "Salir"

@@ -1,0 +1,71 @@
+[gd_scene format=2]
+
+[node name="SignUp" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Title" type="RichTextLabel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.25
+anchor_right = 0.5
+anchor_bottom = 0.25
+margin_left = -200.0
+margin_top = 18.0
+margin_right = 118.0
+margin_bottom = 43.0
+bbcode_enabled = true
+bbcode_text = "[center][b]Reversi[/b][/center]"
+text = "Reversi"
+
+[node name="EmailLineEdit" type="LineEdit" parent="."]
+margin_left = 357.0
+margin_top = 207.0
+margin_right = 583.0
+margin_bottom = 233.0
+text = "Correo"
+clear_button_enabled = true
+
+[node name="UsernameLineEdit" type="LineEdit" parent="."]
+margin_left = 357.0
+margin_top = 244.0
+margin_right = 583.0
+margin_bottom = 270.0
+text = "Nombre de usuario"
+clear_button_enabled = true
+
+[node name="PasswordLineEdit" type="LineEdit" parent="."]
+margin_left = 357.0
+margin_top = 279.0
+margin_right = 583.0
+margin_bottom = 305.0
+text = "Contraseña"
+clear_button_enabled = true
+
+[node name="ConfirmPasswordLineEdit" type="LineEdit" parent="."]
+margin_left = 357.0
+margin_top = 314.0
+margin_right = 583.0
+margin_bottom = 340.0
+text = "Confirmar contraseña"
+clear_button_enabled = true
+
+[node name="LogInButton" type="Button" parent="."]
+margin_left = 323.0
+margin_top = 360.0
+margin_right = 463.0
+margin_bottom = 393.0
+text = "Iniciar sesión"
+
+[node name="RegisterButton" type="Button" parent="."]
+margin_left = 480.0
+margin_top = 361.0
+margin_right = 620.0
+margin_bottom = 394.0
+text = "Registrarse"
+
+[node name="ReturnButton" type="Button" parent="."]
+margin_left = 324.0
+margin_top = 403.0
+margin_right = 624.0
+margin_bottom = 436.0
+text = "Regresar"

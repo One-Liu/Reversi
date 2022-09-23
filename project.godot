@@ -21,6 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Reversi FEI"
+run/main_scene="res://src/scene/userInterface/Principal.tscn"
 config/icon="res://icon.png"
 
 [editor]
