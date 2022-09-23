@@ -13,8 +13,8 @@ margin_left = -161.0
 margin_top = -110.0
 margin_right = 161.0
 margin_bottom = -84.0
-text = "Correo"
 clear_button_enabled = true
+placeholder_text = "Correo"
 
 [node name="UsernameLineEdit" type="LineEdit" parent="."]
 anchor_left = 0.5
@@ -25,8 +25,8 @@ margin_left = -161.0
 margin_top = -75.0
 margin_right = 161.0
 margin_bottom = -49.0
-text = "Nombre de usuario"
 clear_button_enabled = true
+placeholder_text = "Nombre de usuario"
 
 [node name="PasswordLineEdit" type="LineEdit" parent="."]
 anchor_left = 0.5
@@ -37,8 +37,9 @@ margin_left = -161.0
 margin_top = -40.0
 margin_right = 161.0
 margin_bottom = -14.0
-text = "Contraseña"
+secret = true
 clear_button_enabled = true
+placeholder_text = "Contraseña"
 
 [node name="ConfirmPasswordLineEdit" type="LineEdit" parent="."]
 anchor_left = 0.5
@@ -49,8 +50,9 @@ margin_left = -161.0
 margin_top = -6.0
 margin_right = 161.0
 margin_bottom = 20.0
-text = "Confirmar contraseña"
+secret = true
 clear_button_enabled = true
+placeholder_text = "Confirmar contraseña"
 
 [node name="Title" type="RichTextLabel" parent="."]
 anchor_left = 0.5

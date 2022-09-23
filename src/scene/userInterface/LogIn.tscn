@@ -29,8 +29,8 @@ margin_left = -161.0
 margin_top = -83.0
 margin_right = 161.0
 margin_bottom = -57.0
-text = "Correo"
 clear_button_enabled = true
+placeholder_text = "Correo"
 
 [node name="PasswordLineEdit" type="LineEdit" parent="."]
 anchor_left = 0.5
@@ -41,8 +41,9 @@ margin_left = -161.0
 margin_top = -32.0
 margin_right = 161.0
 margin_bottom = -6.0
-text = "Contraseña"
+secret = true
 clear_button_enabled = true
+placeholder_text = "Contraseña"
 
 [node name="RegisterButton" type="Button" parent="."]
 anchor_left = 0.5
