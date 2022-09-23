@@ -3,4 +3,7 @@
     <TargetFramework>net472</TargetFramework>
     <RootNamespace>ReversiFEI</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="NHibernate" Version="5.3.13" />
+  </ItemGroup>
 </Project>
