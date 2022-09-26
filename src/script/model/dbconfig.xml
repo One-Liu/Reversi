@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<DatabaseProperties>
-    <address>localhost:3306</address>
-    <database>reversi</database>
-    <username>reversi</username>
-    <password>password</password>
-</DatabaseProperties>

@@ -1,7 +1,8 @@
-<Project Sdk="Godot.NET.Sdk/3.3.0">
+﻿<Project Sdk="Godot.NET.Sdk/3.3.0">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net600</TargetFramework>
     <RootNamespace>ReversiFEI</RootNamespace>
+    <UserSecretsId>86b774c7-72e8-412a-ae90-f05ed8abdd3e</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NHibernate" Version="5.3.13" />
