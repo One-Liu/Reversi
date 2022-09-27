@@ -1,9 +1,9 @@
 <Project Sdk="Godot.NET.Sdk/3.3.0">
   <PropertyGroup>
-    <TargetFramework>net600</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <RootNamespace>ReversiFEI</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MySql.EntityFrameworkCore" Version="6.0.4" />
+    <PackageReference Include="MySql.EntityFrameworkCore" Version="3.1.10" />
   </ItemGroup>
 </Project>

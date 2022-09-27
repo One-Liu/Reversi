@@ -1,0 +1,100 @@
+[gd_scene format=2]
+
+[node name="SignUp" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="EmailLineEdit" type="LineEdit" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -161.0
+margin_top = -110.0
+margin_right = 161.0
+margin_bottom = -84.0
+clear_button_enabled = true
+placeholder_text = "Correo"
+
+[node name="UsernameLineEdit" type="LineEdit" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -161.0
+margin_top = -75.0
+margin_right = 161.0
+margin_bottom = -49.0
+clear_button_enabled = true
+placeholder_text = "Nombre de usuario"
+
+[node name="PasswordLineEdit" type="LineEdit" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -161.0
+margin_top = -40.0
+margin_right = 161.0
+margin_bottom = -14.0
+secret = true
+clear_button_enabled = true
+placeholder_text = "Contraseña"
+
+[node name="ConfirmPasswordLineEdit" type="LineEdit" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -161.0
+margin_top = -6.0
+margin_right = 161.0
+margin_bottom = 20.0
+secret = true
+clear_button_enabled = true
+placeholder_text = "Confirmar contraseña"
+
+[node name="Title" type="RichTextLabel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.25
+anchor_right = 0.5
+anchor_bottom = 0.25
+margin_left = -50.0
+margin_right = 50.0
+margin_bottom = 21.0
+bbcode_enabled = true
+bbcode_text = "[center][b]Reversi[/b][/center]"
+text = "Reversi"
+
+[node name="LogInButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -161.0
+margin_top = 37.0
+margin_right = -5.0
+margin_bottom = 72.0
+text = "Iniciar sesión"
+
+[node name="RegisterButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 10.0
+margin_top = 37.0
+margin_right = 161.0
+margin_bottom = 72.0
+text = "Registrarse"
+
+[node name="ReturnButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -161.0
+margin_top = 84.0
+margin_right = 161.0
+margin_bottom = 115.0
+text = "Regresar"

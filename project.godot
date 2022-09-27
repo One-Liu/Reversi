@@ -21,6 +21,8 @@ _global_script_class_icons={
 [application]
 
 config/name="Reversi FEI"
+run/main_scene="res://src/scene/businessLogic/Entry.tscn"
+boot_splash/show_image=false
 config/icon="res://icon.png"
 
 [editor]
@@ -35,6 +37,10 @@ singletons=[ "res://addons/godot-git-plugin/git_api.gdnlib" ]
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
+
+[logging]
+
+file_logging/enable_file_logging=true
 
 [physics]
 
