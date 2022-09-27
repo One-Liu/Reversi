@@ -23,11 +23,11 @@ namespace ReversiFEI{
     {
         public int PlayerId { get; set; }
         
-        public string nickname { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
-        public int wonGames { get; set; }
-        public int setOfPieces { get; set; }
+        public string Nickname { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public int GamesWon { get; set; }
+        public int PiecesSet { get; set; }
     }
     
     public class Friends
