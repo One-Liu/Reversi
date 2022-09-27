@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Linq;
+using MySql.Data.MySqlClient;
 using ReversiFEI;
 
 namespace ReversiFEI{
@@ -14,23 +15,41 @@ namespace ReversiFEI{
         
         private void _on_LogInButton_pressed()
         {
-            string email = GetParent().GetNode<LineEdit>("EmailLineEdit").Text;
-            string password = GetParent().GetNode<LineEdit>("PasswordLineEdit").Text;
-        
-            using (var db = new PlayerContext())
+            LineEdit EmailLineEdit = GetParent().GetNode<LineEdit>("EmailLineEdit");
+            LineEdit PasswordLineEdit = GetParent().GetNode<LineEdit>("PasswordLineEdit");
+            
+            if(EmailLineEdit.Text != "" || PasswordLineEdit.Text != "")
             {
-                var player = db.Players
-                    .Single(b => b.email == email && b.password == password);
-                
-                if(player != null)
+                string email = EmailLineEdit.Text;
+                string password = PasswordLineEdit.Text;
+            
+                using (var db = new PlayerContext())
                 {
-                    //GetTree().ChangeScene("res://src/scene/userInterface/MainMenu.tscn");
-                    GD.Print("Log in succesful.");
-                } 
-                else
-                {
-                    GD.Print("Log in failed.");
+                    try
+                    {
+                        var player = db.Player
+                            .Where(b => b.email == email && b.password == password)
+                            .ToList();
+                        
+                        if(player.Any())
+                        {
+                            //GetTree().ChangeScene("res://src/scene/userInterface/MainMenu.tscn");
+                            GD.Print("Log in succesful.");
+                        } 
+                        else
+                        {
+                            GD.Print("Log in failed.");
+                        }
+                    }
+                    catch (MySqlException e)
+                    {
+                        GD.Print(e.Message);
+                    }
                 }
+            }
+            else
+            {
+                GD.Print("Fields missing.");
             }
         }
     }

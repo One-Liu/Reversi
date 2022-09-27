@@ -5,42 +5,36 @@ namespace ReversiFEI{
 
     public class PlayerContext : DbContext
     {
-        public DbSet<Player> Players { get; set; }
-        public DbSet<PlayerToken> PlayerTokens { get; set; }
-        public DbSet<Token> Tokens { get; set; }
+        public DbSet<Player> Player { get; set; }
+        //public DbSet<Friends> Friends { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             
             //for local testing
-            optionsBuilder.UseMySQL("server=localhost;database=reversi;user=reversi;password=password");
+            optionsBuilder.UseMySQL("server=localhost;database=Reversi;user=reversi;password=Z4Sj(Ba#%3JY=8X");
             
             //for production deployment through dotnet user secrets:
             //optionsBuilder.UseMySQL(Configuration.GetConnectionString("ReversiDatabase"));    
         }
     }
-
+    
     public class Player
     {
-        public int playerId { get; set; }
-        public string username { get; set; }
+        public int PlayerId { get; set; }
+        
+        public string nickname { get; set; }
         public string email { get; set; }
         public string password { get; set; }
-        public PlayerToken playerToken { get; set; }
+        public int wonGames { get; set; }
+        public int setOfPieces { get; set; }
     }
-
-    public class PlayerToken
+    
+    public class Friends
     {
-        public int playerTokenID { get; set; }
+        public int FriendsId { get; set; }
         
-        public int playerId { get; set; }
-        public Player player { get; set; }
-        public int tokenId { get; set; }
-        public Token token { get; set; }
-    }
-
-    public class Token
-    {
-        public int tokenId { get; set; }
-        public string design { get; set; }
+        public Player Player1 { get; set; }
+        public Player Player2 { get; set; }
     }
 }
