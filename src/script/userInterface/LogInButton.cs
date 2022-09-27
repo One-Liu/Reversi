@@ -1,15 +1,37 @@
 using Godot;
 using System;
+using System.Linq;
+using ReversiFEI;
 
-public class LogInButton : Button
-{
-    public override void _Ready()
+namespace ReversiFEI{
+    
+    public class LogInButton : Button
     {
+        public override void _Ready()
+        {
+            
+        }
         
-    }
-
-    private void _on_LogInButton_pressed()
-    {
-        GetTree().ChangeScene("res://src/scene/userInterface/LogIn.tscn");
+        private void _on_LogInButton_pressed()
+        {
+            string email = GetParent().GetNode<LineEdit>("EmailLineEdit").Text;
+            string password = GetParent().GetNode<LineEdit>("PasswordLineEdit").Text;
+        
+            using (var db = new PlayerContext())
+            {
+                var player = db.Players
+                    .Single(b => b.email == email && b.password == password);
+                
+                if(player != null)
+                {
+                    //GetTree().ChangeScene("res://src/scene/userInterface/MainMenu.tscn");
+                    GD.Print("Log in succesful.");
+                } 
+                else
+                {
+                    GD.Print("Log in failed.");
+                }
+            }
+        }
     }
 }
