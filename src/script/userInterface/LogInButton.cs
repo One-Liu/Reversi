@@ -2,33 +2,38 @@ using Godot;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using MySql.Data.MySqlClient;
 using ReversiFEI;
 
-namespace ReversiFEI{
-    
-    public class LogInButton : Button
+public class LogInButton : Button
+{
+    public override void _Ready()
     {
-        public override void _Ready()
-        {
-            
-        }
         
-        private void _on_LogInButton_pressed()
-        {
-            
-            string email = GetParent().GetNode<LineEdit>("EmailLineEdit").Text;
-            string password = GetParent().GetNode<LineEdit>("PasswordLineEdit").Text;
+    }
+    
+    private void _on_LogInButton_pressed()
+    {
         
-            using (var db = new PlayerContext())
+        string email = GetParent().GetNode<LineEdit>("EmailLineEdit").Text;
+        string password = GetParent().GetNode<LineEdit>("PasswordLineEdit").Text;
+    
+        using (var db = new PlayerContext())
+        {
+            try
             {
-                try
+                var player = db.Player
+                    .SingleOrDefault(b => b.Email == email);
+                
+                byte[] salt = player.Salt;
+                byte[] key = player.Password;
+        
+                using (var deriveBytes = new Rfc2898DeriveBytes(password, salt))
                 {
-                    var player = db.Player
-                        .Where(b => b.Email == email && b.Password == password)
-                        .ToList();
+                    byte[] newKey = deriveBytes.GetBytes(64);
                     
-                    if(player.Any())
+                    if(newKey.SequenceEqual(key))
                     {
                         //GetTree().ChangeScene("res://src/scene/userInterface/MainMenu.tscn");
                         GD.Print("Log in succesful.");
@@ -38,14 +43,14 @@ namespace ReversiFEI{
                         GD.Print("Log in failed.");
                     }
                 }
-                catch (MySqlException e)
-                {
-                    GD.Print(e.Message);
-                }
-                catch (KeyNotFoundException e)
-                {
-                    GD.Print("Log in failed.");
-                }
+            }
+            catch(MySqlException e)
+            {
+                GD.Print(e.Message);
+            }
+            catch(NullReferenceException e)
+            {
+                GD.Print("Log in failed.");
             }
         }
     }

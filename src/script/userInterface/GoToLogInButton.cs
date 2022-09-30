@@ -8,7 +8,7 @@ public class GoToLogInButton : Button
         
     }
 
-    private void _on_LogInButton_pressed()
+    private void _on_GoToLogInButton_pressed()
     {
         GetTree().ChangeScene("res://src/scene/userInterface/LogIn.tscn");
     }

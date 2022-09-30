@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://src/script/userInterface/ExitButton.cs" type="Script" id=1]
 [ext_resource path="res://src/script/userInterface/GoToLogInButton.cs" type="Script" id=2]
+[ext_resource path="res://src/script/userInterface/GoToSignUpButton.cs" type="Script" id=3]
 
 [node name="ReversiMenu" type="Control"]
 anchor_right = 1.0
@@ -41,6 +42,7 @@ margin_top = 37.0
 margin_right = -5.0
 margin_bottom = 72.0
 text = "Registrarse"
+script = ExtResource( 3 )
 
 [node name="GuestButton" type="Button" parent="."]
 anchor_left = 0.5
@@ -65,5 +67,6 @@ margin_bottom = 115.0
 text = "Salir"
 script = ExtResource( 1 )
 
-[connection signal="pressed" from="GoToLogInButton" to="GoToLogInButton" method="_on_LogInButton_pressed"]
+[connection signal="pressed" from="GoToLogInButton" to="GoToLogInButton" method="_on_GoToLogInButton_pressed"]
+[connection signal="pressed" from="GoToSignUpButton" to="GoToSignUpButton" method="_on_GoToSignUpButton_pressed"]
 [connection signal="pressed" from="ExitButton" to="ExitButton" method="_on_ExitButton_pressed"]

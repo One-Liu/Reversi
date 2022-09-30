@@ -6,11 +6,10 @@ namespace ReversiFEI{
     public class PlayerContext : DbContext
     {
         public DbSet<Player> Player { get; set; }
-        //public DbSet<Friends> Friends { get; set; }
+        public DbSet<Friends> Friends { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            
             //for local testing
             optionsBuilder.UseMySQL("server=localhost;database=Reversi;user=reversi;password=Z4Sj(Ba#%3JY=8X");
             
@@ -25,7 +24,8 @@ namespace ReversiFEI{
         
         public string Nickname { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
+        public byte[] Password { get; set; }
+        public byte[] Salt { get; set; }
         public int GamesWon { get; set; }
         public int PiecesSet { get; set; }
     }
