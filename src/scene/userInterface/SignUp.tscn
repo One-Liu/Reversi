@@ -5,6 +5,10 @@
 [node name="SignUp" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 3.0
+margin_top = 3.0
+margin_right = 3.0
+margin_bottom = 3.0
 
 [node name="EmailLineEdit" type="LineEdit" parent="."]
 anchor_left = 0.5
@@ -61,9 +65,10 @@ anchor_left = 0.5
 anchor_top = 0.25
 anchor_right = 0.5
 anchor_bottom = 0.25
-margin_left = -50.0
-margin_right = 50.0
-margin_bottom = 21.0
+margin_left = -84.0
+margin_top = -116.0
+margin_right = 87.0
+margin_bottom = 18.0
 bbcode_enabled = true
 bbcode_text = "[center][b]Reversi[/b][/center]"
 text = "Reversi"
