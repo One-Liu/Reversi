@@ -1,4 +1,4 @@
-# Reversi (10x10)
+# Reversi (10x10) - ES (MX)
 En reversi se enfrentan dos jugadores sobre un tablero. Cada jugador cuenta con fichas de un color diferente. El objetivo del juego es conseguir que en el tablero haya la mayor cantidad de fichas del color del jugador. 
 
 # Reglas 
@@ -16,7 +16,7 @@ En reversi se enfrentan dos jugadores sobre un tablero. Cada jugador cuenta con 
 - Al terminar el juego, el jugador con más fichas en el tablero gana.
 - Si ambos jugadores tienen la misma cantidad de fichas en el tablero al final del juego, se declara un empate.
 
-# Reversi (10x10)
+# Reversi (10x10) - EN (US)
 In reversi, two players face each other on a board. Each player has pieces of a different color. The object of the game is to get as many pieces of the player's color on the board as possible.
 
 # Rules
@@ -24,12 +24,12 @@ In reversi, two players face each other on a board. Each player has pieces of a 
 - Each piece occupies one square.
 - Each player is assigned a color (black and white by default).
 - Each player has 50 pieces.
-- It starts with 4 checkers in the center, 2 of each player interspersed.
+- It starts with 4 pieces in the center, 2 of each player interspersed.
 - The player who takes the first turn is decided randomly.
-- During the player's turn, he can place one of his own checkers on a square adjacent to another checker and only if it surrounds one or more opponent's checkers.
-- If the player cannot place his checkers in such a way that they surround at least one opponent's checker, his turn is skipped.
-- If the player's checkers are surrounded by opponent's checkers vertically, horizontally or diagonally forming an unbroken straight line, they become opponent's checkers.
-- If the player surrounds the opponent's checkers vertically, horizontally or diagonally in an unbroken straight line, they become his checkers.
-- The game ends when no player can make any more moves or a player runs out of checkers.
-- At the end of the game, the player with the most checkers on the board wins.
-- If both players have the same number of checkers on the board at the end of the game, a draw is declared.
+- During the player's turn, he can place one of his own pieces on a square adjacent to another piece and only if it surrounds one or more opponent's pieces.
+- If the player cannot place his pieces in such a way that they surround at least one opponent's piece, his turn is skipped.
+- If the player's pieces are surrounded by opponent's pieces vertically, horizontally or diagonally forming an unbroken straight line, they become opponent's pieces.
+- If the player surrounds the opponent's pieces vertically, horizontally or diagonally in an unbroken straight line, they become his pieces.
+- The game ends when no player can make any more moves or a player runs out of pieces.
+- At the end of the game, the player with the most pieces on the board wins.
+- If both players have the same number of pieces on the board at the end of the game, a draw is declared.
