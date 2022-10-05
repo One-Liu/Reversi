@@ -2,6 +2,7 @@
 En reversi se enfrentan dos jugadores sobre un tablero. Cada jugador cuenta con fichas de un color diferente. El objetivo del juego es conseguir que en el tablero haya la mayor cantidad de fichas del color del jugador. 
 
 # Reglas 
+- 2 jugadores
 - Tablero de 10 casillas por 10 casillas.
 - Cada ficha ocupa una casilla.
 - A cada jugador se le asigna un color (blanco y negro por defecto).
@@ -20,6 +21,7 @@ En reversi se enfrentan dos jugadores sobre un tablero. Cada jugador cuenta con 
 In reversi, two players face each other on a board. Each player has pieces of a different color. The object of the game is to get as many pieces of the player's color on the board as possible.
 
 # Rules
+- 2 players
 - Board of 10 squares by 10 squares.
 - Each piece occupies one square.
 - Each player is assigned a color (black and white by default).
