@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://src/script/userInterface/LogInButton.cs" type="Script" id=1]
+[ext_resource path="res://src/script/userInterface/ReturnButton.cs" type="Script" id=2]
 
 [node name="LogIn" type="Control"]
 anchor_right = 1.0
@@ -81,5 +82,7 @@ margin_top = 84.0
 margin_right = 161.0
 margin_bottom = 115.0
 text = "Regresar"
+script = ExtResource( 2 )
 
 [connection signal="pressed" from="LogInButton" to="LogInButton" method="_on_LogInButton_pressed"]
+[connection signal="pressed" from="ReturnButton" to="ReturnButton" method="_on_ReturnButton_pressed"]
