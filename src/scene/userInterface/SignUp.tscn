@@ -19,6 +19,7 @@ margin_left = -161.0
 margin_top = -110.0
 margin_right = 161.0
 margin_bottom = -84.0
+max_length = 100
 clear_button_enabled = true
 placeholder_text = "Correo"
 
@@ -31,6 +32,7 @@ margin_left = -161.0
 margin_top = -75.0
 margin_right = 161.0
 margin_bottom = -49.0
+max_length = 100
 clear_button_enabled = true
 placeholder_text = "Nombre de usuario"
 
