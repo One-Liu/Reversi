@@ -29,7 +29,7 @@ margin_left = -162.0
 margin_top = -49.0
 margin_right = 162.0
 margin_bottom = 27.0
-text = "Iniciar Sesión"
+text = "LOGIN"
 script = ExtResource( 2 )
 
 [node name="GoToSignUpButton" type="Button" parent="."]
@@ -41,7 +41,7 @@ margin_left = -161.0
 margin_top = 37.0
 margin_right = -5.0
 margin_bottom = 72.0
-text = "Registrarse"
+text = "REGISTER"
 script = ExtResource( 3 )
 
 [node name="GuestButton" type="Button" parent="."]
@@ -53,7 +53,7 @@ margin_left = 10.0
 margin_top = 37.0
 margin_right = 161.0
 margin_bottom = 72.0
-text = "Jugar como Invitado"
+text = "LOGIN_GUEST"
 
 [node name="ExitButton" type="Button" parent="."]
 anchor_left = 0.5
@@ -64,7 +64,7 @@ margin_left = -161.0
 margin_top = 84.0
 margin_right = 161.0
 margin_bottom = 115.0
-text = "Salir"
+text = "EXIT"
 script = ExtResource( 1 )
 
 [connection signal="pressed" from="GoToLogInButton" to="GoToLogInButton" method="_on_GoToLogInButton_pressed"]

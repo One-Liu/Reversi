@@ -21,7 +21,7 @@ margin_right = 161.0
 margin_bottom = -84.0
 max_length = 100
 clear_button_enabled = true
-placeholder_text = "Correo"
+placeholder_text = "EMAIL"
 
 [node name="UsernameLineEdit" type="LineEdit" parent="."]
 anchor_left = 0.5
@@ -34,7 +34,7 @@ margin_right = 161.0
 margin_bottom = -49.0
 max_length = 100
 clear_button_enabled = true
-placeholder_text = "Nombre de usuario"
+placeholder_text = "NICKNAME"
 
 [node name="PasswordLineEdit" type="LineEdit" parent="."]
 anchor_left = 0.5
@@ -47,7 +47,7 @@ margin_right = 161.0
 margin_bottom = -14.0
 secret = true
 clear_button_enabled = true
-placeholder_text = "Contraseña"
+placeholder_text = "PASSWORD"
 
 [node name="ConfirmPasswordLineEdit" type="LineEdit" parent="."]
 anchor_left = 0.5
@@ -60,7 +60,7 @@ margin_right = 161.0
 margin_bottom = 20.0
 secret = true
 clear_button_enabled = true
-placeholder_text = "Confirmar contraseña"
+placeholder_text = "CONFIRM_PASSWORD"
 
 [node name="Title" type="RichTextLabel" parent="."]
 anchor_left = 0.5
@@ -84,7 +84,7 @@ margin_left = -161.0
 margin_top = 37.0
 margin_right = -5.0
 margin_bottom = 72.0
-text = "Iniciar sesión"
+text = "LOGIN"
 
 [node name="RegisterButton" type="Button" parent="."]
 anchor_left = 0.5
@@ -95,7 +95,7 @@ margin_left = 10.0
 margin_top = 37.0
 margin_right = 161.0
 margin_bottom = 72.0
-text = "Registrarse"
+text = "REGISTER"
 script = ExtResource( 1 )
 
 [node name="ReturnButton" type="Button" parent="."]
@@ -107,6 +107,6 @@ margin_left = -161.0
 margin_top = 84.0
 margin_right = 161.0
 margin_bottom = 115.0
-text = "Regresar"
+text = "RETURN"
 
 [connection signal="pressed" from="RegisterButton" to="RegisterButton" method="_on_RegisterButton_pressed"]

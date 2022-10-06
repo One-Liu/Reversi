@@ -1,0 +1,37 @@
+,es,en
+en_US,Inglés (Estados Unidos),English (United States)
+es_MX,Spanish (México),Español (México)
+CONNECTION_FAILED, Connection failed., Hubo un error de conexión.
+CONNECTION_FAILED_MESSAGE,Please try again later., Por favor intentelo de nuevo.
+CONNECTION_FAILED_BTN,Continue,Continuar
+LOGIN,Log in,Iniciar Sesión
+REGISTER,Sign up,Registrarse
+LOGIN_GUEST,Log in a guest,Jugar como invitado
+EXIT,Exit,Salir
+CHANGE_LANGUAGE,Change language,Cambiar lenguaje
+LANGUAGE,Language,Lenguaje
+NICKNAME,Nickname,Apodo
+EMAIL,Email,Email
+RETURN,Return,Regresar
+PASSWORD,Password,Contraseña
+CONFIRM_PASSWORD,Confirm password,Confirmar contraseña
+INCORRECT_EMAIL_OR_PASSWORD,Incorrect email or password.,Email o constraseña incorrecta.
+REQUIRED_FIELD,This field cannot be empty.,Este campo no puede estar vacío.
+PASSWORD_MISMATCH,Passwords don't match.,Las contraseñas no coinciden.
+ENTER_LOBBY,Enter lobby,Entrar al lobby
+HOW_TO_PLAY,How to play,Como jugar
+SETTINGS,Settings,Configuración
+LOBBY,Lobby,Lobby
+TYPE_MESSAGE,Type a message here...,Escribe un mensaje aquí...
+SOCIAL,Social,Social
+FRIENDS,Friends,Amigos
+OTHER_PLAYERS,Other players,Otros jugadores
+ONLINE,Online,En línea
+CHALLENGE,Challenge,Retar
+DELETE_FRIEND,Remove from friends,Quitar de amigos
+ADD_FRIEND,Add friend,Añadir amigo
+CUSTOMIZE_PROFILE,Customize profile,Personalizar perfil
+PIECE_APPEARANCE,Customize pieces,Personalizar piezas
+EDIT,Edit,Editar
+SOUND,Sound,Sonido
+ACTIVATE_SOUND,Sound On/Off,Activar/Desactivar sonido
