@@ -6,7 +6,7 @@ CONNECTION_FAILED_MESSAGE,Please try again later., Por favor intentelo de nuevo.
 CONNECTION_FAILED_BTN,Continue,Continuar
 LOGIN,Log in,Iniciar Sesión
 REGISTER,Sign up,Registrarse
-LOGIN_GUEST,Log in a guest,Jugar como invitado
+LOGIN_GUEST,Log in as a guest,Jugar como invitado
 EXIT,Exit,Salir
 CHANGE_LANGUAGE,Change language,Cambiar lenguaje
 LANGUAGE,Language,Lenguaje
