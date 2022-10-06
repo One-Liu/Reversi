@@ -1,5 +1,5 @@
-,es,en
-en_US,Inglés (Estados Unidos),English (United States)
+,en,es
+en_US,English (United States),Inglés (Estados Unidos)
 es_MX,Spanish (México),Español (México)
 CONNECTION_FAILED, Connection failed., Hubo un error de conexión.
 CONNECTION_FAILED_MESSAGE,Please try again later., Por favor intentelo de nuevo.
