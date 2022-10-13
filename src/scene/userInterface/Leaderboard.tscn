@@ -1,0 +1,39 @@
+[gd_scene format=2]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="LeaderboardTitle" type="RichTextLabel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.25
+anchor_right = 0.5
+anchor_bottom = 0.25
+margin_left = -60.0
+margin_top = -58.0
+margin_right = 60.0
+margin_bottom = -37.0
+bbcode_enabled = true
+bbcode_text = "[center][b]Reversi[/b][/center]"
+text = "Clasificación"
+
+[node name="TopPlayersItemList" type="ItemList" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -420.0
+margin_top = -180.0
+margin_right = 420.0
+margin_bottom = 150.0
+
+[node name="ReturnButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -162.0
+margin_top = 173.0
+margin_right = 162.0
+margin_bottom = 204.0
+text = "Regresar"
