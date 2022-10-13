@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://src/script/userInterface/ExitButton.cs" type="Script" id=1]
 [ext_resource path="res://src/script/userInterface/GoToLogInButton.cs" type="Script" id=2]
 [ext_resource path="res://src/script/userInterface/GoToSignUpButton.cs" type="Script" id=3]
+[ext_resource path="res://src/script/userInterface/ChangeLanguageButton.cs" type="Script" id=4]
 
 [node name="ReversiMenu" type="Control"]
 anchor_right = 1.0
@@ -29,7 +30,7 @@ margin_left = -162.0
 margin_top = -49.0
 margin_right = 162.0
 margin_bottom = 27.0
-text = "Iniciar Sesión"
+text = "LOGIN"
 script = ExtResource( 2 )
 
 [node name="GoToSignUpButton" type="Button" parent="."]
@@ -41,7 +42,7 @@ margin_left = -161.0
 margin_top = 37.0
 margin_right = -5.0
 margin_bottom = 72.0
-text = "Registrarse"
+text = "REGISTER"
 script = ExtResource( 3 )
 
 [node name="GuestButton" type="Button" parent="."]
@@ -53,7 +54,7 @@ margin_left = 10.0
 margin_top = 37.0
 margin_right = 161.0
 margin_bottom = 72.0
-text = "Jugar como Invitado"
+text = "LOGIN_GUEST"
 
 [node name="ExitButton" type="Button" parent="."]
 anchor_left = 0.5
@@ -64,9 +65,22 @@ margin_left = -161.0
 margin_top = 84.0
 margin_right = 161.0
 margin_bottom = 115.0
-text = "Salir"
+text = "EXIT"
 script = ExtResource( 1 )
+
+[node name="ChangeLanguageButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -95.0
+margin_top = -61.0
+margin_right = 95.0
+margin_bottom = -35.0
+text = "CHANGE_LANGUAGE"
+script = ExtResource( 4 )
 
 [connection signal="pressed" from="GoToLogInButton" to="GoToLogInButton" method="_on_GoToLogInButton_pressed"]
 [connection signal="pressed" from="GoToSignUpButton" to="GoToSignUpButton" method="_on_GoToSignUpButton_pressed"]
 [connection signal="pressed" from="ExitButton" to="ExitButton" method="_on_ExitButton_pressed"]
+[connection signal="pressed" from="ChangeLanguageButton" to="ChangeLanguageButton" method="_on_ChangeLanguageButton_pressed"]
