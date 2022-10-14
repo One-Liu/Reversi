@@ -6,15 +6,13 @@ anchor_bottom = 1.0
 
 [node name="FriendsListTitle" type="RichTextLabel" parent="."]
 anchor_left = 0.5
-anchor_top = 0.25
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.25
-margin_left = -60.0
-margin_top = -58.0
-margin_right = 60.0
-margin_bottom = -37.0
-bbcode_enabled = true
-bbcode_text = "[center][b]Reversi[/b][/center]"
+anchor_bottom = 0.5
+margin_left = -56.0
+margin_top = -250.0
+margin_right = 57.0
+margin_bottom = -227.0
 text = "Lista de amigos"
 
 [node name="FriendsItemList" type="ItemList" parent="."]
