@@ -4,6 +4,7 @@
     <RootNamespace>ReversiFEI</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="EmailValidation" Version="1.0.8" />
     <PackageReference Include="MySql.EntityFrameworkCore" Version="3.1.10" />
   </ItemGroup>
 </Project>

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using MySql.Data.MySqlClient;
 using ReversiFEI;
+using EmailValidation;
 
 public class LogInButton : Button
 {
@@ -63,7 +64,18 @@ public class LogInButton : Button
     }
     
     private bool ValidateEmail(String email) {
-        return !String.IsNullOrEmpty(email);
+        var validEmail = true;
+        
+        if(String.IsNullOrEmpty(email))
+        {
+            validEmail = false;
+        }
+        else if(EmailValidator.Validate(email))
+        {
+            validEmail = false;
+        }
+        
+        return validEmail;
     }
     
     private bool ValidatePassword(String password) {        
