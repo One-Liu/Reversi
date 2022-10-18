@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://src/script/userInterface/LogInButton.cs" type="Script" id=1]
-[ext_resource path="res://src/script/userInterface/ReturnButton.cs" type="Script" id=2]
+[ext_resource path="res://src/script/userInterface/ReturnButton2.cs" type="Script" id=2]
 
 [node name="LogIn" type="Control"]
 anchor_right = 1.0
