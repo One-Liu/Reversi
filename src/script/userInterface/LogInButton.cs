@@ -51,7 +51,7 @@ public class LogInButton : Button
                 {
                     GD.Print(e.Message);
                 }
-                catch(NullReferenceException e)
+                catch(NullReferenceException)
                 {
                     GD.Print("Log in failed.");
                 }
@@ -70,11 +70,10 @@ public class LogInButton : Button
         {
             validEmail = false;
         }
-        else if(EmailValidator.Validate(email))
+        else if(!EmailValidator.Validate(email))
         {
             validEmail = false;
         }
-        
         return validEmail;
     }
     
