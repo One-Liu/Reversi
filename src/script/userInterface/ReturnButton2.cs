@@ -10,7 +10,7 @@ public class ReturnButton2 : Button
     
     private void _on_ReturnButton2_pressed()
     {
-        GetTree().ChangeScene("res://src/scene/userInterface/MainMenu.tscn");
+        GetTree().ChangeScene("res://src/scene/userInterface/ReversiMenu.tscn");
     }
     
 }

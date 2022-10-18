@@ -85,4 +85,4 @@ text = "RETURN"
 script = ExtResource( 2 )
 
 [connection signal="pressed" from="LogInButton" to="LogInButton" method="_on_LogInButton_pressed"]
-[connection signal="pressed" from="ReturnButton" to="ReturnButton" method="_on_ReturnButton_pressed"]
+[connection signal="pressed" from="ReturnButton" to="ReturnButton" method="_on_ReturnButton2_pressed"]

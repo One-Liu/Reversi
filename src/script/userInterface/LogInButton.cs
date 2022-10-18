@@ -1,8 +1,6 @@
 using Godot;
 using System;
 using System.Linq;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 using MySql.Data.MySqlClient;
 using ReversiFEI;
 
@@ -21,40 +19,23 @@ public class LogInButton : Button
         if(ValidateEmail(email) && ValidatePassword(password)) {
             email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
             
-            using (var db = new PlayerContext())
+            try
             {
-                try
+                if(UserUtilities.LogIn(email,password))
                 {
-                    var player = db.Player
-                        .SingleOrDefault(b => b.Email == email);
-                    
-                    byte[] salt = player.Salt;
-                    byte[] key = player.Password;
-            
-                    using (var deriveBytes = new Rfc2898DeriveBytes(password, salt))
-                    {
-                        byte[] newKey = deriveBytes.GetBytes(64);
-                        
-                        if(newKey.SequenceEqual(key))
-                        {
-                            //GetTree().ChangeScene("res://src/scene/userInterface/MainMenu.tscn");
-                            GD.Print("Log in succesful.");
-                        } 
-                        else
-                        {
-                            GD.Print("Log in failed.");
-                        }
-                    }
-                }
-                catch(MySqlException e)
+                    GD.Print("log in succesful.");
+                } 
+                else
                 {
-                    GD.Print(e.Message);
-                }
-                catch(NullReferenceException e)
-                {
-                    GD.Print("Log in failed.");
+                    GD.Print("log in failed.");
                 }
             }
+            catch (MySqlException e)
+            {
+                GD.Print(e.Message);
+                GD.Print("log in failed.");
+            }
+            
         } else {
             GD.Print("Invalid email or password");
         }
