@@ -38,9 +38,17 @@ singletons=[ "res://addons/godot-git-plugin/git_api.gdnlib" ]
 
 common/drop_mouse_on_gui_input_disabled=true
 
+[locale]
+
+translations=PoolStringArray( "res://resources/text.en.translation", "res://resources/text.es.translation" )
+
 [logging]
 
 file_logging/enable_file_logging=true
+
+[mono]
+
+project/assembly_name="Reversi FEI"
 
 [physics]
 

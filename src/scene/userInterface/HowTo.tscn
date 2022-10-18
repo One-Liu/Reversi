@@ -1,0 +1,130 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/script/userInterface/ReturnButton2.cs" type="Script" id=1]
+[ext_resource path="res://resources/HowToIllustration.png" type="Texture" id=2]
+
+[node name="HowTo" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Title" type="RichTextLabel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.25
+anchor_right = 0.5
+anchor_bottom = 0.25
+margin_left = -50.0
+margin_right = 50.0
+margin_bottom = 21.0
+bbcode_enabled = true
+bbcode_text = "[center][b]Reversi[/b][/center]"
+text = "Reversi"
+
+[node name="Instructions1" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -500.0
+margin_top = -123.0
+margin_right = -30.0
+margin_bottom = -97.0
+text = "INSTRUCTIONS_1"
+autowrap = true
+
+[node name="Instructions2" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -500.0
+margin_top = -95.0
+margin_right = -30.0
+margin_bottom = -69.0
+text = "INSTRUCTIONS_2"
+autowrap = true
+
+[node name="Instructions3" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -500.0
+margin_top = -67.0
+margin_right = -30.0
+margin_bottom = -41.0
+text = "INSTRUCTIONS_3"
+autowrap = true
+
+[node name="Instructions4" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -500.0
+margin_top = -37.0
+margin_right = -30.0
+margin_bottom = -11.0
+text = "INSTRUCTIONS_4"
+autowrap = true
+
+[node name="Instructions5" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -500.0
+margin_top = 11.0
+margin_right = -30.0
+margin_bottom = 37.0
+text = "INSTRUCTIONS_5"
+autowrap = true
+
+[node name="Instructions6" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -500.0
+margin_top = 55.0
+margin_right = -30.0
+margin_bottom = 81.0
+text = "INSTRUCTIONS_6"
+autowrap = true
+
+[node name="Instructions7" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -500.0
+margin_top = 83.0
+margin_right = -30.0
+margin_bottom = 109.0
+text = "INSTRUCTIONS_7"
+autowrap = true
+
+[node name="HowToIllust" type="TextureRect" parent="."]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -479.0
+margin_top = -102.0
+margin_right = -32.0
+margin_bottom = 108.0
+texture = ExtResource( 2 )
+expand = true
+
+[node name="ReturnButton2" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -161.0
+margin_top = -62.0
+margin_right = 161.0
+margin_bottom = -31.0
+text = "RETURN"
+script = ExtResource( 1 )
+
+[connection signal="pressed" from="ReturnButton2" to="ReturnButton2" method="_on_ReturnButton2_pressed"]
