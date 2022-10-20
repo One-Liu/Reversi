@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://src/script/userInterface/RegisterButton.cs" type="Script" id=1]
+[ext_resource path="res://src/script/userInterface/Controls.cs" type="Script" id=1]
 
 [node name="SignUp" type="Control"]
 anchor_right = 1.0
@@ -85,6 +85,7 @@ margin_top = 37.0
 margin_right = -5.0
 margin_bottom = 72.0
 text = "LOGIN"
+script = ExtResource( 1 )
 
 [node name="RegisterButton" type="Button" parent="."]
 anchor_left = 0.5
@@ -108,5 +109,8 @@ margin_top = 84.0
 margin_right = 161.0
 margin_bottom = 115.0
 text = "RETURN"
+script = ExtResource( 1 )
 
-[connection signal="pressed" from="RegisterButton" to="RegisterButton" method="_on_RegisterButton_pressed"]
+[connection signal="pressed" from="LogInButton" to="LogInButton" method="GoToLogIn"]
+[connection signal="pressed" from="RegisterButton" to="RegisterButton" method="Register"]
+[connection signal="pressed" from="ReturnButton" to="ReturnButton" method="GoToReversiMenu"]
