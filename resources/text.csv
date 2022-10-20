@@ -1,0 +1,44 @@
+,en,es
+en_US,English (United States),Inglés (Estados Unidos)
+es_MX,Spanish (México),Español (México)
+CONNECTION_FAILED, Connection failed., Hubo un error de conexión.
+CONNECTION_FAILED_MESSAGE,Please try again later., Por favor intentelo de nuevo.
+CONNECTION_FAILED_BTN,Continue,Continuar
+LOGIN,Log in,Iniciar Sesión
+REGISTER,Sign up,Registrarse
+LOGIN_GUEST,Log in as a guest,Jugar como invitado
+EXIT,Exit,Salir
+CHANGE_LANGUAGE,Change language,Cambiar lenguaje
+LANGUAGE,Language,Lenguaje
+NICKNAME,Nickname,Apodo
+EMAIL,Email,Email
+RETURN,Return,Regresar
+PASSWORD,Password,Contraseña
+CONFIRM_PASSWORD,Confirm password,Confirmar contraseña
+INCORRECT_EMAIL_OR_PASSWORD,Incorrect email or password.,Email o constraseña incorrecta.
+REQUIRED_FIELD,This field cannot be empty.,Este campo no puede estar vacío.
+PASSWORD_MISMATCH,Passwords don't match.,Las contraseñas no coinciden.
+ENTER_LOBBY,Enter lobby,Entrar al lobby
+HOW_TO_PLAY,How to play,Como jugar
+SETTINGS,Settings,Configuración
+LOBBY,Lobby,Lobby
+TYPE_MESSAGE,Type a message here...,Escribe un mensaje aquí...
+SOCIAL,Social,Social
+FRIENDS,Friends,Amigos
+OTHER_PLAYERS,Other players,Otros jugadores
+ONLINE,Online,En línea
+CHALLENGE,Challenge,Retar
+DELETE_FRIEND,Remove from friends,Quitar de amigos
+ADD_FRIEND,Add friend,Añadir amigo
+CUSTOMIZE_PROFILE,Customize profile,Personalizar perfil
+PIECE_APPEARANCE,Customize pieces,Personalizar piezas
+EDIT,Edit,Editar
+SOUND,Sound,Sonido
+ACTIVATE_SOUND,Sound On/Off,Activar/Desactivar sonido
+INSTRUCTIONS_1,"*Reversi is a strategy game played with 2 players.","*Reversi es un juego de estrategia que se juega con 2 jugadores."
+INSTRUCTIONS_2,"*Each player is assigned a color (black and white by default).","*Cada jugador es asignado un color (blanco y negro por defecto)."
+INSTRUCTIONS_3,"*Which player moves first is chosen randomly.","*El jugador que toma el primer turno es elegido de forma aleatoria."
+INSTRUCTIONS_4,"*In order to make a move, you must place your piece in such a way that at least one of the opponent's pieces is surrounded by yours.","*Para poder hacer un movimiento, debes colocar tu ficha de forma que una o más de las fichas del oponente sean rodeadas por las tuyas."
+INSTRUCTIONS_5,"*When a player has no valid moves they must skip their turn. Players cannot forfeit their turn voluntarily".,"*Cuando un jugador no tiene movimientos válidos este debes saltar su turno. Un jugador no puede saltar su turno voluntariamente."
+INSTRUCTIONS_6,"*When you surround your opponent's pieces with yours, they become yours.","*Cuando rodeas las fichas de tu oponente, se convierten en tus fichas."
+INSTRUCTIONS_7,"*When it's not possible for both players to make any more moves, whoever has more pieces on the board wins.","*Cuando no es posible que ningún jugador realize más movimientos, el jugador que tiene más fichas en el tablero gana."

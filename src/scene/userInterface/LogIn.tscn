@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://src/script/userInterface/LogInButton.cs" type="Script" id=1]
+[ext_resource path="res://src/script/userInterface/Controls.cs" type="Script" id=2]
 
 [node name="LogIn" type="Control"]
 anchor_right = 1.0
@@ -31,8 +31,9 @@ margin_left = -161.0
 margin_top = -83.0
 margin_right = 161.0
 margin_bottom = -57.0
+max_length = 100
 clear_button_enabled = true
-placeholder_text = "Correo"
+placeholder_text = "EMAIL"
 
 [node name="PasswordLineEdit" type="LineEdit" parent="."]
 anchor_left = 0.5
@@ -45,7 +46,7 @@ margin_right = 161.0
 margin_bottom = -6.0
 secret = true
 clear_button_enabled = true
-placeholder_text = "Contraseña"
+placeholder_text = "PASSWORD"
 
 [node name="RegisterButton" type="Button" parent="."]
 anchor_left = 0.5
@@ -56,7 +57,8 @@ margin_left = -161.0
 margin_top = 37.0
 margin_right = -5.0
 margin_bottom = 72.0
-text = "Registrarse"
+text = "REGISTER"
+script = ExtResource( 2 )
 
 [node name="LogInButton" type="Button" parent="."]
 anchor_left = 0.5
@@ -67,8 +69,8 @@ margin_left = 10.0
 margin_top = 37.0
 margin_right = 161.0
 margin_bottom = 72.0
-text = "Iniciar sesión"
-script = ExtResource( 1 )
+text = "LOGIN"
+script = ExtResource( 2 )
 
 [node name="ReturnButton" type="Button" parent="."]
 anchor_left = 0.5
@@ -79,6 +81,9 @@ margin_left = -161.0
 margin_top = 84.0
 margin_right = 161.0
 margin_bottom = 115.0
-text = "Regresar"
+text = "RETURN"
+script = ExtResource( 2 )
 
-[connection signal="pressed" from="LogInButton" to="LogInButton" method="_on_LogInButton_pressed"]
+[connection signal="pressed" from="RegisterButton" to="RegisterButton" method="GoToSignUp"]
+[connection signal="pressed" from="LogInButton" to="LogInButton" method="LogIn"]
+[connection signal="pressed" from="ReturnButton" to="ReturnButton" method="GoToReversiMenu"]

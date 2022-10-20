@@ -1,0 +1,102 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/script/userInterface/Controls.cs" type="Script" id=1]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Title" type="RichTextLabel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.25
+anchor_right = 0.5
+anchor_bottom = 0.25
+margin_left = -50.0
+margin_top = -58.0
+margin_right = 50.0
+margin_bottom = -37.0
+bbcode_enabled = true
+bbcode_text = "[center][b]Reversi[/b][/center]"
+text = "Reversi"
+
+[node name="EnterLobbyButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -162.0
+margin_top = -151.0
+margin_right = 162.0
+margin_bottom = -75.0
+text = "Enter lobby"
+script = ExtResource( 1 )
+
+[node name="HowToPlayButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -162.0
+margin_top = -61.0
+margin_right = 162.0
+margin_bottom = 15.0
+text = "How to play"
+script = ExtResource( 1 )
+
+[node name="FriendsListButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -162.0
+margin_top = 30.0
+margin_right = 162.0
+margin_bottom = 106.0
+text = "Friends list"
+script = ExtResource( 1 )
+
+[node name="LeaderboardButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -161.0
+margin_top = 122.0
+margin_right = -5.0
+margin_bottom = 157.0
+text = "Leaderboard"
+script = ExtResource( 1 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SettingsButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 10.0
+margin_top = 122.0
+margin_right = 161.0
+margin_bottom = 157.0
+text = "Settings"
+script = ExtResource( 1 )
+
+[node name="ExitButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -162.0
+margin_top = 173.0
+margin_right = 162.0
+margin_bottom = 204.0
+text = "Exit"
+script = ExtResource( 1 )
+
+[connection signal="pressed" from="EnterLobbyButton" to="EnterLobbyButton" method="GoToLobby"]
+[connection signal="pressed" from="HowToPlayButton" to="HowToPlayButton" method="GoToHowTo"]
+[connection signal="pressed" from="FriendsListButton" to="FriendsListButton" method="GoToFriendsList"]
+[connection signal="pressed" from="LeaderboardButton" to="LeaderboardButton" method="GoToLeaderboard"]
+[connection signal="pressed" from="SettingsButton" to="SettingsButton" method="GoToCustomizeProfile"]
+[connection signal="pressed" from="ExitButton" to="ExitButton" method="GoToReversiMenu"]
