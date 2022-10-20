@@ -84,6 +84,11 @@ margin_bottom = 115.0
 text = "RETURN"
 script = ExtResource( 2 )
 
+<<<<<<< HEAD
 [connection signal="pressed" from="RegisterButton" to="RegisterButton" method="GoToSignUp"]
 [connection signal="pressed" from="LogInButton" to="LogInButton" method="LogIn"]
 [connection signal="pressed" from="ReturnButton" to="ReturnButton" method="GoToReversiMenu"]
+=======
+[connection signal="pressed" from="LogInButton" to="LogInButton" method="_on_LogInButton_pressed"]
+[connection signal="pressed" from="ReturnButton" to="ReturnButton" method="_on_ReturnButton2_pressed"]
+>>>>>>> server

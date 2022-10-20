@@ -30,105 +30,79 @@ public class RegisterButton : Button
         
         if(password.Equals(confirmPassword))
         {
-            
-            byte[] salt;
-            byte[] passwordBytes;
-            
-            using (var deriveBytes = new Rfc2898DeriveBytes(password, 16))
+            if( string.IsNullOrEmpty(email))
             {
-                salt = deriveBytes.Salt;
-                passwordBytes = deriveBytes.GetBytes(64);
+                GD.Print("Email is empty");
             }
-            
-            Player playerRegistration = new Player();
-            playerRegistration.Email = email;
-            playerRegistration.Nickname = username;
-            playerRegistration.Password = passwordBytes;
-            playerRegistration.Salt = salt;
-            
-            using (var db = new PlayerContext())
+            else
             {
-                if( string.IsNullOrEmpty(email))
+                if(new EmailAddressAttribute().IsValid(email))
                 {
-                    GD.Print("Email is empty");
-                }
-                    else
-                    {
-                        if(email == null){
-                             GD.Print("Email is null");
-                        }
-                        if(new EmailAddressAttribute().IsValid(email))
-                           {
-                             GD.Print("Email is valid");
-                        }
-                             else
-                        {
-                             GD.Print("Email is invalid");
-                          }
-                }
-                    
-                if( string.IsNullOrEmpty(username))
-                {
-                    GD.Print("Usmername is empty");
-                }
-                if( string.IsNullOrEmpty(password))
-                {
-                    GD.Print("Password is empty");
+                    GD.Print("Email is valid");
                 }
                 else
                 {
-                    if (password.Length < 8 || password.Length > 16)
-                    GD.Print("La contrasenia debe tener entre 8 y 16 caracteres");
+                    GD.Print("Email is invalid");
+                }
+            }
+                
+            if( string.IsNullOrEmpty(username))
+            {
+                GD.Print("Usmername is empty");
+            }
+            if( string.IsNullOrEmpty(password))
+            {
+                GD.Print("Password is empty");
+            }
+            else
+            {
+                if (password.Length < 8 || password.Length > 16)
+                GD.Print("La contrasenia debe tener entre 8 y 16 caracteres");
+                else
+                {
+                    if (!password.Any(char.IsLower) && (!password.Any(char.IsUpper)))	
+                    GD.Print("La contrasenia debe tener al menos una minuscula y una mayuscula");
                     else
                     {
-                        if (!password.Any(char.IsLower) && (!password.Any(char.IsUpper)))	
-                        GD.Print("La contrasenia debe tener al menos una minuscula y una mayuscula");
+                        if (password.Contains(" "))
+                            GD.Print("La contrasenia no debe tener espacios");
                         else
                         {
-                            if (password.Contains(" "))
-                                GD.Print("La contrasenia no debe tener espacios");
-                            else
+                            string specialCh = @"%!@#$%^&*()?/>.<,:;'\|}]{[_~`+=-" + "\"";
+                            char[] specialChArray = specialCh.ToCharArray();
+                            foreach (char ch in specialChArray) 
                             {
-                                string specialCh = @"%!@#$%^&*()?/>.<,:;'\|}]{[_~`+=-" + "\"";
-                                char[] specialChArray = specialCh.ToCharArray();
-                                foreach (char ch in specialChArray) 
-                                {
-                                      if (password.Contains(ch))
-                                        playerRegistration.Password = passwordBytes;
-                                    else
-                                        GD.Print("La contrasenia debe tener al menos un caracter especial");
-                                }
+                                    if (!password.Contains(ch))
+                                    //playerRegistration.Password = passwordBytes;
+                                    GD.Print("La contrasenia debe tener al menos un caracter especial");
                             }
                         }
                     }
-                    
-                if( string.IsNullOrEmpty(confirmPassword))
-                {
-                    GD.Print("TextBox is empty");
                 }
                 
-                try
+            if( string.IsNullOrEmpty(confirmPassword))
+            {
+                GD.Print("TextBox is empty");
+            }
+            
+            try
+            { 
+                if(UserUtilities.SignUp(email, username, password))
                 {
-                    db.Player.Add(playerRegistration);
-                    
-                    if(db.SaveChanges() == 1)
-                    {
-                        GD.Print("Registration succesful");
-                        GetTree().ChangeScene("res://src/scene/userInterface/LogIn.tscn");
-                    }
-                    else
-                    {
-                        GD.Print("Registration failes");
-                    }
+                    GD.Print("Sign up succesful.");
                 }
-                catch (MySqlException e)
+                else
                 {
-                    GD.Print(e.Message);
+                    GD.Print("Sign up failed.");
                 }
+            } 
+            catch (MySqlException e)
+            {
+                GD.Print(e.Message);
+                GD.Print("Sign up failed.");
             }
         }
     }
-    
   }
 }
 
