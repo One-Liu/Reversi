@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://src/script/userInterface/ReturnButton2.cs" type="Script" id=1]
+[ext_resource path="res://src/script/userInterface/Controls.cs" type="Script" id=1]
 [ext_resource path="res://resources/HowToIllustration.png" type="Texture" id=2]
 
 [node name="HowTo" type="Control"]
@@ -115,7 +115,7 @@ margin_bottom = 108.0
 texture = ExtResource( 2 )
 expand = true
 
-[node name="ReturnButton2" type="Button" parent="."]
+[node name="ReturnButton" type="Button" parent="."]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -127,4 +127,4 @@ margin_bottom = -31.0
 text = "RETURN"
 script = ExtResource( 1 )
 
-[connection signal="pressed" from="ReturnButton2" to="ReturnButton2" method="_on_ReturnButton2_pressed"]
+[connection signal="pressed" from="ReturnButton" to="ReturnButton" method="GoToMainMenu"]
