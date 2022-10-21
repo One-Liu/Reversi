@@ -95,3 +95,132 @@ margin_bottom = 44.0
 window_title = "Password updated"
 dialog_text = "Thepassword has been changed succesfully"
 dialog_autowrap = true
+
+[node name="ChangeNickname" type="WindowDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -118.0
+margin_top = -58.0
+margin_right = 125.0
+margin_bottom = 49.0
+window_title = "Change nickname"
+
+[node name="NewNicknameLineEdit" type="LineEdit" parent="ChangeNickname"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -97.5
+margin_top = -17.5
+margin_right = 97.5
+margin_bottom = 6.5
+
+[node name="NewNickname" type="RichTextLabel" parent="ChangeNickname"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -96.5
+margin_top = -35.0
+margin_right = 15.5
+margin_bottom = -17.0
+text = "New nickname:"
+
+[node name="AcceptButton" type="Button" parent="ChangeNickname"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 41.5
+margin_top = 17.5
+margin_right = 97.5
+margin_bottom = 37.5
+text = "Accept"
+
+[node name="CanceltButton" type="Button" parent="ChangeNickname"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.5
+margin_top = 17.5
+margin_right = 35.5
+margin_bottom = 37.5
+text = "Cancel"
+
+[node name="ChangePassword" type="WindowDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -118.0
+margin_top = -100.0
+margin_right = 125.0
+margin_bottom = 86.0
+window_title = "Change password"
+
+[node name="NewPasswordLineEdit" type="LineEdit" parent="ChangePassword"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -97.5
+margin_top = 14.5
+margin_right = 97.5
+margin_bottom = 38.5
+
+[node name="NewPassword" type="RichTextLabel" parent="ChangePassword"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -96.5
+margin_top = -3.0
+margin_right = 15.5
+margin_bottom = 15.0
+text = "New password:"
+
+[node name="PasswordLineEdit" type="LineEdit" parent="ChangePassword"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -97.5
+margin_top = -48.5
+margin_right = 97.5
+margin_bottom = -24.5
+
+[node name="Password" type="RichTextLabel" parent="ChangePassword"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -96.5
+margin_top = -66.0
+margin_right = 15.5
+margin_bottom = -48.0
+text = "Password:"
+
+[node name="AcceptButton" type="Button" parent="ChangePassword"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 41.5
+margin_top = 63.5
+margin_right = 97.5
+margin_bottom = 83.5
+text = "Accept"
+
+[node name="CanceltButton" type="Button" parent="ChangePassword"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.5
+margin_top = 63.5
+margin_right = 35.5
+margin_bottom = 83.5
+text = "Cancel"
