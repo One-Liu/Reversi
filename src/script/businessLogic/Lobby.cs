@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Lobby : Node
 {
-    private readonly int DEFAULT_PORT = 78910;
+    private readonly int DEFAULT_PORT = 7891;
     private readonly int MAX_PLAYERS = 30;
     private readonly string ADDRESS = "localhost"; //for local testing
     //private readonly string ADDRESS = "x.x.x.x"; //for live functionality
@@ -28,7 +28,7 @@ public class Lobby : Node
         if (result == 0)
         { 
             GetTree().NetworkPeer = peer;
-            GD.Print("Hosting server.");
+            GD.Print($"Hosting server at {ADDRESS}:{DEFAULT_PORT}.");
             return true;
         }
         else
