@@ -45,7 +45,9 @@ public class RegisterButton : Button
             playerRegistration.Password = passwordBytes;
             playerRegistration.Salt = salt;
             
-            using (var db = new PlayerContext())
+            if(ValidateEmail(email) && ValidateUsername(username) && ValidateConfirmPassword(confirmPassword))
+            {
+                using (var db = new PlayerContext())
             {
                 
                         if(new EmailAddressAttribute().IsValid(email))
@@ -56,55 +58,53 @@ public class RegisterButton : Button
                         {
                              GD.Print("Email is invalid");
                         }
-        bool flag=false;
-        if( string.IsNullOrEmpty(password))
-        {
-            GD.Print("Password is empty");
-            flag=false;
-        }
-        if (password.Length < 8 || password.Length > 16)
-        {
+            bool flag=false;
+            if( string.IsNullOrEmpty(password))
+            {
+                GD.Print("Password is empty");
+                flag=false;
+            }
+            if (password.Length < 8 || password.Length > 16)
+            {
                 GD.Print("Password must have between 8 y 16 characters");
                 flag=false;
-        }
-        else
-        {
-                 if (!password.Any(char.IsLower) && (!password.Any(char.IsUpper)))
-                 {	
-                    GD.Print("Password must have one lower and one upper letter");
-                    flag=false;
-                 }
-                    else
-                    {
-                        if (password.Contains(" "))
+            }
+                else
+                {
+                    if (!password.Any(char.IsLower) && (!password.Any(char.IsUpper)))
+                    {	
+                        GD.Print("Password must have one lower and one upper letter");
+                        flag=false;
+                    }
+                        else
+                        {
+                            if (password.Contains(" "))
                         {
                             GD.Print("Password must not have spaces");
                             flag=false;
                         }
-                        else
-                        {
-                            string specialCh = @"%!@#$%^&*()?/>.<,:;'\|}]{[_~`+=-" + "\"";
-                            char[] specialChArray = specialCh.ToCharArray();
-                            foreach (char ch in specialChArray) 
+                            else
                             {
-                                if(password.Contains(ch))
-                                    playerRegistration.Password = passwordBytes;
-                                else
+                                string specialCh = @"%!@#$%^&*()?/>.<,:;'\|}]{[_~`+=-" + "\"";
+                                char[] specialChArray = specialCh.ToCharArray();
+                                foreach (char ch in specialChArray) 
                                 {
-                                    flag=false;
-                                    GD.Print("Password must have at least one special character");
+                                    if(password.Contains(ch))
+                                        playerRegistration.Password = passwordBytes;
+                                        else
+                                        {
+                                            flag=false;
+                                            GD.Print("Password must have at least one special character");
+                                        }
                                 }
                             }
-                         }
-                     }
-        }
-    
+                        }
+                    }
                 if( string.IsNullOrEmpty(confirmPassword))
                 {
                     GD.Print("TextBox is empty");
                 }
-                
-                
+            }
             }
         }
     }
