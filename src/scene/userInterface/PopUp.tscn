@@ -1,0 +1,97 @@
+[gd_scene format=2]
+
+[node name="PopUp" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ConnectionError" type="AcceptDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -117.0
+margin_top = -31.0
+margin_right = 117.0
+margin_bottom = 45.0
+window_title = "Connection error has ocurred"
+dialog_text = "Try again later"
+dialog_autowrap = true
+
+[node name="NewChallenge" type="ConfirmationDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -117.0
+margin_top = -31.0
+margin_right = 117.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 150, 52.5 )
+window_title = "New Challenge"
+dialog_text = "You have been challenged"
+dialog_autowrap = true
+
+[node name="ChallengeDeclined" type="AcceptDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -117.0
+margin_top = -31.0
+margin_right = 117.0
+margin_bottom = 44.0
+window_title = "Challenge declined"
+dialog_text = "Your challenge has been declined"
+dialog_autowrap = true
+
+[node name="FriendAdded" type="AcceptDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -117.0
+margin_top = -31.0
+margin_right = 117.0
+margin_bottom = 44.0
+window_title = "Friend added"
+dialog_text = "PLAYER has been added to your friends list"
+dialog_autowrap = true
+
+[node name="FriendDeleted" type="AcceptDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -117.0
+margin_top = -31.0
+margin_right = 117.0
+margin_bottom = 44.0
+window_title = "Friend deleted"
+dialog_text = "PLAYER has been deleted from your friends list"
+dialog_autowrap = true
+
+[node name="SetOfPiecesUpdated" type="AcceptDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -117.0
+margin_top = -31.0
+margin_right = 117.0
+margin_bottom = 44.0
+window_title = "Set of pieces updated"
+dialog_text = "The set of pieces has been changed succesfully"
+dialog_autowrap = true
+
+[node name="PasswordUpdated" type="AcceptDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -117.0
+margin_top = -31.0
+margin_right = 117.0
+margin_bottom = 44.0
+window_title = "Password updated"
+dialog_text = "Thepassword has been changed succesfully"
+dialog_autowrap = true
