@@ -17,18 +17,19 @@ public class RegisterButton : Button
 {
     public override void _Ready()
     {
-        
-    }
-    
-    private void _on_RegisterButton_pressed()
-    {
         string email = GetParent().GetNode<LineEdit>("EmailLineEdit").Text;
         string username = GetParent().GetNode<LineEdit>("UsernameLineEdit").Text;
         string password = GetParent().GetNode<LineEdit>("PasswordLineEdit").Text;
         string confirmPassword = GetParent().GetNode<LineEdit>("ConfirmPasswordLineEdit").Text;
         
-        if(password.Equals(confirmPassword))
+        if(ValidateEmail(email) && ValidateUsername(username) && ValidateConfirmPassword(confirmPassword) &&  ValidatePassword(password))
         {
+            email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
+            
+             email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
+            
+            if(password.Equals(confirmPassword))
+            {
                
             byte[] salt;
             byte[] passwordBytes;
@@ -44,10 +45,7 @@ public class RegisterButton : Button
             playerRegistration.Nickname = username;
             playerRegistration.Password = passwordBytes;
             playerRegistration.Salt = salt;
-            
-            if(ValidateEmail(email) && ValidateUsername(username) && ValidateConfirmPassword(confirmPassword))
-            {
-                using (var db = new PlayerContext())
+            using (var db = new PlayerContext())
             {
                 
                         if(new EmailAddressAttribute().IsValid(email))
@@ -105,12 +103,18 @@ public class RegisterButton : Button
                     GD.Print("TextBox is empty");
                 }
             }
-            }
+           }
         }
+    }
+    
+    private void _on_RegisterButton_pressed()
+    {
+       
     }
     
     private bool ValidateUsername(String username)
     {
+        GD.Print("Invalid email or password");
         return !String.IsNullOrEmpty(username);    
     }
     
@@ -119,6 +123,7 @@ public class RegisterButton : Button
         var validEmail = true;        
         if(String.IsNullOrEmpty(email))
         {
+            GD.Print("Invalid email or password");
             validEmail = false;
         }
         else if(!new EmailAddressAttribute().IsValid(email))
@@ -128,9 +133,17 @@ public class RegisterButton : Button
         return validEmail;
     }
     
+    private bool ValidatePassword(String password)
+    {        
+        GD.Print("Invalid email or password");
+        return !String.IsNullOrEmpty(password);
+    }
+    
+    
     
     private bool ValidateConfirmPassword(String confirmPassword)
     {        
+        GD.Print("Invalid email or password");
         return !String.IsNullOrEmpty(confirmPassword);
     }
     
