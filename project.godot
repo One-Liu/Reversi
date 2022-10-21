@@ -12,6 +12,7 @@ config_version=4
 
 config/name="Reversi FEI"
 run/main_scene="res://src/scene/businessLogic/Entry.tscn"
+run/flush_stdout_on_print=true
 boot_splash/show_image=false
 config/icon="res://icon.png"
 
