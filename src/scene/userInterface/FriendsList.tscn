@@ -1,4 +1,6 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/script/userInterface/Controls.cs" type="Script" id=1]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -6,16 +8,14 @@ anchor_bottom = 1.0
 
 [node name="FriendsListTitle" type="RichTextLabel" parent="."]
 anchor_left = 0.5
-anchor_top = 0.25
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.25
-margin_left = -60.0
-margin_top = -58.0
-margin_right = 60.0
-margin_bottom = -37.0
-bbcode_enabled = true
-bbcode_text = "[center][b]Reversi[/b][/center]"
-text = "Lista de amigos"
+anchor_bottom = 0.5
+margin_left = -56.0
+margin_top = -250.0
+margin_right = 57.0
+margin_bottom = -227.0
+text = "Friends list"
 
 [node name="FriendsItemList" type="ItemList" parent="."]
 anchor_left = 0.5
@@ -36,4 +36,7 @@ margin_left = -162.0
 margin_top = 173.0
 margin_right = 162.0
 margin_bottom = 204.0
-text = "Regresar"
+text = "Return"
+script = ExtResource( 1 )
+
+[connection signal="pressed" from="ReturnButton" to="ReturnButton" method="GoToMainMenu"]

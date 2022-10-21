@@ -1,9 +1,6 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://src/script/userInterface/ExitButton.cs" type="Script" id=1]
-[ext_resource path="res://src/script/userInterface/GoToLogInButton.cs" type="Script" id=2]
-[ext_resource path="res://src/script/userInterface/GoToSignUpButton.cs" type="Script" id=3]
-[ext_resource path="res://src/script/userInterface/ChangeLanguageButton.cs" type="Script" id=4]
+[ext_resource path="res://src/script/userInterface/Controls.cs" type="Script" id=2]
 
 [node name="ReversiMenu" type="Control"]
 anchor_right = 1.0
@@ -43,7 +40,7 @@ margin_top = 37.0
 margin_right = -5.0
 margin_bottom = 72.0
 text = "REGISTER"
-script = ExtResource( 3 )
+script = ExtResource( 2 )
 
 [node name="GuestButton" type="Button" parent="."]
 anchor_left = 0.5
@@ -66,7 +63,7 @@ margin_top = 84.0
 margin_right = 161.0
 margin_bottom = 115.0
 text = "EXIT"
-script = ExtResource( 1 )
+script = ExtResource( 2 )
 
 [node name="ChangeLanguageButton" type="Button" parent="."]
 anchor_left = 0.5
@@ -78,9 +75,9 @@ margin_top = -61.0
 margin_right = 95.0
 margin_bottom = -35.0
 text = "CHANGE_LANGUAGE"
-script = ExtResource( 4 )
+script = ExtResource( 2 )
 
-[connection signal="pressed" from="GoToLogInButton" to="GoToLogInButton" method="_on_GoToLogInButton_pressed"]
-[connection signal="pressed" from="GoToSignUpButton" to="GoToSignUpButton" method="_on_GoToSignUpButton_pressed"]
-[connection signal="pressed" from="ExitButton" to="ExitButton" method="_on_ExitButton_pressed"]
-[connection signal="pressed" from="ChangeLanguageButton" to="ChangeLanguageButton" method="_on_ChangeLanguageButton_pressed"]
+[connection signal="pressed" from="GoToLogInButton" to="GoToLogInButton" method="GoToLogIn"]
+[connection signal="pressed" from="GoToSignUpButton" to="GoToSignUpButton" method="GoToSignUp"]
+[connection signal="pressed" from="ExitButton" to="ExitButton" method="Exit"]
+[connection signal="pressed" from="ChangeLanguageButton" to="ChangeLanguageButton" method="ChangeLanguage"]
