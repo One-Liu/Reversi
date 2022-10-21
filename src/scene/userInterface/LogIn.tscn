@@ -75,9 +75,6 @@ margin_bottom = 72.0
 text = "LOGIN"
 script = ExtResource( 2 )
 
-[node name="PopUp" parent="LogInButton" instance=ExtResource( 1 )]
-visible = false
-
 [node name="ReturnButton" type="Button" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -94,6 +91,13 @@ script = ExtResource( 2 )
 position = Vector2( 515, 60 )
 scale = Vector2( 1.20661, 1.59859 )
 texture = ExtResource( 3 )
+
+[node name="PopUp" parent="." instance=ExtResource( 1 )]
+visible = false
+margin_left = 522.0
+margin_top = 337.0
+margin_right = 522.0
+margin_bottom = 337.0
 
 [connection signal="pressed" from="RegisterButton" to="RegisterButton" method="GoToSignUp"]
 [connection signal="pressed" from="LogInButton" to="LogInButton" method="LogIn"]
