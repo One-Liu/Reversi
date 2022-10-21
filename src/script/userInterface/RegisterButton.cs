@@ -22,7 +22,6 @@ public class RegisterButton : Button
     
     private void _on_RegisterButton_pressed()
     {
-        
         string email = GetParent().GetNode<LineEdit>("EmailLineEdit").Text;
         string username = GetParent().GetNode<LineEdit>("UsernameLineEdit").Text;
         string password = GetParent().GetNode<LineEdit>("PasswordLineEdit").Text;
@@ -30,7 +29,7 @@ public class RegisterButton : Button
         
         if(password.Equals(confirmPassword))
         {
-            
+               
             byte[] salt;
             byte[] passwordBytes;
             
@@ -48,87 +47,93 @@ public class RegisterButton : Button
             
             using (var db = new PlayerContext())
             {
-                if( string.IsNullOrEmpty(email))
-                {
-                    GD.Print("Email is empty");
-                }
-                    else
-                    {
-                        if(email == null){
-                             GD.Print("Email is null");
-                        }
+                
                         if(new EmailAddressAttribute().IsValid(email))
-                           {
+                        {
                              GD.Print("Email is valid");
                         }
                              else
                         {
                              GD.Print("Email is invalid");
-                          }
-                }
-                    
-                if( string.IsNullOrEmpty(username))
-                {
-                    GD.Print("Usmername is empty");
-                }
-                if( string.IsNullOrEmpty(password))
-                {
-                    GD.Print("Password is empty");
-                }
-                else
-                {
-                    if (password.Length < 8 || password.Length > 16)
-                    GD.Print("La contrasenia debe tener entre 8 y 16 caracteres");
+                        }
+        bool flag=false;
+        if( string.IsNullOrEmpty(password))
+        {
+            GD.Print("Password is empty");
+            flag=false;
+        }
+        if (password.Length < 8 || password.Length > 16)
+        {
+                GD.Print("Password must have between 8 y 16 characters");
+                flag=false;
+        }
+        else
+        {
+                 if (!password.Any(char.IsLower) && (!password.Any(char.IsUpper)))
+                 {	
+                    GD.Print("Password must have one lower and one upper letter");
+                    flag=false;
+                 }
                     else
                     {
-                        if (!password.Any(char.IsLower) && (!password.Any(char.IsUpper)))	
-                        GD.Print("La contrasenia debe tener al menos una minuscula y una mayuscula");
+                        if (password.Contains(" "))
+                        {
+                            GD.Print("Password must not have spaces");
+                            flag=false;
+                        }
                         else
                         {
-                            if (password.Contains(" "))
-                                GD.Print("La contrasenia no debe tener espacios");
-                            else
+                            string specialCh = @"%!@#$%^&*()?/>.<,:;'\|}]{[_~`+=-" + "\"";
+                            char[] specialChArray = specialCh.ToCharArray();
+                            foreach (char ch in specialChArray) 
                             {
-                                string specialCh = @"%!@#$%^&*()?/>.<,:;'\|}]{[_~`+=-" + "\"";
-                                char[] specialChArray = specialCh.ToCharArray();
-                                foreach (char ch in specialChArray) 
+                                if(password.Contains(ch))
+                                    playerRegistration.Password = passwordBytes;
+                                else
                                 {
-                                      if (password.Contains(ch))
-                                        playerRegistration.Password = passwordBytes;
-                                    else
-                                        GD.Print("La contrasenia debe tener al menos un caracter especial");
+                                    flag=false;
+                                    GD.Print("Password must have at least one special character");
                                 }
                             }
-                        }
-                    }
-                    
+                         }
+                     }
+        }
+    
                 if( string.IsNullOrEmpty(confirmPassword))
                 {
                     GD.Print("TextBox is empty");
                 }
                 
-                try
-                {
-                    db.Player.Add(playerRegistration);
-                    
-                    if(db.SaveChanges() == 1)
-                    {
-                        GD.Print("Registration succesful");
-                        GetTree().ChangeScene("res://src/scene/userInterface/LogIn.tscn");
-                    }
-                    else
-                    {
-                        GD.Print("Registration failes");
-                    }
-                }
-                catch (MySqlException e)
-                {
-                    GD.Print(e.Message);
-                }
+                
             }
         }
     }
     
-  }
+    private bool ValidateUsername(String username)
+    {
+        return !String.IsNullOrEmpty(username);    
+    }
+    
+    private bool ValidateEmail(String email) 
+    {
+        var validEmail = true;        
+        if(String.IsNullOrEmpty(email))
+        {
+            validEmail = false;
+        }
+        else if(!new EmailAddressAttribute().IsValid(email))
+        {
+            validEmail = false;
+        }
+        return validEmail;
+    }
+    
+    
+    private bool ValidateConfirmPassword(String confirmPassword)
+    {        
+        return !String.IsNullOrEmpty(confirmPassword);
+    }
+    
 }
+
 
