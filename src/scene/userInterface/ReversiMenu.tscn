@@ -1,22 +1,11 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
+[ext_resource path="res://resources/ReversiLogo.png" type="Texture" id=1]
 [ext_resource path="res://src/script/userInterface/Controls.cs" type="Script" id=2]
 
 [node name="ReversiMenu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-
-[node name="Title" type="RichTextLabel" parent="."]
-anchor_left = 0.5
-anchor_top = 0.25
-anchor_right = 0.5
-anchor_bottom = 0.25
-margin_left = -50.0
-margin_right = 50.0
-margin_bottom = 21.0
-bbcode_enabled = true
-bbcode_text = "[center][b]Reversi[/b][/center]"
-text = "Reversi"
 
 [node name="GoToLogInButton" type="Button" parent="."]
 anchor_left = 0.5
@@ -76,6 +65,11 @@ margin_right = 95.0
 margin_bottom = -35.0
 text = "CHANGE_LANGUAGE"
 script = ExtResource( 2 )
+
+[node name="ReversiLogo" type="Sprite" parent="."]
+position = Vector2( 515, 60 )
+scale = Vector2( 1.20661, 1.59859 )
+texture = ExtResource( 1 )
 
 [connection signal="pressed" from="GoToLogInButton" to="GoToLogInButton" method="GoToLogIn"]
 [connection signal="pressed" from="GoToSignUpButton" to="GoToSignUpButton" method="GoToSignUp"]

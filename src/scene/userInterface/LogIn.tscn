@@ -1,27 +1,17 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://src/scene/userInterface/PopUp.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/script/userInterface/Controls.cs" type="Script" id=2]
+[ext_resource path="res://resources/ReversiLogo.png" type="Texture" id=3]
 
 [node name="LogIn" type="Control"]
+modulate = Color( 1, 0.984314, 0.858824, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -2.0
 margin_top = -2.0
 margin_right = -2.0
 margin_bottom = -2.0
-
-[node name="Title" type="RichTextLabel" parent="."]
-anchor_left = 0.5
-anchor_top = 0.25
-anchor_right = 0.5
-anchor_bottom = 0.25
-margin_left = -50.0
-margin_right = 50.0
-margin_bottom = 21.0
-bbcode_enabled = true
-bbcode_text = "[center][b]Reversi[/b][/center]"
-text = "Reversi"
 
 [node name="EmailLineEdit" type="LineEdit" parent="."]
 anchor_left = 0.5
@@ -99,6 +89,11 @@ margin_right = 161.0
 margin_bottom = 115.0
 text = "RETURN"
 script = ExtResource( 2 )
+
+[node name="ReversiLogo" type="Sprite" parent="."]
+position = Vector2( 515, 60 )
+scale = Vector2( 1.20661, 1.59859 )
+texture = ExtResource( 3 )
 
 [connection signal="pressed" from="RegisterButton" to="RegisterButton" method="GoToSignUp"]
 [connection signal="pressed" from="LogInButton" to="LogInButton" method="LogIn"]
