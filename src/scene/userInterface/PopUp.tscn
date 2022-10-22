@@ -1,4 +1,6 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://resources/SetOfPieces1.png" type="Texture" id=1]
 
 [node name="PopUp" type="Control"]
 anchor_right = 1.0
@@ -80,7 +82,7 @@ margin_top = -31.0
 margin_right = 117.0
 margin_bottom = 44.0
 window_title = "Set of pieces updated"
-dialog_text = "The set of pieces has been changed succesfully"
+dialog_text = "Your set of pieces has been changed succesfully"
 dialog_autowrap = true
 
 [node name="PasswordUpdated" type="AcceptDialog" parent="."]
@@ -93,7 +95,20 @@ margin_top = -31.0
 margin_right = 117.0
 margin_bottom = 44.0
 window_title = "Password updated"
-dialog_text = "Thepassword has been changed succesfully"
+dialog_text = "Your password has been changed succesfully"
+dialog_autowrap = true
+
+[node name="NicknameUpdated" type="AcceptDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -117.0
+margin_top = -31.0
+margin_right = 117.0
+margin_bottom = 44.0
+window_title = "Nickname updated"
+dialog_text = "Your nickname has been changed succesfully"
 dialog_autowrap = true
 
 [node name="ChangeNickname" type="WindowDialog" parent="."]
@@ -139,7 +154,7 @@ margin_right = 97.5
 margin_bottom = 37.5
 text = "Accept"
 
-[node name="CanceltButton" type="Button" parent="ChangeNickname"]
+[node name="CancelButton" type="Button" parent="ChangeNickname"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -214,7 +229,7 @@ margin_right = 97.5
 margin_bottom = 83.5
 text = "Accept"
 
-[node name="CanceltButton" type="Button" parent="ChangePassword"]
+[node name="CancelButton" type="Button" parent="ChangePassword"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -224,3 +239,108 @@ margin_top = 63.5
 margin_right = 35.5
 margin_bottom = 83.5
 text = "Cancel"
+
+[node name="ChangeSetOfPieces" type="WindowDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -272.0
+margin_top = -156.0
+margin_right = 275.0
+margin_bottom = 149.0
+window_title = "Change set of pieces"
+
+[node name="SetOfPieces1Button" type="Button" parent="ChangeSetOfPieces"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -260.5
+margin_top = -137.5
+margin_right = -132.5
+margin_bottom = -72.5
+
+[node name="SetOfPieces1" type="Sprite" parent="ChangeSetOfPieces"]
+position = Vector2( 76, 47 )
+scale = Vector2( 0.167279, 0.165441 )
+texture = ExtResource( 1 )
+
+[node name="AcceptButton" type="Button" parent="ChangeSetOfPieces"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 194.5
+margin_top = 118.5
+margin_right = 250.5
+margin_bottom = 138.5
+text = "Accept"
+
+[node name="CancelButton" type="Button" parent="ChangeSetOfPieces"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 132.5
+margin_top = 118.5
+margin_right = 188.5
+margin_bottom = 138.5
+text = "Cancel"
+
+[node name="ChangeAvatar" type="WindowDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -272.0
+margin_top = -156.0
+margin_right = 275.0
+margin_bottom = 149.0
+window_title = "Change set of pieces"
+
+[node name="Avatar1Button" type="Button" parent="ChangeAvatar"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -260.5
+margin_top = -137.5
+margin_right = -132.5
+margin_bottom = -72.5
+
+[node name="Avatar1" type="Sprite" parent="ChangeAvatar"]
+position = Vector2( 76, 47 )
+scale = Vector2( 0.167279, 0.165441 )
+
+[node name="AcceptButton" type="Button" parent="ChangeAvatar"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 194.5
+margin_top = 118.5
+margin_right = 250.5
+margin_bottom = 138.5
+text = "Accept"
+
+[node name="CancelButton" type="Button" parent="ChangeAvatar"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 132.5
+margin_top = 118.5
+margin_right = 188.5
+margin_bottom = 138.5
+text = "Cancel"
+
+[node name="PlayerOptions" type="PopupMenu" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -81.0
+margin_top = -27.0
+margin_right = 83.0
+margin_bottom = 29.0
