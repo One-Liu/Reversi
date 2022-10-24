@@ -2,15 +2,15 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public class Lobby : Node
+public class Lobby : Node2D
 {
     private readonly int DEFAULT_PORT = 7891;
     private readonly int MAX_PLAYERS = 30;
     private readonly string ADDRESS = "localhost"; //for local testing
     //private readonly string ADDRESS = "x.x.x.x"; //for live functionality
     
-    public int playerId { get ; set ;}
-    private Dictionary<int, int> players = new Dictionary<int, int>();
+    public string playerName { get ; set ;}
+    private Dictionary<int, string> players = new Dictionary<int, string>();
     
     public override void _Ready()
     {
@@ -76,8 +76,8 @@ public class Lobby : Node
 
     private void PlayerConnected(int peerId)
     {
-        GD.Print($"player no.{playerId} has connected.");
-        RpcId(peerId, nameof(RegisterPlayer), playerId);
+        GD.Print($"player no.{playerName} has connected.");
+        RpcId(peerId, nameof(RegisterPlayer), playerName);
     }
 
     private void PlayerDisconnected(int peerId)
@@ -104,13 +104,13 @@ public class Lobby : Node
     }
 
     [Remote]
-    private void RegisterPlayer(int playerId)
+    private void RegisterPlayer(string playerName)
     {
         var peerId = GetTree().GetRpcSenderId();
 
-        players.Add(peerId, playerId);
+        players.Add(peerId, playerName);
 
-        GD.Print($"player no. {playerId} added with peer ID {peerId}");
+        GD.Print($"player {playerName} added with peer ID {peerId}");
     }
 
     [Remote]
