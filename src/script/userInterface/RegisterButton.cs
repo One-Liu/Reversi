@@ -26,18 +26,12 @@ public class RegisterButton : Button
         {
             email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
             
-             email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
-            
             if(password.Equals(confirmPassword))
             {
                
-            byte[] salt;
-            byte[] passwordBytes;
-            
-            using (var deriveBytes = new Rfc2898DeriveBytes(password, 16))
+            if( string.IsNullOrEmpty(email))
             {
-                salt = deriveBytes.Salt;
-                passwordBytes = deriveBytes.GetBytes(64);
+                GD.Print("Email is empty");
             }
             
             Player playerRegistration = new Player();
@@ -102,6 +96,72 @@ public class RegisterButton : Button
                 {
                     GD.Print("TextBox is empty");
                 }
+            else
+            {
+                if(new EmailAddressAttribute().IsValid(email))
+                {
+                    GD.Print("Email is valid");
+                }
+                else
+                {
+                    GD.Print("Email is invalid");
+                }
+            }
+                
+            if( string.IsNullOrEmpty(username))
+            {
+                GD.Print("Usmername is empty");
+            }
+            if( string.IsNullOrEmpty(password))
+            {
+                GD.Print("Password is empty");
+            }
+            else
+            {
+                if (password.Length < 8 || password.Length > 16)
+                GD.Print("La contrasenia debe tener entre 8 y 16 caracteres");
+                else
+                {
+                    if (!password.Any(char.IsLower) && (!password.Any(char.IsUpper)))	
+                    GD.Print("La contrasenia debe tener al menos una minuscula y una mayuscula");
+                    else
+                    {
+                        if (password.Contains(" "))
+                            GD.Print("La contrasenia no debe tener espacios");
+                        else
+                        {
+                            string specialCh = @"%!@#$%^&*()?/>.<,:;'\|}]{[_~`+=-" + "\"";
+                            char[] specialChArray = specialCh.ToCharArray();
+                            foreach (char ch in specialChArray) 
+                            {
+                                    if (!password.Contains(ch))
+                                    //playerRegistration.Password = passwordBytes;
+                                    GD.Print("La contrasenia debe tener al menos un caracter especial");
+                            }
+                        }
+                    }
+                }
+                
+            if( string.IsNullOrEmpty(confirmPassword))
+            {
+                GD.Print("TextBox is empty");
+            }
+            
+            try
+            { 
+                if(UserUtilities.SignUp(email, username, password))
+                {
+                    GD.Print("Sign up succesful.");
+                }
+                else
+                {
+                    GD.Print("Sign up failed.");
+                }
+            } 
+            catch (MySqlException e)
+            {
+                GD.Print(e.Message);
+                GD.Print("Sign up failed.");
             }
            }
         }
@@ -139,14 +199,13 @@ public class RegisterButton : Button
         return !String.IsNullOrEmpty(password);
     }
     
-    
-    
     private bool ValidateConfirmPassword(String confirmPassword)
     {        
         GD.Print("Invalid email or password");
         return !String.IsNullOrEmpty(confirmPassword);
     }
     
+  }
 }
 
 
