@@ -17,6 +17,22 @@ margin_right = 20.064
 margin_bottom = 20.0
 text = "Lobby"
 
+[node name="Chat" type="ScrollContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -470.0
+margin_top = -227.0
+margin_right = 231.0
+margin_bottom = 210.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Chat"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+
 [node name="TitleChat" type="RichTextLabel" parent="."]
 anchor_left = 0.039
 anchor_top = 0.092
@@ -37,16 +53,6 @@ margin_left = -353.216
 margin_top = 223.0
 margin_right = 353.784
 margin_bottom = 247.0
-
-[node name="ChatMessages" type="RichTextLabel" parent="."]
-anchor_left = 0.385
-anchor_top = 0.503
-anchor_right = 0.385
-anchor_bottom = 0.503
-margin_left = -349.24
-margin_top = -230.8
-margin_right = 348.76
-margin_bottom = 203.2
 
 [node name="OnlinePlayersList" type="ItemList" parent="."]
 anchor_left = 0.866
