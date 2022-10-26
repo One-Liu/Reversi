@@ -22,7 +22,7 @@ public class RegisterButton : Button
     }
     
 
-    private void _on_RegisterButton_pressed()
+    private bool _on_RegisterButton_pressed()
     {
         string email = GetParent().GetNode<LineEdit>("EmailLineEdit").Text;
         string username = GetParent().GetNode<LineEdit>("UsernameLineEdit").Text;
