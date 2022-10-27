@@ -37473,7 +37473,7 @@
 													"top": 71,
 													"width": 90,
 													"height": 13,
-													"text": "SignUp"
+													"text": "RegisterUser"
 												},
 												{
 													"_type": "LabelView",
@@ -38205,13 +38205,13 @@
 												"$ref": "AAAAAAGEGnlj66xiOyg="
 											},
 											"font": "Arial;13;0",
-											"left": 335.979736328125,
+											"left": 328.0419921875,
 											"top": 120,
-											"width": 367.04052734375,
+											"width": 382.916015625,
 											"height": 13,
 											"alpha": 0.010100666075221953,
 											"distance": 198.01010075246163,
-											"text": "2 : AddPlayer(email: String, nickname: String, password: String)"
+											"text": "2 : RegisterUser(email: String, nickname: String, password: String)"
 										},
 										{
 											"_type": "NodeLabelView",
@@ -38613,7 +38613,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGEGnDxAKqmb+g="
 							},
-							"name": "AddPlayer",
+							"name": "RegisterUser",
 							"source": {
 								"$ref": "AAAAAAGEGnQdk6t6Qnw="
 							},
@@ -38661,7 +38661,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGEGnDxAKqmb+g="
 							},
-							"name": "SignUp",
+							"name": "RegisterUser",
 							"represent": {
 								"$ref": "AAAAAAGEGnQdk6t5nj0="
 							},
