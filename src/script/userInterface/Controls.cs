@@ -30,7 +30,7 @@ public class Controls : Node
     
     private void GoToLobby()
     {
-        GetTree().ChangeScene("res://src/scene/userInterface/Lobby.tscn");
+        GetTree().ChangeScene("res://src/scene/userInterface/ClientLobby.tscn");
     }
 
 

@@ -33,8 +33,8 @@ margin_bottom = -99.5
 rect_pivot_offset = Vector2( -54, 53.75 )
 custom_colors/default_color = Color( 0, 0, 0, 1 )
 bbcode_enabled = true
-bbcode_text = "[center][b]Configuration[/b][/center]"
-text = "Configuration"
+bbcode_text = "[center][b]SETTINGS[/b][/center]"
+text = "SETTINGS"
 __meta__ = {
 "_editor_description_": ""
 }
@@ -48,7 +48,7 @@ margin_right = 323.872
 margin_bottom = 73.556
 theme = SubResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "Customize Profile"
+text = "CUSTOMIZE_PROFILE"
 
 [node name="SoundButton" type="Button" parent="."]
 modulate = Color( 0.396078, 1, 0, 1 )
@@ -59,7 +59,7 @@ margin_bottom = 321.0
 rect_pivot_offset = Vector2( -892, -470 )
 custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
 custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
-text = "Sound"
+text = "SOUND"
 
 [node name="LanguageButton" type="Button" parent="."]
 margin_left = 32.0
@@ -67,7 +67,7 @@ margin_top = 350.0
 margin_right = 371.0
 margin_bottom = 459.0
 rect_scale = Vector2( 1.01314, 1 )
-text = "Language"
+text = "LANGUAGE"
 
 [node name="CustomizeProfileTitle" type="RichTextLabel" parent="."]
 anchor_left = 0.5
@@ -80,9 +80,9 @@ margin_right = 357.0
 margin_bottom = -80.5
 custom_colors/default_color = Color( 1, 1, 1, 1 )
 bbcode_enabled = true
-bbcode_text = "[center][b]Sound
+bbcode_text = "[center][b]SOUND
 [/b][/center]"
-text = "Sound
+text = "SOUND
 "
 __meta__ = {
 "_editor_description_": ""
@@ -100,10 +100,8 @@ margin_bottom = -26.75
 rect_pivot_offset = Vector2( 62, 28 )
 custom_colors/default_color = Color( 1, 1, 1, 1 )
 bbcode_enabled = true
-bbcode_text = "[center][b]Sound On/Off:
-[/b][/center]"
-text = "Sound On/Off:
-"
+bbcode_text = "[center][b]ACTIVATE_SOUND[/b][/center]"
+text = "ACTIVATE_SOUND"
 scroll_active = false
 __meta__ = {
 "_editor_description_": ""
@@ -126,7 +124,7 @@ theme = SubResource( 3 )
 custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
 custom_colors/font_color_focus = Color( 0, 0, 0, 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "Exit"
+text = "EXIT"
 
 [connection signal="pressed" from="CustomizeProfileButton" to="." method="GoToCustomizeProfile"]
 [connection signal="pressed" from="SoundButton" to="." method="GoToSound"]

@@ -17,7 +17,7 @@ margin_left = -162.0
 margin_top = -151.0
 margin_right = 162.0
 margin_bottom = -75.0
-text = "Enter lobby"
+text = "ENTER_LOBBY"
 
 [node name="HowToPlayButton" type="Button" parent="."]
 anchor_left = 0.5
@@ -28,7 +28,7 @@ margin_left = -162.0
 margin_top = -61.0
 margin_right = 162.0
 margin_bottom = 15.0
-text = "How to play"
+text = "HOW_TO_PLAY"
 
 [node name="FriendsListButton" type="Button" parent="."]
 anchor_left = 0.5
@@ -39,7 +39,7 @@ margin_left = -162.0
 margin_top = 30.0
 margin_right = 162.0
 margin_bottom = 106.0
-text = "Friends list"
+text = "FRIENDS_LIST"
 
 [node name="LeaderboardButton" type="Button" parent="."]
 anchor_left = 0.5
@@ -50,7 +50,7 @@ margin_left = -161.0
 margin_top = 122.0
 margin_right = -5.0
 margin_bottom = 157.0
-text = "Leaderboard"
+text = "LEADERBOARD"
 __meta__ = {
 "_editor_description_": ""
 }
@@ -64,7 +64,7 @@ margin_left = 10.0
 margin_top = 122.0
 margin_right = 161.0
 margin_bottom = 157.0
-text = "Settings"
+text = "SETTINGS"
 
 [node name="ExitButton" type="Button" parent="."]
 anchor_left = 0.5
@@ -75,7 +75,7 @@ margin_left = -162.0
 margin_top = 173.0
 margin_right = 162.0
 margin_bottom = 204.0
-text = "Exit"
+text = "EXIT"
 
 [node name="ReversiLogo" type="Sprite" parent="."]
 position = Vector2( 515, 60 )

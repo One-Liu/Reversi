@@ -16,7 +16,7 @@ margin_left = -56.0
 margin_top = -250.0
 margin_right = 57.0
 margin_bottom = -227.0
-text = "Leaderboard"
+text = "LEADERBOARD"
 
 [node name="TopPlayersItemList" type="ItemList" parent="."]
 anchor_left = 0.5
@@ -37,6 +37,6 @@ margin_left = -162.0
 margin_top = 173.0
 margin_right = 162.0
 margin_bottom = 204.0
-text = "Return"
+text = "RETURN"
 
 [connection signal="pressed" from="ReturnButton" to="." method="GoToMainMenu"]
