@@ -6,7 +6,7 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="ConnectionError" type="AcceptDialog" parent="."]
+[node name="ConnectionFailed" type="WindowDialog" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -14,12 +14,33 @@ anchor_bottom = 0.5
 margin_left = -117.0
 margin_top = -31.0
 margin_right = 117.0
-margin_bottom = 45.0
+margin_bottom = 59.0
 window_title = "CONNECTION_FAILED"
-dialog_text = "CONNECTION_FAILED_MESSAGE"
-dialog_autowrap = true
 
-[node name="NewChallenge" type="ConfirmationDialog" parent="."]
+[node name="Message" type="Label" parent="ConnectionFailed"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -105.0
+margin_top = -29.0
+margin_right = 105.0
+margin_bottom = -11.0
+text = "CONNECTION_FAILED_MESSAGE"
+autowrap = true
+
+[node name="AcceptButton" type="Button" parent="ConnectionFailed"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -29.0
+margin_top = 15.0
+margin_right = 30.0
+margin_bottom = 35.0
+text = "ACCEPT"
+
+[node name="NewChallenge" type="WindowDialog" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -27,11 +48,31 @@ anchor_bottom = 0.5
 margin_left = -117.0
 margin_top = -31.0
 margin_right = 117.0
-margin_bottom = 45.0
-rect_min_size = Vector2( 150, 52.5 )
+margin_bottom = 59.0
 window_title = "NEW_CHALLENGE"
-dialog_text = "NEW_CHALLENGE_MESSAGE"
-dialog_autowrap = true
+
+[node name="Message" type="Label" parent="NewChallenge"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -105.0
+margin_top = -29.0
+margin_right = 105.0
+margin_bottom = -11.0
+text = "NEW_CHALLENGE_MESSAGE"
+autowrap = true
+
+[node name="AcceptButton" type="Button" parent="NewChallenge"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -29.0
+margin_top = 15.0
+margin_right = 30.0
+margin_bottom = 35.0
+text = "ACCEPT"
 
 [node name="ChallengeDeclined" type="WindowDialog" parent="."]
 anchor_left = 0.5
@@ -101,7 +142,7 @@ margin_right = 30.0
 margin_bottom = 35.0
 text = "ACCEPT"
 
-[node name="FriendDeleted" type="AcceptDialog" parent="."]
+[node name="FriendDeleted" type="WindowDialog" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -109,38 +150,33 @@ anchor_bottom = 0.5
 margin_left = -117.0
 margin_top = -31.0
 margin_right = 117.0
-margin_bottom = 44.0
-window_title = "Friend deleted"
-dialog_text = "PLAYER has been deleted from your friends list"
-dialog_autowrap = true
+margin_bottom = 59.0
+window_title = "FRIEND_DELETED"
 
-[node name="SetOfPiecesUpdated" type="AcceptDialog" parent="."]
+[node name="Message" type="Label" parent="FriendDeleted"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -117.0
-margin_top = -31.0
-margin_right = 117.0
-margin_bottom = 44.0
-window_title = "Set of pieces updated"
-dialog_text = "Your set of pieces has been changed succesfully"
-dialog_autowrap = true
+margin_left = -105.0
+margin_top = -29.0
+margin_right = 105.0
+margin_bottom = -11.0
+text = "FRIEND_DELETED_MESSAGE"
+autowrap = true
 
-[node name="PasswordUpdated" type="AcceptDialog" parent="."]
+[node name="AcceptButton" type="Button" parent="FriendDeleted"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -117.0
-margin_top = -31.0
-margin_right = 117.0
-margin_bottom = 44.0
-window_title = "Password updated"
-dialog_text = "Your password has been changed succesfully"
-dialog_autowrap = true
+margin_left = -29.0
+margin_top = 15.0
+margin_right = 30.0
+margin_bottom = 35.0
+text = "ACCEPT"
 
-[node name="NicknameUpdated" type="AcceptDialog" parent="."]
+[node name="SetOfPiecesUpdated" type="WindowDialog" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -148,10 +184,99 @@ anchor_bottom = 0.5
 margin_left = -117.0
 margin_top = -31.0
 margin_right = 117.0
-margin_bottom = 44.0
-window_title = "Nickname updated"
-dialog_text = "Your nickname has been changed succesfully"
-dialog_autowrap = true
+margin_bottom = 59.0
+window_title = "SET_OF_PIECES_UPDATED"
+
+[node name="Message" type="Label" parent="SetOfPiecesUpdated"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -105.0
+margin_top = -29.0
+margin_right = 105.0
+margin_bottom = -11.0
+text = "SET_OF_PIECES_UPDATED_MESSAGE"
+autowrap = true
+
+[node name="AcceptButton" type="Button" parent="SetOfPiecesUpdated"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -29.0
+margin_top = 15.0
+margin_right = 30.0
+margin_bottom = 35.0
+text = "ACCEPT"
+
+[node name="PasswordUpdated" type="WindowDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -117.0
+margin_top = -31.0
+margin_right = 117.0
+margin_bottom = 59.0
+window_title = "PASSWORD_UPDATED"
+
+[node name="Message" type="Label" parent="PasswordUpdated"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -105.0
+margin_top = -29.0
+margin_right = 105.0
+margin_bottom = -11.0
+text = "PASSWORD_UPDATED_MESSAGE"
+autowrap = true
+
+[node name="AcceptButton" type="Button" parent="PasswordUpdated"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -29.0
+margin_top = 15.0
+margin_right = 30.0
+margin_bottom = 35.0
+text = "ACCEPT"
+
+[node name="NicknameUpdated" type="WindowDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -117.0
+margin_top = -31.0
+margin_right = 117.0
+margin_bottom = 59.0
+window_title = "NICKNAME_UPDATED"
+
+[node name="Message" type="Label" parent="NicknameUpdated"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -105.0
+margin_top = -29.0
+margin_right = 105.0
+margin_bottom = -11.0
+text = "NICKNAME_UPDATED_MESSAGE"
+autowrap = true
+
+[node name="AcceptButton" type="Button" parent="NicknameUpdated"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -29.0
+margin_top = 15.0
+margin_right = 30.0
+margin_bottom = 35.0
+text = "ACCEPT"
 
 [node name="ChangeNickname" type="WindowDialog" parent="."]
 anchor_left = 0.5
