@@ -7,87 +7,82 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="TitleLobby" type="RichTextLabel" parent="."]
-anchor_left = 0.039
-anchor_top = 0.055
-anchor_right = 0.039
-anchor_bottom = 0.055
-margin_left = -19.936
-margin_top = -20.0
-margin_right = 20.064
-margin_bottom = 20.0
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 24.0
+margin_top = -291.0
+margin_right = 64.0
+margin_bottom = -268.0
 text = "Lobby"
 
-[node name="TitleChat" type="RichTextLabel" parent="."]
-anchor_left = 0.039
-anchor_top = 0.092
-anchor_right = 0.039
-anchor_bottom = 0.092
-margin_left = -19.936
-margin_top = -20.2
-margin_right = 20.064
-margin_bottom = 19.8
-text = "Chat"
-
-[node name="ChatLineEdit" type="LineEdit" parent="."]
-anchor_left = 0.384
-anchor_top = 0.5
-anchor_right = 0.384
-anchor_bottom = 0.5
-margin_left = -353.216
-margin_top = 223.0
-margin_right = 353.784
-margin_bottom = 247.0
-
-[node name="ChatMessages" type="RichTextLabel" parent="."]
-anchor_left = 0.385
-anchor_top = 0.503
-anchor_right = 0.385
-anchor_bottom = 0.503
-margin_left = -349.24
-margin_top = -230.8
-margin_right = 348.76
-margin_bottom = 203.2
-
-[node name="OnlinePlayersList" type="ItemList" parent="."]
-anchor_left = 0.866
-anchor_top = 0.5
-anchor_right = 0.866
-anchor_bottom = 0.5
-margin_left = -119.784
-margin_top = 13.0
-margin_right = 119.216
-margin_bottom = 251.0
-
-[node name="OnlineFriendsList" type="ItemList" parent="."]
-anchor_left = 0.866
-anchor_top = 0.5
-anchor_right = 0.866
-anchor_bottom = 0.5
-margin_left = -119.784
-margin_top = -229.0
-margin_right = 119.216
-margin_bottom = 9.0
-
 [node name="TitleSocial" type="RichTextLabel" parent="."]
-anchor_left = 0.866
+anchor_left = 1.0
 anchor_top = 0.5
-anchor_right = 0.866
+anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -19.7841
-margin_top = -274.0
-margin_right = 20.2159
-margin_bottom = -234.0
+margin_left = -258.0
+margin_top = -293.0
+margin_right = -21.0
+margin_bottom = -266.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 text = "Social"
 
-[node name="ReturnButton" type="Button" parent="."]
-anchor_left = 0.865
+[node name="ChatVBoxContainer" type="VBoxContainer" parent="."]
 anchor_top = 0.5
-anchor_right = 0.865
 anchor_bottom = 0.5
-margin_left = -57.7601
-margin_top = 266.0
-margin_right = 57.2399
+margin_left = 23.0
+margin_top = -263.0
+margin_right = 746.0
 margin_bottom = 286.0
+
+[node name="Chat" type="RichTextLabel" parent="ChatVBoxContainer"]
+margin_right = 723.0
+margin_bottom = 521.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ChatHBoxContainer" type="HBoxContainer" parent="ChatVBoxContainer"]
+margin_top = 525.0
+margin_right = 723.0
+margin_bottom = 549.0
+
+[node name="ChatLineEdit" type="LineEdit" parent="ChatVBoxContainer/ChatHBoxContainer"]
+margin_right = 723.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SocialVBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -259.0
+margin_top = -263.0
+margin_right = -22.0
+margin_bottom = 250.0
+
+[node name="OnlineFriendsList" type="ItemList" parent="SocialVBoxContainer"]
+margin_right = 237.0
+margin_bottom = 254.0
+size_flags_vertical = 3
+
+[node name="OnlinePlayersList" type="ItemList" parent="SocialVBoxContainer"]
+margin_top = 258.0
+margin_right = 237.0
+margin_bottom = 513.0
+size_flags_vertical = 3
+
+[node name="ReturnButton" type="Button" parent="."]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -199.0
+margin_top = 262.0
+margin_right = -66.0
+margin_bottom = 282.0
 text = "Return"
 script = ExtResource( 1 )
 
