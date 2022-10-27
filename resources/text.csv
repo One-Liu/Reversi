@@ -54,6 +54,7 @@ DELETE_FRIEND,Remove from friends,Quitar de amigos
 ADD_FRIEND,Add friend,Añadir amigo
 CUSTOMIZE_PROFILE,Customize profile,Personalizar perfil
 PIECE_APPEARANCE,Customize pieces,Personalizar piezas
+AVATAR_APPEARANCE,Customize avatar,Personalizar avatar
 EDIT,Edit,Editar
 SOUND,Sound,Sonido
 ACTIVATE_SOUND,Sound On/Off,Activar/Desactivar sonido

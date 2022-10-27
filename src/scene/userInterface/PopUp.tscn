@@ -1,10 +1,12 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://resources/SetOfPieces1.png" type="Texture" id=1]
+[ext_resource path="res://src/script/userInterface/Controls.cs" type="Script" id=2]
 
 [node name="PopUp" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 2 )
 
 [node name="ConnectionFailed" type="WindowDialog" parent="."]
 anchor_left = 0.5
@@ -30,40 +32,6 @@ text = "CONNECTION_FAILED_MESSAGE"
 autowrap = true
 
 [node name="AcceptButton" type="Button" parent="ConnectionFailed"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -29.0
-margin_top = 15.0
-margin_right = 30.0
-margin_bottom = 35.0
-text = "ACCEPT"
-
-[node name="NewChallenge" type="WindowDialog" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -117.0
-margin_top = -31.0
-margin_right = 117.0
-margin_bottom = 59.0
-window_title = "NEW_CHALLENGE"
-
-[node name="Message" type="Label" parent="NewChallenge"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -105.0
-margin_top = -29.0
-margin_right = 105.0
-margin_bottom = -11.0
-text = "NEW_CHALLENGE_MESSAGE"
-autowrap = true
-
-[node name="AcceptButton" type="Button" parent="NewChallenge"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -278,6 +246,40 @@ margin_right = 30.0
 margin_bottom = 35.0
 text = "ACCEPT"
 
+[node name="NewChallenge" type="WindowDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -117.0
+margin_top = -31.0
+margin_right = 117.0
+margin_bottom = 59.0
+window_title = "NEW_CHALLENGE"
+
+[node name="Message" type="Label" parent="NewChallenge"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -105.0
+margin_top = -29.0
+margin_right = 105.0
+margin_bottom = -11.0
+text = "NEW_CHALLENGE_MESSAGE"
+autowrap = true
+
+[node name="AcceptButton" type="Button" parent="NewChallenge"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -29.0
+margin_top = 15.0
+margin_right = 30.0
+margin_bottom = 35.0
+text = "ACCEPT"
+
 [node name="ChangeNickname" type="WindowDialog" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -334,13 +336,14 @@ margin_bottom = 38.5
 text = "CANCEL"
 
 [node name="ChangePassword" type="WindowDialog" parent="."]
+visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -118.0
+margin_left = -139.0
 margin_top = -100.0
-margin_right = 125.0
+margin_right = 143.0
 margin_bottom = 86.0
 window_title = "CHANGE_PASSWORD"
 
@@ -349,9 +352,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -96.5
+margin_left = -117.5
 margin_top = -66.0
-margin_right = 15.5
+margin_right = -5.5
 margin_bottom = -48.0
 text = "PASSWORD"
 autowrap = true
@@ -361,10 +364,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -97.5
-margin_top = -48.5
-margin_right = 97.5
-margin_bottom = -24.5
+margin_left = -119.0
+margin_top = -48.0
+margin_right = 119.0
+margin_bottom = -24.0
 secret = true
 
 [node name="NewPassword" type="Label" parent="ChangePassword"]
@@ -372,9 +375,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -96.5
+margin_left = -117.0
 margin_top = -3.0
-margin_right = 15.5
+margin_right = 120.0
 margin_bottom = 15.0
 text = "NEW_PASSWORD"
 autowrap = true
@@ -384,10 +387,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -97.5
-margin_top = 14.5
-margin_right = 97.5
-margin_bottom = 38.5
+margin_left = -119.0
+margin_top = 15.0
+margin_right = 120.0
+margin_bottom = 39.0
 secret = true
 
 [node name="AcceptButton" type="Button" parent="ChangePassword"]
@@ -516,3 +519,11 @@ margin_left = -81.0
 margin_top = -27.0
 margin_right = 83.0
 margin_bottom = 29.0
+
+[connection signal="pressed" from="ConnectionFailed/AcceptButton" to="." method="HideConnectionFailedPopUp"]
+[connection signal="pressed" from="ChallengeDeclined/AcceptButton" to="." method="HideChallengeDeclinedPopUp"]
+[connection signal="pressed" from="FriendAdded/AcceptButton" to="." method="HideFriendAddedPopUp"]
+[connection signal="pressed" from="FriendDeleted/AcceptButton" to="." method="HideFriendDeletedPopUp"]
+[connection signal="pressed" from="SetOfPiecesUpdated/AcceptButton" to="." method="HideSetOfPiecesUpdatedPopUp"]
+[connection signal="pressed" from="PasswordUpdated/AcceptButton" to="." method="HidePasswordUpdatedPopUp"]
+[connection signal="pressed" from="NicknameUpdated/AcceptButton" to="." method="HideNicknameUpdatedPopUp"]

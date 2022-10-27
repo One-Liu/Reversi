@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/script/userInterface/Controls.cs" type="Script" id=1]
+[ext_resource path="res://src/scene/userInterface/PopUp.tscn" type="PackedScene" id=2]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 1, 1, 1, 1 )
@@ -66,6 +67,17 @@ margin_right = 96.0
 margin_bottom = -87.0
 text = "PIECE_APPEARANCE"
 
+[node name="CustomizeAvatar" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -38.0
+margin_top = -13.0
+margin_right = 101.0
+margin_bottom = 1.0
+text = "AVATAR_APPEARANCE"
+
 [node name="CustomizeProfileButton" type="Button" parent="."]
 modulate = Color( 0.384314, 1, 0, 1 )
 self_modulate = Color( 0.243137, 1, 0, 1 )
@@ -128,6 +140,14 @@ margin_bottom = 246.0
 rect_pivot_offset = Vector2( 52, 24 )
 text = "EDIT"
 
+[node name="EditAvatarButton" type="Button" parent="."]
+margin_left = 472.0
+margin_top = 315.0
+margin_right = 568.0
+margin_bottom = 335.0
+rect_pivot_offset = Vector2( 52, 24 )
+text = "EDIT"
+
 [node name="ChangePasswordButton" type="Button" parent="."]
 margin_left = 468.0
 margin_top = 530.0
@@ -149,7 +169,14 @@ custom_colors/font_color_focus = Color( 0, 0, 0, 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "EXIT"
 
+[node name="PopUp" parent="." instance=ExtResource( 2 )]
+visible = false
+
 [connection signal="pressed" from="CustomizeProfileButton" to="." method="GoToCustomizeProfile"]
 [connection signal="pressed" from="SoundButton" to="." method="GoToSound"]
 [connection signal="pressed" from="LanguageButton" to="." method="GoToLanguage"]
+[connection signal="pressed" from="EditNicknameButton" to="." method="ShowChangeNicknamePopUp"]
+[connection signal="pressed" from="EditPieceButton" to="." method="ShowChangeSetOfPiecesPopUp"]
+[connection signal="pressed" from="EditAvatarButton" to="." method="ShowChangeAvatarPopUp"]
+[connection signal="pressed" from="ChangePasswordButton" to="." method="ShowChangePasswordPopUp"]
 [connection signal="pressed" from="ExitButton" to="." method="GoToMainMenu"]
