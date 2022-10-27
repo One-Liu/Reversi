@@ -91,16 +91,11 @@ public class Controls : Node
     
     private void LogIn()
     {
-        AcceptDialog loginFailedPopUp = GetNode<AcceptDialog>("../PopUp/ConnectionError");
-        loginFailedPopUp.Visible = true;
-        RichTextLabel invalidEmailOrPassword = GetNode<RichTextLabel>("../InvalidEmailOrPassword");
-        invalidEmailOrPassword.Visible = true;    
+        GoToMainMenu();
     }
-    
     
     private void Register()
     {
-        GetNode<RichTextLabel>("../EmptyFields").Visible = true;
-        //GetNode<RichTextLabel>("../DifferentPasswords").Visible = true;
+        // Replace with function body.
     }
 }

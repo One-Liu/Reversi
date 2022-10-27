@@ -13,6 +13,7 @@ bg_color = Color( 1, 1, 1, 1 )
 margin_right = 1024.0
 margin_bottom = 599.0
 rect_pivot_offset = Vector2( -297, -133 )
+script = ExtResource( 1 )
 
 [node name="Panel" type="Panel" parent="."]
 margin_top = 1.0
@@ -47,7 +48,6 @@ margin_bottom = 73.556
 theme = SubResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Customize Profile"
-script = ExtResource( 1 )
 
 [node name="SoundButton" type="Button" parent="."]
 margin_left = 32.0
@@ -58,7 +58,6 @@ rect_pivot_offset = Vector2( -892, -470 )
 custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
 custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
 text = "Sound"
-script = ExtResource( 1 )
 
 [node name="LanguageButton" type="Button" parent="."]
 modulate = Color( 0.478431, 1, 0, 1 )
@@ -68,7 +67,6 @@ margin_right = 371.0
 margin_bottom = 459.0
 rect_scale = Vector2( 1.01314, 1 )
 text = "Language"
-script = ExtResource( 1 )
 
 [node name="ExitButton" type="Button" parent="."]
 modulate = Color( 1, 0, 0, 1 )
@@ -82,7 +80,6 @@ custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
 custom_colors/font_color_focus = Color( 0, 0, 0, 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Exit"
-script = ExtResource( 1 )
 
 [node name="CustomizeProfileTitle" type="RichTextLabel" parent="."]
 anchor_left = 0.5
@@ -130,7 +127,7 @@ margin_right = 631.016
 margin_bottom = 125.857
 text = "English (US)"
 
-[connection signal="pressed" from="CustomizeProfileButton" to="CustomizeProfileButton" method="GoToCustomizeProfile"]
-[connection signal="pressed" from="SoundButton" to="SoundButton" method="GoToSound"]
-[connection signal="pressed" from="LanguageButton" to="LanguageButton" method="GoToLanguage"]
-[connection signal="pressed" from="ExitButton" to="ExitButton" method="GoToMainMenu"]
+[connection signal="pressed" from="CustomizeProfileButton" to="." method="GoToCustomizeProfile"]
+[connection signal="pressed" from="SoundButton" to="." method="GoToSound"]
+[connection signal="pressed" from="LanguageButton" to="." method="GoToLanguage"]
+[connection signal="pressed" from="ExitButton" to="." method="GoToMainMenu"]
