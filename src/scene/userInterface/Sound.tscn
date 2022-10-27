@@ -21,23 +21,39 @@ margin_right = 402.0
 margin_bottom = 598.0
 custom_styles/panel = SubResource( 1 )
 
-[node name="ConfigurationTitle" type="RichTextLabel" parent="."]
+[node name="SettingsTitle" type="Label" parent="."]
+modulate = Color( 0, 0, 0, 1 )
 anchor_left = 0.5
-anchor_top = 0.25
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.25
-margin_left = -370.0
-margin_top = -120.5
-margin_right = -270.0
-margin_bottom = -99.5
-rect_pivot_offset = Vector2( -54, 53.75 )
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-bbcode_enabled = true
-bbcode_text = "[center][b]SETTINGS[/b][/center]"
+anchor_bottom = 0.5
+margin_left = -349.0
+margin_top = -271.5
+margin_right = -289.0
+margin_bottom = -257.5
 text = "SETTINGS"
-__meta__ = {
-"_editor_description_": ""
-}
+
+[node name="SoundTitle" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 154.0
+margin_top = -255.5
+margin_right = 202.0
+margin_bottom = -241.5
+text = "SOUND"
+
+[node name="ActivateSoundTitle" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -38.0
+margin_top = -193.5
+margin_right = 76.0
+margin_bottom = -179.5
+text = "ACTIVATE_SOUND"
 
 [node name="CustomizeProfileButton" type="Button" parent="."]
 anchor_right = 0.047
@@ -68,44 +84,6 @@ margin_right = 371.0
 margin_bottom = 459.0
 rect_scale = Vector2( 1.01314, 1 )
 text = "LANGUAGE"
-
-[node name="CustomizeProfileTitle" type="RichTextLabel" parent="."]
-anchor_left = 0.5
-anchor_top = 0.25
-anchor_right = 0.5
-anchor_bottom = 0.25
-margin_left = 7.0
-margin_top = -111.5
-margin_right = 357.0
-margin_bottom = -80.5
-custom_colors/default_color = Color( 1, 1, 1, 1 )
-bbcode_enabled = true
-bbcode_text = "[center][b]SOUND
-[/b][/center]"
-text = "SOUND
-"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="NicknameTitle" type="RichTextLabel" parent="."]
-anchor_left = 0.5
-anchor_top = 0.25
-anchor_right = 0.5
-anchor_bottom = 0.25
-margin_left = -62.0
-margin_top = -47.75
-margin_right = 59.0
-margin_bottom = -26.75
-rect_pivot_offset = Vector2( 62, 28 )
-custom_colors/default_color = Color( 1, 1, 1, 1 )
-bbcode_enabled = true
-bbcode_text = "[center][b]ACTIVATE_SOUND[/b][/center]"
-text = "ACTIVATE_SOUND"
-scroll_active = false
-__meta__ = {
-"_editor_description_": ""
-}
 
 [node name="CheckButton" type="CheckButton" parent="."]
 margin_left = 458.0

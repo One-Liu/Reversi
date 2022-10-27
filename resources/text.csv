@@ -4,12 +4,25 @@ es_MX,Spanish (México),Español (México)
 CONNECTION_FAILED, Connection failed., Hubo un error de conexión.
 CONNECTION_FAILED_MESSAGE,Please try again later., Por favor intentelo de nuevo.
 CONNECTION_FAILED_BTN,Continue,Continuar
+NEW_CHALLENGE,New challenge,Nuevo desafío
+NEW_CHALLENGE_MESSAGE,You have been challenged!,¡Has sido desafiado!
+CHALLENGE_DECLINED,Challenge declined,Desafío rechazado
+CHALLENGE_DECLINED_MESSAGE,Your challenge has been declined,Tu desafío ha sido rechazado
+CHANGE_NICKNAME,Change nickname,Cambiar apodo
+CHANGE_NICKNAME_MESSAGE,New nickname,Nuevo apodo
+CHANGE_SET_OF_PIECES,Change set of pieces,Cambiar conjunto de piezas
+CHANGE_AVATAR,Change avatar,Cambiar avatar
+FRIEND_ADDED,Friend added,Amigo agregado
+FRIEND_ADDED_MESSAGE,A player has been added to your friends list,Un jugador ha sido agregado a tu lista de amigos
 LOGIN,Log in,Iniciar Sesión
 REGISTER,Sign up,Registrarse
 LOGIN_GUEST,Log in as a guest,Jugar como invitado
 EXIT,Exit,Salir
+ACCEPT,Accept,Aceptar
+CANCEL,Cancel,Cancelar
 CHANGE_LANGUAGE,Change language,Cambiar lenguaje
 CHANGE_PASSWORD,Change password,Cambiar contraseña
+NEW_PASSWORD,New password,Nueva contraseña
 LANGUAGE,Language,Lenguaje
 NICKNAME,Nickname,Apodo
 EMAIL,Email,Correo electrónico

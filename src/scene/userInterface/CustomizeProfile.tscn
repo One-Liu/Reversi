@@ -21,6 +21,51 @@ margin_right = 402.0
 margin_bottom = 598.0
 custom_styles/panel = SubResource( 1 )
 
+[node name="SettingsTitle" type="Label" parent="."]
+modulate = Color( 0, 0, 0, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -349.0
+margin_top = -271.5
+margin_right = -289.0
+margin_bottom = -257.5
+text = "SETTINGS"
+
+[node name="CustomizeProfileTitle" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 155.0
+margin_top = -264.0
+margin_right = 289.0
+margin_bottom = -250.0
+text = "CUSTOMIZE_PROFILE"
+
+[node name="NicknameTitle" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -42.0
+margin_top = -193.0
+margin_right = 92.0
+margin_bottom = -179.0
+text = "NICKNAME"
+
+[node name="CustomizePiecesTitle" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -38.0
+margin_top = -101.0
+margin_right = 96.0
+margin_bottom = -87.0
+text = "PIECE_APPEARANCE"
+
 [node name="CustomizeProfileButton" type="Button" parent="."]
 modulate = Color( 0.384314, 1, 0, 1 )
 self_modulate = Color( 0.243137, 1, 0, 1 )
@@ -50,58 +95,6 @@ margin_bottom = 459.0
 rect_scale = Vector2( 1.01314, 1 )
 text = "LANGUAGE"
 
-[node name="ConfigurationTitle" type="RichTextLabel" parent="."]
-anchor_left = 0.5
-anchor_top = 0.25
-anchor_right = 0.5
-anchor_bottom = 0.25
-margin_left = -370.0
-margin_top = -120.5
-margin_right = -270.0
-margin_bottom = -99.5
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-bbcode_enabled = true
-bbcode_text = "[center][b]Configuration[/b][/center]"
-text = "Configuration"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="CustomizeProfileTitle" type="RichTextLabel" parent="."]
-anchor_left = 0.5
-anchor_top = 0.25
-anchor_right = 0.5
-anchor_bottom = 0.25
-margin_left = 7.0
-margin_top = -111.5
-margin_right = 357.0
-margin_bottom = -80.5
-custom_colors/default_color = Color( 1, 1, 1, 1 )
-bbcode_enabled = true
-bbcode_text = "[center][b]Customize Profile[/b][/center]"
-text = "Customize Profile"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="NicknameTitle" type="RichTextLabel" parent="."]
-anchor_left = 0.5
-anchor_top = 0.25
-anchor_right = 0.5
-anchor_bottom = 0.25
-margin_left = -62.0
-margin_top = -47.5
-margin_right = 38.0
-margin_bottom = -26.5
-rect_pivot_offset = Vector2( 62, 28 )
-custom_colors/default_color = Color( 1, 1, 1, 1 )
-bbcode_enabled = true
-bbcode_text = "[center][b]Nickname[/b][/center]"
-text = "Nickname"
-__meta__ = {
-"_editor_description_": ""
-}
-
 [node name="NicknameTf" type="RichTextLabel" parent="."]
 anchor_left = 0.5
 anchor_top = 0.25
@@ -127,31 +120,11 @@ margin_bottom = 147.0
 rect_pivot_offset = Vector2( 52, 24 )
 text = "EDIT"
 
-[node name="CustomizePiecesTitle" type="RichTextLabel" parent="."]
-anchor_left = 0.5
-anchor_top = 0.25
-anchor_right = 0.5
-anchor_bottom = 0.25
-margin_left = -86.0
-margin_top = 37.5
-margin_right = 102.0
-margin_bottom = 59.5
-custom_colors/default_color = Color( 1, 1, 1, 1 )
-bbcode_enabled = true
-bbcode_text = "[center][b]Customize pieces 
-[/b][/center]"
-text = "Customize pieces 
-"
-scroll_active = false
-__meta__ = {
-"_editor_description_": ""
-}
-
 [node name="EditPieceButton" type="Button" parent="."]
-margin_left = 589.0
-margin_top = 228.0
-margin_right = 685.0
-margin_bottom = 248.0
+margin_left = 472.0
+margin_top = 226.0
+margin_right = 568.0
+margin_bottom = 246.0
 rect_pivot_offset = Vector2( 52, 24 )
 text = "EDIT"
 

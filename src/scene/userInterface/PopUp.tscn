@@ -15,8 +15,8 @@ margin_left = -117.0
 margin_top = -31.0
 margin_right = 117.0
 margin_bottom = 45.0
-window_title = "Connection error has ocurred"
-dialog_text = "Try again later"
+window_title = "CONNECTION_FAILED"
+dialog_text = "CONNECTION_FAILED_MESSAGE"
 dialog_autowrap = true
 
 [node name="NewChallenge" type="ConfirmationDialog" parent="."]
@@ -29,11 +29,11 @@ margin_top = -31.0
 margin_right = 117.0
 margin_bottom = 45.0
 rect_min_size = Vector2( 150, 52.5 )
-window_title = "New Challenge"
-dialog_text = "You have been challenged"
+window_title = "NEW_CHALLENGE"
+dialog_text = "NEW_CHALLENGE_MESSAGE"
 dialog_autowrap = true
 
-[node name="ChallengeDeclined" type="AcceptDialog" parent="."]
+[node name="ChallengeDeclined" type="WindowDialog" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -41,12 +41,33 @@ anchor_bottom = 0.5
 margin_left = -117.0
 margin_top = -31.0
 margin_right = 117.0
-margin_bottom = 44.0
-window_title = "Challenge declined"
-dialog_text = "Your challenge has been declined"
-dialog_autowrap = true
+margin_bottom = 59.0
+window_title = "CHALLENGE_DECLINED"
 
-[node name="FriendAdded" type="AcceptDialog" parent="."]
+[node name="Message" type="Label" parent="ChallengeDeclined"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -105.0
+margin_top = -29.0
+margin_right = 105.0
+margin_bottom = -11.0
+text = "CHALLENGE_DECLINED_MESSAGE"
+autowrap = true
+
+[node name="AcceptButton" type="Button" parent="ChallengeDeclined"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -29.0
+margin_top = 15.0
+margin_right = 30.0
+margin_bottom = 35.0
+text = "ACCEPT"
+
+[node name="FriendAdded" type="WindowDialog" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -54,10 +75,31 @@ anchor_bottom = 0.5
 margin_left = -117.0
 margin_top = -31.0
 margin_right = 117.0
-margin_bottom = 44.0
-window_title = "Friend added"
-dialog_text = "PLAYER has been added to your friends list"
-dialog_autowrap = true
+margin_bottom = 59.0
+window_title = "FRIEND_ADDED"
+
+[node name="Message" type="Label" parent="FriendAdded"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -105.0
+margin_top = -29.0
+margin_right = 105.0
+margin_bottom = -11.0
+text = "FRIEND_ADDED_MESSAGE"
+autowrap = true
+
+[node name="AcceptButton" type="Button" parent="FriendAdded"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -29.0
+margin_top = 15.0
+margin_right = 30.0
+margin_bottom = 35.0
+text = "ACCEPT"
 
 [node name="FriendDeleted" type="AcceptDialog" parent="."]
 anchor_left = 0.5
@@ -120,7 +162,19 @@ margin_left = -118.0
 margin_top = -58.0
 margin_right = 125.0
 margin_bottom = 49.0
-window_title = "Change nickname"
+window_title = "CHANGE_NICKNAME"
+
+[node name="NewNickname" type="Label" parent="ChangeNickname"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -96.5
+margin_top = -34.5
+margin_right = 97.5
+margin_bottom = -16.5
+text = "CHANGE_NICKNAME_MESSAGE"
+autowrap = true
 
 [node name="NewNicknameLineEdit" type="LineEdit" parent="ChangeNickname"]
 anchor_left = 0.5
@@ -132,38 +186,27 @@ margin_top = -17.5
 margin_right = 97.5
 margin_bottom = 6.5
 
-[node name="NewNickname" type="RichTextLabel" parent="ChangeNickname"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -96.5
-margin_top = -35.0
-margin_right = 15.5
-margin_bottom = -17.0
-text = "New nickname:"
-
 [node name="AcceptButton" type="Button" parent="ChangeNickname"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 41.5
-margin_top = 17.5
-margin_right = 97.5
-margin_bottom = 37.5
-text = "Accept"
+margin_left = 37.5
+margin_top = 18.5
+margin_right = 96.5
+margin_bottom = 38.5
+text = "ACCEPT"
 
 [node name="CancelButton" type="Button" parent="ChangeNickname"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -20.5
-margin_top = 17.5
-margin_right = 35.5
-margin_bottom = 37.5
-text = "Cancel"
+margin_left = -48.5
+margin_top = 18.5
+margin_right = 12.5
+margin_bottom = 38.5
+text = "CANCEL"
 
 [node name="ChangePassword" type="WindowDialog" parent="."]
 anchor_left = 0.5
@@ -174,28 +217,19 @@ margin_left = -118.0
 margin_top = -100.0
 margin_right = 125.0
 margin_bottom = 86.0
-window_title = "Change password"
+window_title = "CHANGE_PASSWORD"
 
-[node name="NewPasswordLineEdit" type="LineEdit" parent="ChangePassword"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -97.5
-margin_top = 14.5
-margin_right = 97.5
-margin_bottom = 38.5
-
-[node name="NewPassword" type="RichTextLabel" parent="ChangePassword"]
+[node name="Password" type="Label" parent="ChangePassword"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -96.5
-margin_top = -3.0
+margin_top = -66.0
 margin_right = 15.5
-margin_bottom = 15.0
-text = "New password:"
+margin_bottom = -48.0
+text = "PASSWORD"
+autowrap = true
 
 [node name="PasswordLineEdit" type="LineEdit" parent="ChangePassword"]
 anchor_left = 0.5
@@ -206,17 +240,30 @@ margin_left = -97.5
 margin_top = -48.5
 margin_right = 97.5
 margin_bottom = -24.5
+secret = true
 
-[node name="Password" type="RichTextLabel" parent="ChangePassword"]
+[node name="NewPassword" type="Label" parent="ChangePassword"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -96.5
-margin_top = -66.0
+margin_top = -3.0
 margin_right = 15.5
-margin_bottom = -48.0
-text = "Password:"
+margin_bottom = 15.0
+text = "NEW_PASSWORD"
+autowrap = true
+
+[node name="NewPasswordLineEdit" type="LineEdit" parent="ChangePassword"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -97.5
+margin_top = 14.5
+margin_right = 97.5
+margin_bottom = 38.5
+secret = true
 
 [node name="AcceptButton" type="Button" parent="ChangePassword"]
 anchor_left = 0.5
@@ -227,18 +274,18 @@ margin_left = 41.5
 margin_top = 63.5
 margin_right = 97.5
 margin_bottom = 83.5
-text = "Accept"
+text = "ACCEPT"
 
 [node name="CancelButton" type="Button" parent="ChangePassword"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -20.5
-margin_top = 63.5
-margin_right = 35.5
-margin_bottom = 83.5
-text = "Cancel"
+margin_left = -37.5
+margin_top = 64.0
+margin_right = 23.5
+margin_bottom = 84.0
+text = "CANCEL"
 
 [node name="ChangeSetOfPieces" type="WindowDialog" parent="."]
 anchor_left = 0.5
@@ -249,7 +296,7 @@ margin_left = -272.0
 margin_top = -156.0
 margin_right = 275.0
 margin_bottom = 149.0
-window_title = "Change set of pieces"
+window_title = "CHANGE_SET_OF_PIECES"
 
 [node name="SetOfPieces1Button" type="Button" parent="ChangeSetOfPieces"]
 anchor_left = 0.5
@@ -275,18 +322,18 @@ margin_left = 194.5
 margin_top = 118.5
 margin_right = 250.5
 margin_bottom = 138.5
-text = "Accept"
+text = "ACCEPT"
 
 [node name="CancelButton" type="Button" parent="ChangeSetOfPieces"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 132.5
+margin_left = 116.5
 margin_top = 118.5
-margin_right = 188.5
+margin_right = 177.5
 margin_bottom = 138.5
-text = "Cancel"
+text = "CANCEL"
 
 [node name="ChangeAvatar" type="WindowDialog" parent="."]
 anchor_left = 0.5
@@ -297,7 +344,7 @@ margin_left = -272.0
 margin_top = -156.0
 margin_right = 275.0
 margin_bottom = 149.0
-window_title = "Change set of pieces"
+window_title = "CHANGE_AVATAR"
 
 [node name="Avatar1Button" type="Button" parent="ChangeAvatar"]
 anchor_left = 0.5
@@ -322,18 +369,18 @@ margin_left = 194.5
 margin_top = 118.5
 margin_right = 250.5
 margin_bottom = 138.5
-text = "Accept"
+text = "ACCEPT"
 
 [node name="CancelButton" type="Button" parent="ChangeAvatar"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 132.5
+margin_left = 116.5
 margin_top = 118.5
-margin_right = 188.5
+margin_right = 177.5
 margin_bottom = 138.5
-text = "Cancel"
+text = "CANCEL"
 
 [node name="PlayerOptions" type="PopupMenu" parent="."]
 anchor_left = 0.5

@@ -21,22 +21,39 @@ margin_right = 402.0
 margin_bottom = 598.0
 custom_styles/panel = SubResource( 1 )
 
-[node name="ConfigurationTitle" type="RichTextLabel" parent="."]
+[node name="SettingsTitle" type="Label" parent="."]
+modulate = Color( 0, 0, 0, 1 )
 anchor_left = 0.5
-anchor_top = 0.25
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.25
-margin_left = -370.0
-margin_top = -120.5
-margin_right = -270.0
-margin_bottom = -99.5
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-bbcode_enabled = true
-bbcode_text = "[center][b]Configuration[/b][/center]"
-text = "Configuration"
-__meta__ = {
-"_editor_description_": ""
-}
+anchor_bottom = 0.5
+margin_left = -349.0
+margin_top = -271.5
+margin_right = -289.0
+margin_bottom = -257.5
+text = "SETTINGS"
+
+[node name="LanguageTitle" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 171.0
+margin_top = -257.5
+margin_right = 243.0
+margin_bottom = -243.5
+text = "LANGUAGE"
+
+[node name="ChangeLanguageTitle" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -58.0
+margin_top = -196.5
+margin_right = 74.0
+margin_bottom = -182.5
+text = "CHANGE_LANGUAGE"
 
 [node name="CustomizeProfileButton" type="Button" parent="."]
 anchor_right = 0.047
@@ -80,43 +97,6 @@ custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
 custom_colors/font_color_focus = Color( 0, 0, 0, 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "EXIT"
-
-[node name="CustomizeProfileTitle" type="RichTextLabel" parent="."]
-anchor_left = 0.5
-anchor_top = 0.25
-anchor_right = 0.5
-anchor_bottom = 0.25
-margin_left = 7.0
-margin_top = -111.5
-margin_right = 357.0
-margin_bottom = -80.5
-custom_colors/default_color = Color( 1, 1, 1, 1 )
-bbcode_enabled = true
-bbcode_text = "[center][b]Language
-[/b][/center]"
-text = "Language
-"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="NicknameTitle" type="RichTextLabel" parent="."]
-anchor_left = 0.5
-anchor_top = 0.25
-anchor_right = 0.5
-anchor_bottom = 0.25
-margin_left = -62.0
-margin_top = -47.75
-margin_right = 109.0
-margin_bottom = -26.75
-rect_pivot_offset = Vector2( 62, 28 )
-custom_colors/default_color = Color( 1, 1, 1, 1 )
-bbcode_enabled = true
-bbcode_text = "[center][b]Select language[/b][/center]"
-text = "Select language"
-__meta__ = {
-"_editor_description_": ""
-}
 
 [node name="OptionButton" type="OptionButton" parent="."]
 anchor_right = 0.041

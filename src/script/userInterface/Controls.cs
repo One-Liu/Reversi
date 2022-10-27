@@ -91,7 +91,9 @@ public class Controls : Node
     
     private void LogIn()
     {
-        GoToMainMenu();
+        //GetNode<WindowDialog>("PopUp/ChangeAvatar").Visible = true;
+        GetNode<WindowDialog>("PopUp/FriendAdded").Visible = true;
+        //GoToMainMenu();
     }
     
     private void Register()
