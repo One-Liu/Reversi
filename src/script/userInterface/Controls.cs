@@ -98,9 +98,9 @@ public class Controls : Node
     }
     
     
-    private void Register()
+    /*private void Register()
     {
         GetNode<RichTextLabel>("../EmptyFields").Visible = true;
         //GetNode<RichTextLabel>("../DifferentPasswords").Visible = true;
-    }
+    }*/
 }

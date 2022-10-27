@@ -8,22 +8,17 @@
 
 config_version=4
 
-_global_script_classes=[ {
-"base": "EditorVCSInterface",
-"class": "GitAPI",
-"language": "NativeScript",
-"path": "res://addons/godot-git-plugin/git_api.gdns"
-} ]
-_global_script_class_icons={
-"GitAPI": ""
-}
-
 [application]
 
 config/name="Reversi FEI"
 run/main_scene="res://src/scene/businessLogic/Entry.tscn"
+run/flush_stdout_on_print=true
 boot_splash/show_image=false
 config/icon="res://icon.png"
+
+[autoload]
+
+NetworkUtilities="*res://src/script/businessLogic/NetworkUtilities.cs"
 
 [editor]
 
@@ -32,7 +27,12 @@ version_control_plugin_name="GitAPI"
 
 [gdnative]
 
-singletons=[ "res://addons/godot-git-plugin/git_api.gdnlib" ]
+singletons=[  ]
+
+[global]
+
+std=false
+stdout=false
 
 [gui]
 

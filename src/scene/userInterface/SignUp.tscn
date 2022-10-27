@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://src/script/userInterface/Controls.cs" type="Script" id=1]
 [ext_resource path="res://resources/ReversiLogo.png" type="Texture" id=2]
+[ext_resource path="res://src/script/userInterface/RegisterButton.cs" type="Script" id=3]
 
 [node name="SignUp" type="Control"]
 modulate = Color( 1, 1, 0.854902, 1 )
@@ -86,7 +87,7 @@ margin_top = 37.0
 margin_right = 161.0
 margin_bottom = 72.0
 text = "REGISTER"
-script = ExtResource( 1 )
+script = ExtResource( 3 )
 
 [node name="ReturnButton" type="Button" parent="."]
 anchor_left = 0.5
@@ -136,5 +137,5 @@ margin_bottom = 28.0
 text = "Passwords don't match"
 
 [connection signal="pressed" from="LogInButton" to="LogInButton" method="GoToLogIn"]
-[connection signal="pressed" from="RegisterButton" to="RegisterButton" method="Register"]
+[connection signal="pressed" from="RegisterButton" to="RegisterButton" method="_on_RegisterButton_pressed"]
 [connection signal="pressed" from="ReturnButton" to="ReturnButton" method="GoToReversiMenu"]

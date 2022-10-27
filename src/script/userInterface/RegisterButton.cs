@@ -1,35 +1,31 @@
 using Godot;
 using System;
 using System.Linq;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using MySql.Data.MySqlClient;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mail;
 using System.Configuration;
 using System.Net.Configuration;
 using System.Net;
-using System.Security.Cryptography.X509Certificates;
-using System.Net.Security;
 using EmailValidation;
 using ReversiFEI;
 
 public class RegisterButton : Button
 {
+    
     public override void _Ready()
     {
         
     }
     
 
-    private bool _on_RegisterButton_pressed()
+    /*private bool _on_RegisterButton_pressed()
     {
         string email = GetParent().GetNode<LineEdit>("EmailLineEdit").Text;
         string username = GetParent().GetNode<LineEdit>("UsernameLineEdit").Text;
         string password = GetParent().GetNode<LineEdit>("PasswordLineEdit").Text;
         string confirmPassword = GetParent().GetNode<LineEdit>("ConfirmPasswordLineEdit").Text;
        
-        if(ValidateEmail(email)  )
+        if(ValidateEmail(email))
         {
             email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
             
@@ -43,26 +39,7 @@ public class RegisterButton : Button
                 }
                 else
                 {
-                byte[] salt;
-                byte[] passwordBytes;
-            
-                using (var deriveBytes = new Rfc2898DeriveBytes(password, 16))
-                {
-                    salt = deriveBytes.Salt;
-                    passwordBytes = deriveBytes.GetBytes(64);
-                }
-            
-                Player playerRegistration = new Player();
-                playerRegistration.Email = email;
-                playerRegistration.Nickname = username;
-                playerRegistration.Password = passwordBytes;
-                playerRegistration.Salt = salt;
-                playerRegistration.GamesWon=0;
-                playerRegistration.PiecesSet=1;
-                using (var db = new PlayerContext())
-                {
-           
-                    if( string.IsNullOrEmpty(password))
+                    if(string.IsNullOrEmpty(password))
                     {
                         GD.Print("Password is empty");
                         return false;
@@ -75,7 +52,7 @@ public class RegisterButton : Button
                 else
                 {
                     if (!password.Any(char.IsLower) && (!password.Any(char.IsUpper)))
-                    {	
+                    {
                         GD.Print("Password must have one lower and one upper letter");
                         return false;
                     }
@@ -87,56 +64,66 @@ public class RegisterButton : Button
                             return false;
                             }
                             else
-                            {
-                                try
-                                {
-                                    playerRegistration.Password = passwordBytes;
-                                    db.Player.Add(playerRegistration);
-                                    if(db.SaveChanges() == 1)
-                                    {
-                                        GD.Print("Succesfully registered");
-                                        return true;
-                                    }
-                                    else
-                                    {
-                                        return false;
-                                    }
-                                }
-                                catch (MySqlException e)
-                                {
-                                    throw e;
-                                }
+                                return true; 
                               }
                         }
                 }
-             }
             }
-           }
             else
             {
                 GD.Print("Passwords must be the same");
                 return false;
            }
         }
-        else
-        {
-            return false;
-        }
         return false;
-    }
-    public bool ValidateEmail(String email) 
+    }*/
+    
+    private void _on_RegisterButton_pressed()
     {
-        var validEmail = true;        
+        string email = GetParent().GetNode<LineEdit>("EmailLineEdit").Text;
+        string username = GetParent().GetNode<LineEdit>("UsernameLineEdit").Text;
+        string password = GetParent().GetNode<LineEdit>("PasswordLineEdit").Text;
+        string confirmPassword = GetParent().GetNode<LineEdit>("ConfirmPasswordLineEdit").Text;
+       
+        if(ValidateEmail(email))
+        {
+            if(password.Equals(confirmPassword))
+            {
+                SignUp(email, username, password);
+            }
+        }
+    }
+    
+    private bool ValidateEmail(String email) 
+    {
+        var validEmail = false;        
         if(String.IsNullOrEmpty(email))
         {
-            GD.Print("Invalid email ");
-            validEmail = false;
+            GD.Print("Invalid email");
         }
-        else if(!EmailValidator.Validate(email))
+        else 
         {
-            validEmail = false;
+            if(EmailValidator.Validate(email))
+            {
+                validEmail = true;
+            }
+            else
+            {
+                GD.Print("Invalid email");
+            }
         }
         return validEmail;
     }
-
+    
+    private async void SignUp(string email, string username, string password)
+    {
+        var networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
+            
+        networkUtilities.JoinGame();
+        await ToSignal(GetTree(), "connected_to_server");
+        if(GetTree().NetworkPeer == null)
+            GD.Print("Sign up failed.");
+        else
+            networkUtilities.SignUp(email, username, password);  
+    }
 }
