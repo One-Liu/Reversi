@@ -16,6 +16,10 @@ run/flush_stdout_on_print=true
 boot_splash/show_image=false
 config/icon="res://icon.png"
 
+[autoload]
+
+NetworkUtilities="*res://src/script/businessLogic/NetworkUtilities.cs"
+
 [editor]
 
 version_control_autoload_on_startup=true
@@ -24,6 +28,11 @@ version_control_plugin_name="GitAPI"
 [gdnative]
 
 singletons=[  ]
+
+[global]
+
+std=false
+stdout=false
 
 [gui]
 

@@ -8,7 +8,7 @@ public class Entry : Node
         if(OS.HasFeature("Server"))
         {
             GD.Print("Server executable detected, initiating server lobby...");
-            GetTree().ChangeScene("res://src/scene/businessLogic/ServerLobby.tscn");
+            GetTree().ChangeScene("res://src/scene/userInterface/Lobby.tscn");
         }
         else 
         {

@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=2]
-
-[ext_resource path="res://src/script/businessLogic/ServerLobby.cs" type="Script" id=1]
-
-[node name="ServerLobby" type="Node"]
-script = ExtResource( 1 )
