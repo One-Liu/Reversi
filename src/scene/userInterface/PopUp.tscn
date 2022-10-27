@@ -336,7 +336,6 @@ margin_bottom = 38.5
 text = "CANCEL"
 
 [node name="ChangePassword" type="WindowDialog" parent="."]
-visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

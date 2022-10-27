@@ -98,40 +98,36 @@ margin_right = 161.0
 margin_bottom = 115.0
 text = "RETURN"
 
-[node name="lblEmpty" type="Label" parent="."]
-margin_left = 595.0
-margin_top = 305.0
-margin_right = 674.0
-margin_bottom = 319.0
-
 [node name="ReversiLogo" type="Sprite" parent="."]
 position = Vector2( 515, 60 )
 scale = Vector2( 1.20661, 1.59859 )
 texture = ExtResource( 2 )
 
-[node name="EmptyFields" type="RichTextLabel" parent="."]
+[node name="EmptyFields" type="Label" parent="."]
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 23.0
+margin_left = -160.0
 margin_top = 7.0
 margin_right = 163.0
 margin_bottom = 28.0
-text = "Fields can't be empty"
+text = "REQUIRED_FIELD"
+align = 2
 
-[node name="DifferentPasswords" type="RichTextLabel" parent="."]
+[node name="DifferentPasswords" type="Label" parent="."]
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 10.0
+margin_left = -160.0
 margin_top = 7.0
 margin_right = 163.0
 margin_bottom = 28.0
-text = "Passwords don't match"
+text = "PASSWORD_MISMATCH"
+align = 2
 
 [connection signal="pressed" from="LogInButton" to="." method="GoToLogIn"]
 [connection signal="pressed" from="RegisterButton" to="." method="Register"]

@@ -37,8 +37,8 @@ EMAIL,Email,Correo electrónico
 RETURN,Return,Regresar
 PASSWORD,Password,Contraseña
 CONFIRM_PASSWORD,Confirm password,Confirmar contraseña
-INCORRECT_EMAIL_OR_PASSWORD,Incorrect email or password.,Email o constraseña incorrecta.
-REQUIRED_FIELD,This field cannot be empty.,Este campo no puede estar vacío.
+INCORRECT_EMAIL_OR_PASSWORD,Incorrect email or password.,Email o contraseña incorrecta.
+REQUIRED_FIELD,Fields cannot be empty.,Los campos no pueden estar vacíos.
 PASSWORD_MISMATCH,Passwords don't match.,Las contraseñas no coinciden.
 ENTER_LOBBY,Enter lobby,Entrar al lobby
 HOW_TO_PLAY,How to play,Como jugar
