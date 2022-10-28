@@ -44,17 +44,6 @@ margin_right = 243.0
 margin_bottom = -243.5
 text = "LANGUAGE"
 
-[node name="ChangeLanguageTitle" type="Label" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -58.0
-margin_top = -196.5
-margin_right = 74.0
-margin_bottom = -182.5
-text = "CHANGE_LANGUAGE"
-
 [node name="CustomizeProfileButton" type="Button" parent="."]
 anchor_right = 0.047
 anchor_bottom = 0.178
@@ -98,16 +87,20 @@ custom_colors/font_color_focus = Color( 0, 0, 0, 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "EXIT"
 
-[node name="OptionButton" type="OptionButton" parent="."]
-anchor_right = 0.041
-anchor_bottom = 0.057
-margin_left = 451.0
-margin_top = 129.0
-margin_right = 631.016
-margin_bottom = 125.857
-text = "English (US)"
+[node name="ChangeLanguageButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -57.0
+margin_top = -214.5
+margin_right = 133.0
+margin_bottom = -188.5
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "CHANGE_LANGUAGE"
 
 [connection signal="pressed" from="CustomizeProfileButton" to="." method="GoToCustomizeProfile"]
 [connection signal="pressed" from="SoundButton" to="." method="GoToSound"]
 [connection signal="pressed" from="LanguageButton" to="." method="GoToLanguage"]
 [connection signal="pressed" from="ExitButton" to="." method="GoToMainMenu"]
+[connection signal="pressed" from="ChangeLanguageButton" to="." method="ChangeLanguage"]

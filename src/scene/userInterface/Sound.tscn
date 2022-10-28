@@ -85,7 +85,7 @@ margin_bottom = 459.0
 rect_scale = Vector2( 1.01314, 1 )
 text = "LANGUAGE"
 
-[node name="CheckButton" type="CheckButton" parent="."]
+[node name="SoundCheckButton" type="CheckButton" parent="."]
 margin_left = 458.0
 margin_top = 121.0
 margin_right = 534.0
@@ -107,4 +107,5 @@ text = "EXIT"
 [connection signal="pressed" from="CustomizeProfileButton" to="." method="GoToCustomizeProfile"]
 [connection signal="pressed" from="SoundButton" to="." method="GoToSound"]
 [connection signal="pressed" from="LanguageButton" to="." method="GoToLanguage"]
+[connection signal="pressed" from="SoundCheckButton" to="." method="ChangeSoundState"]
 [connection signal="pressed" from="ExitButton" to="." method="GoToMainMenu"]

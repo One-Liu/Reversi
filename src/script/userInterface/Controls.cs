@@ -229,4 +229,16 @@ public class Controls : Node
     {
         GetNode<WindowDialog>("PlayerOptions").Visible = false;
     }
+    
+    private void ChangeSoundState()
+    {
+        if(GetNode<CheckButton>("SoundCheckButton").Pressed)
+        {
+            GD.Print("On");
+        }
+        else
+        {
+            GD.Print("Off");
+        }
+    }
 }
