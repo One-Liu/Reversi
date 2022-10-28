@@ -4,8 +4,9 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using ReversiFEI;
+using System.Threading;
 
-public class NetworkUtilities : Node
+public class NetworkUtilities : Node 
 {
     private readonly int DEFAULT_PORT = 4321;
     private readonly int MAX_PLAYERS = 30;
@@ -16,6 +17,7 @@ public class NetworkUtilities : Node
     delegate void ServerReponseReceived();
     
     public string playerName { get ; set ;}
+    
     private Dictionary<int, string> players = new Dictionary<int, string>();
     
     public override void _Ready()
@@ -43,7 +45,7 @@ public class NetworkUtilities : Node
         }
     }
     
-        public bool IsHosting()
+    public bool IsHosting()
     {
         if(GetTree().NetworkPeer != null) 
         {
@@ -54,6 +56,8 @@ public class NetworkUtilities : Node
             return false;
         }
     }
+    
+    
     
     public void JoinGame()
     {
@@ -77,7 +81,19 @@ public class NetworkUtilities : Node
         GetTree().NetworkPeer = null;
     }
 
-    private void PlayerConnected(int peerId)
+    public void SendMessage()
+    {
+        var message= GetParent().GetNode<LineEdit>("ChatLineEdit").Text;
+        var peerId=GetTree().GetNetworkUniqueId();
+        Rpc("receive_message",peerId,message);
+    }
+    
+     public void receive_message(int peerId,string message)
+    {
+        GetParent().GetNode<TextEdit>("ChatBox").Text += peerId+": "+message;
+    }
+    
+    private void PlayerConnected(int peerId) //fix duplicate key issue
     {
         GD.Print($"player no.{peerId} has connected.");
         Rpc(nameof(RegisterPlayer), playerName);
@@ -113,7 +129,7 @@ public class NetworkUtilities : Node
             GD.Print("Login request sent");
         }
     }
-    
+     
     public void SignUp(string email, string username, string password)
     {
         {
@@ -125,10 +141,9 @@ public class NetworkUtilities : Node
     [Remote]
     private void RegisterPlayer(string playerName)
     {
-        var peerId = GetTree().GetRpcSenderId();
-
+        var peerId = GetTree().GetRpcSenderId(); //key duplicated issue
         players.Add(peerId, playerName);
-
+        
         GD.Print($"player {playerName} added with peer ID {peerId}");
     }
 
@@ -202,3 +217,6 @@ public class NetworkUtilities : Node
         GetTree().NetworkPeer = null;
     }
 }
+
+
+

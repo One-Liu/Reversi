@@ -7,7 +7,7 @@ public class Lobby : Control
     public override void _Ready()
     {
         var networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
-        
+
         if(OS.HasFeature("Server"))
         {
             if(!networkUtilities.IsHosting())
@@ -25,5 +25,5 @@ public class Lobby : Control
             networkUtilities.JoinGame();
         }
     }
-
 }
+
