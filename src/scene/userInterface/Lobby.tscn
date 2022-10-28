@@ -1,15 +1,15 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://src/script/userInterface/Controls.cs" type="Script" id=1]
-[ext_resource path="res://src/script/businessLogic/NetworkUtilities.cs" type="Script" id=2]
 [ext_resource path="res://src/scene/userInterface/OnlinePlayersBox.cs" type="Script" id=3]
+[ext_resource path="res://src/script/userInterface/Lobby.cs" type="Script" id=4]
 
 [sub_resource type="Theme" id=1]
 
 [node name="Lobby" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
+script = ExtResource( 4 )
 
 [node name="Panel" type="Panel" parent="."]
 margin_left = 36.0
@@ -39,7 +39,6 @@ margin_right = 720.0
 margin_bottom = 473.0
 theme = SubResource( 1 )
 text = "Send"
-script = ExtResource( 2 )
 
 [node name="TitleChat" type="RichTextLabel" parent="."]
 anchor_left = 0.039
@@ -148,5 +147,5 @@ margin_bottom = 286.0
 text = "Return"
 script = ExtResource( 1 )
 
-[connection signal="pressed" from="Panel/SendButton" to="Panel/SendButton" method="SendMessage"]
+[connection signal="pressed" from="Panel/SendButton" to="." method="ReceiveMessages"]
 [connection signal="pressed" from="ReturnButton" to="ReturnButton" method="ExitLobby"]

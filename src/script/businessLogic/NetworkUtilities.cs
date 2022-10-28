@@ -14,9 +14,11 @@ public class NetworkUtilities : Node
     //private static readonly string ADDRESS = "x.x.x.x"; //for live functionality
     
     [Signal]
-    delegate void ServerReponseReceived();
+    delegate void MessageReceived();
     
-    public string playerName { get ; set ;}
+    public string PlayerName { get; set;}
+    
+    public List<string> Messages = new List<string>();
     
     private Dictionary<int, string> players = new Dictionary<int, string>();
     
@@ -81,22 +83,24 @@ public class NetworkUtilities : Node
         GetTree().NetworkPeer = null;
     }
 
-    public void SendMessage()
+    public void SendMessage(string message)
     {
-        var message= GetParent().GetNode<LineEdit>("ChatLineEdit").Text;
         var peerId=GetTree().GetNetworkUniqueId();
-        Rpc("receive_message",peerId,message);
+        Rpc("ReceiveMessage",peerId,message);
     }
     
-     public void receive_message(int peerId,string message)
+    [RemoteSync]
+     public void ReceiveMessage(int peerId,string message)
     {
-        GetParent().GetNode<TextEdit>("ChatBox").Text += peerId+": "+message;
+        string receivedMessage = peerId+": "+message;
+        Messages.Add(receivedMessage);
+        EmitSignal(nameof(MessageReceived));
     }
     
     private void PlayerConnected(int peerId) //fix duplicate key issue
     {
         GD.Print($"player no.{peerId} has connected.");
-        Rpc(nameof(RegisterPlayer), playerName);
+        Rpc(nameof(RegisterPlayer),PlayerName);
     }
 
     private void PlayerDisconnected(int peerId)

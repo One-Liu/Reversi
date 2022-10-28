@@ -106,7 +106,6 @@ public class Controls : Node
     private void _on_LogInButton_pressed()
     {
         
-        
     }
     
     private bool ValidateEmail(String email) {
