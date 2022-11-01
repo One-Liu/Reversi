@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 public class Lobby : Control
 {
@@ -31,16 +32,14 @@ public class Lobby : Control
     
     private void SendMessage()
     {
-        //var message= GetParent().GetNode<LineEdit>("Panel/ChatLineEdit").Text;
-        networkUtilities.SendMessage("hola");
+        var message = GetNode("Panel").GetNode<LineEdit>("ChatLineEdit").Text;
+        networkUtilities.SendMessage(message);
     }
     
     private async void ReceiveMessages()
     {
         await ToSignal(networkUtilities, "MessageReceived");
-        GetParent().GetNode<TextEdit>("Panel/ChatBox").Text += networkUtilities.Messages[0];
+        GetNode("Panel").GetNode<TextEdit>("ChatBox").Text += networkUtilities.Messages.Last();
         ReceiveMessages();
     }
 }
-
-

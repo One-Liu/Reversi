@@ -10,10 +10,6 @@ using EmailValidation;
 
 public class Controls : Node
 {
-    public override void _Ready()
-    {
-        
-    }
 
     private void GoToLogIn()
     {

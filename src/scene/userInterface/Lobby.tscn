@@ -147,5 +147,5 @@ margin_bottom = 286.0
 text = "Return"
 script = ExtResource( 1 )
 
-[connection signal="pressed" from="Panel/SendButton" to="." method="ReceiveMessages"]
+[connection signal="pressed" from="Panel/SendButton" to="." method="SendMessage"]
 [connection signal="pressed" from="ReturnButton" to="ReturnButton" method="ExitLobby"]

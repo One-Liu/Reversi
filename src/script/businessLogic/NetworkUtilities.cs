@@ -2,6 +2,7 @@
 
 using Godot;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using ReversiFEI;
 using System.Threading;
@@ -25,7 +26,7 @@ public class NetworkUtilities : Node
     public override void _Ready()
     {
         GetTree().Connect("network_peer_connected", this, nameof(PlayerConnected));
-        GetTree().Connect("network_peer_disconnected", this, nameof(PlayerConnected));
+        GetTree().Connect("network_peer_disconnected", this, nameof(PlayerDisconnected));
         GetTree().Connect("connected_to_server", this, nameof(ConnectedToServer));
         GetTree().Connect("connection_failed", this, nameof(ConnectionFailed));
         GetTree().Connect("server_disconnected", this, nameof(ServerDisconnected));
@@ -50,16 +51,10 @@ public class NetworkUtilities : Node
     public bool IsHosting()
     {
         if(GetTree().NetworkPeer != null) 
-        {
             return true;
-        }
         else
-        {
             return false;
-        }
     }
-    
-    
     
     public void JoinGame()
     {
@@ -85,14 +80,14 @@ public class NetworkUtilities : Node
 
     public void SendMessage(string message)
     {
-        var peerId=GetTree().GetNetworkUniqueId();
+        var peerId = GetTree().GetNetworkUniqueId();
         Rpc("ReceiveMessage",peerId,message);
     }
     
     [RemoteSync]
      public void ReceiveMessage(int peerId,string message)
     {
-        string receivedMessage = peerId+": "+message;
+        string receivedMessage = peerId+ ": " + message + "\n";
         Messages.Add(receivedMessage);
         EmitSignal(nameof(MessageReceived));
     }
@@ -145,7 +140,7 @@ public class NetworkUtilities : Node
     [Remote]
     private void RegisterPlayer(string playerName)
     {
-        var peerId = GetTree().GetRpcSenderId(); //key duplicated issue
+        var peerId = GetTree().GetRpcSenderId();
         players.Add(peerId, playerName);
         
         GD.Print($"player {playerName} added with peer ID {peerId}");
@@ -153,8 +148,7 @@ public class NetworkUtilities : Node
 
     [Remote]
     private void RemovePlayer(int peerId)
-        {
-
+    {
         if (players.ContainsKey(peerId))
         {
             players.Remove(peerId);
