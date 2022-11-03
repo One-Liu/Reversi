@@ -10,7 +10,7 @@ namespace ReversiFEI
 {
     public static class UserUtilities
     {
-        public static bool LogIn(string email, string password)
+        public static string LogIn(string email, string password)
         {
             using (var db = new PlayerContext())
                 {
@@ -28,11 +28,11 @@ namespace ReversiFEI
                             
                             if(newKey.SequenceEqual(key))
                             {
-                                return true;
+                                return player.Nickname;
                             } 
                             else
                             {
-                                return false;
+                                return null;
                             }
                         }
                     }
@@ -42,7 +42,7 @@ namespace ReversiFEI
                     }
                     catch(NullReferenceException e)
                     {
-                        return false;
+                        return null;
                     }
                 }
         }

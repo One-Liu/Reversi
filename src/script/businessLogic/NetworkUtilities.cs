@@ -17,7 +17,10 @@ public class NetworkUtilities : Node
     [Signal]
     delegate void MessageReceived();
     
-    public string PlayerName { get; set;}
+    [Signal]
+    delegate void LoggedIn();
+    
+    public string Playername { get; set;}
     
     public List<string> Messages = new List<string>();
     
@@ -80,22 +83,22 @@ public class NetworkUtilities : Node
 
     public void SendMessage(string message)
     {
-        var peerId = GetTree().GetNetworkUniqueId();
-        Rpc("ReceiveMessage",peerId,message);
+        var peerId = Playername;
+        Rpc("ReceiveMessage", peerId, message);
     }
     
     [RemoteSync]
-     public void ReceiveMessage(int peerId,string message)
+     public void ReceiveMessage(string nickname,string message)
     {
-        string receivedMessage = peerId+ ": " + message + "\n";
+        string receivedMessage = nickname+ ": " + message + "\n";
         Messages.Add(receivedMessage);
         EmitSignal(nameof(MessageReceived));
     }
     
-    private void PlayerConnected(int peerId) //fix duplicate key issue
+    private void PlayerConnected(int peerId)
     {
         GD.Print($"player no.{peerId} has connected.");
-        Rpc(nameof(RegisterPlayer),PlayerName);
+        Rpc(nameof(RegisterPlayer),Playername);
     }
 
     private void PlayerDisconnected(int peerId)
@@ -160,9 +163,12 @@ public class NetworkUtilities : Node
     private void LogInPlayer(string email, string password)
     {
         int senderId = GetTree().GetRpcSenderId();
-        if(UserUtilities.LogIn(email, password))
+        
+        string nickname = UserUtilities.LogIn(email, password);
+        
+        if(nickname != null)
         {
-            RpcId(senderId, "LogInSuccesful");
+            RpcId(senderId, "LogInSuccesful", nickname);
             GD.Print($"Player no. {senderId} logged in successfully.");
         }
         else
@@ -203,9 +209,12 @@ public class NetworkUtilities : Node
     }
     
     [Puppet]
-    private void LogInSuccesful()
+    private void LogInSuccesful(string nickname)
     {
         GD.Print("Logged in successfully.");
+        Playername = nickname;
+        LeaveGame();
+        EmitSignal(nameof(LoggedIn));
     }
     
     [Puppet]

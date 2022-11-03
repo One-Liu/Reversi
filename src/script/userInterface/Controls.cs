@@ -10,6 +10,8 @@ using EmailValidation;
 
 public class Controls : Node
 {
+    
+    private NetworkUtilities networkUtilities;
 
     private void GoToLogIn()
     {
@@ -27,7 +29,7 @@ public class Controls : Node
     }
     private void ExitLobby()
     {
-        var networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
+        networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
         networkUtilities.LeaveGame();
         GetTree().ChangeScene("res://src/scene/userInterface/MainMenu.tscn");
     }
@@ -38,7 +40,7 @@ public class Controls : Node
     
     private void GoToLobby()
     {
-        var networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
+        networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
         networkUtilities.JoinGame();
         GetTree().ChangeScene("res://src/scene/userInterface/Lobby.tscn");
     }
@@ -99,11 +101,6 @@ public class Controls : Node
         }
     }
     
-    private void _on_LogInButton_pressed()
-    {
-        
-    }
-    
     private bool ValidateEmail(String email) {
         var validEmail = true;
         
@@ -122,56 +119,31 @@ public class Controls : Node
         return !String.IsNullOrEmpty(password);
     }
     
-    private void LogIn()
+    private async void LogIn()
     {
-       string email = GetParent().GetNode<LineEdit>("EmailLineEdit").Text;
+        networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
+        
+        string email = GetParent().GetNode<LineEdit>("EmailLineEdit").Text;
         string password = GetParent().GetNode<LineEdit>("PasswordLineEdit").Text;
         
-        if(ValidateEmail(email) && ValidatePassword(password)) {
+        if(ValidateEmail(email) && ValidatePassword(password)) 
+        {
             email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
             
-            using (var db = new PlayerContext())
-            {
-                try
-                {
-                    var player = db.Player
-                        .SingleOrDefault(b => b.Email == email);
-                    
-                    byte[] salt = player.Salt;
-                    byte[] key = player.Password;
+            networkUtilities.JoinGame();
+            await ToSignal(GetTree(), "connected_to_server");
+            if(GetTree().NetworkPeer == null)
+                GD.Print("Log in failed.");
+            else
+                networkUtilities.LogIn(email, password);
+                
+            await ToSignal(networkUtilities, "LoggedIn");
+            GoToMainMenu();
             
-                    using (var deriveBytes = new Rfc2898DeriveBytes(password, salt))
-                    {
-                        byte[] newKey = deriveBytes.GetBytes(64);
-                        
-                        if(newKey.SequenceEqual(key))
-                        {
-                            GetTree().ChangeScene("res://src/scene/userInterface/MainMenu.tscn");
-                            GD.Print("Log in succesful.");
-                        } 
-                        else
-                        {
-                            GD.Print("Log in failed.");
-                        }
-                    }
-                }
-                catch(MySqlException e)
-                {
-                    GD.Print(e.Message);
-                }
-                catch(NullReferenceException)
-                {
-                    GD.Print("Log in failed.");
-                }
-            }
         } else {
             GD.Print("Invalid email or password");
-        }
-    
-                
+        }   
     }
-    
-   
     
     /*private void Register()
     {
