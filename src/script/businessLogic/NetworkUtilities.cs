@@ -34,26 +34,30 @@ public class NetworkUtilities : Node
     
     public bool HostLobby()
     {
+        bool hosted;
         var peer = new NetworkedMultiplayerENet();
         var result = peer.CreateServer(DEFAULT_PORT, MAX_PLAYERS);
         if (result == 0)
         { 
             GetTree().NetworkPeer = peer;
             GD.Print($"Hosting server at {ADDRESS}:{DEFAULT_PORT}.");
-            return true;
+            hosted = true;
         }
         else
         {
-            return false;
+            hosted = false;
         }
+        return hosted;
     }
     
     public bool IsHosting()
     {
+        bool hosting;
         if(GetTree().NetworkPeer != null) 
-            return true;
+            hosting = true;
         else
-            return false;
+            hosting = false;
+        return hosting;
     }
     
     public void JoinGame()
