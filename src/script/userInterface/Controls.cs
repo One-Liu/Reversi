@@ -145,11 +145,26 @@ public class Controls : Node
         }   
     }
     
-    /*private void Register()
+    private async void SignUp()
     {
-        GetNode<RichTextLabel>("../EmptyFields").Visible = true;
-        //GetNode<RichTextLabel>("../DifferentPasswords").Visible = true;
-    }*/
+        networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
+        
+        string email = GetParent().GetNode<LineEdit>("EmailLineEdit").Text;
+        string username = GetParent().GetNode<LineEdit>("UsernameLineEdit").Text;
+        string password = GetParent().GetNode<LineEdit>("PasswordLineEdit").Text;
+        string confirmPassword = GetParent().GetNode<LineEdit>("ConfirmPasswordLineEdit").Text;
+       
+        if(ValidateEmail(email))
+        {
+            if(password.Equals(confirmPassword))
+            {
+                networkUtilities.JoinGame();
+                await ToSignal(GetTree(), "connected_to_server");
+                if(GetTree().NetworkPeer == null)
+                    GD.Print("Sign up failed.");
+                else
+                    networkUtilities.SignUp(email, username, password);  
+            }
+        }
+    }
 }
-
-
