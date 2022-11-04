@@ -56,10 +56,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 6
 text = "PLAYER"
 
-[node name="AvatarPlayer" type="Sprite" parent="PlayerHBoxContainer/PlayerVBoxContainer"]
-position = Vector2( -478, -298 )
-
-[node name="Points" type="Label" parent="PlayerHBoxContainer"]
+[node name="PlayerPoints" type="Label" parent="PlayerHBoxContainer"]
 margin_left = 183.0
 margin_top = 44.0
 margin_right = 362.0
@@ -68,10 +65,46 @@ size_flags_horizontal = 3
 text = "POINTS:"
 align = 2
 
-[node name="TotalPoints" type="Label" parent="PlayerHBoxContainer"]
+[node name="PlayerTotalPoints" type="Label" parent="PlayerHBoxContainer"]
 margin_left = 366.0
 margin_top = 44.0
 margin_right = 546.0
 margin_bottom = 58.0
+size_flags_horizontal = 3
+text = "POINTS"
+
+[node name="OpponentHBoxContainer" type="HBoxContainer" parent="."]
+margin_left = 478.0
+margin_top = 1.0
+margin_right = 1024.0
+margin_bottom = 74.0
+
+[node name="OpponentVBoxContainer" type="VBoxContainer" parent="OpponentHBoxContainer"]
+margin_right = 179.0
+margin_bottom = 73.0
+size_flags_horizontal = 3
+
+[node name="OpponentNickname" type="Label" parent="OpponentHBoxContainer/OpponentVBoxContainer"]
+margin_top = 29.0
+margin_right = 179.0
+margin_bottom = 43.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "OPPONENT"
+
+[node name="OpponentPoints" type="Label" parent="OpponentHBoxContainer"]
+margin_left = 183.0
+margin_top = 29.0
+margin_right = 362.0
+margin_bottom = 43.0
+size_flags_horizontal = 3
+text = "POINTS:"
+align = 2
+
+[node name="OpponentTotalPoints" type="Label" parent="OpponentHBoxContainer"]
+margin_left = 366.0
+margin_top = 29.0
+margin_right = 546.0
+margin_bottom = 43.0
 size_flags_horizontal = 3
 text = "POINTS"
