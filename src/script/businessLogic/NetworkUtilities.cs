@@ -20,11 +20,14 @@ public class NetworkUtilities : Node
     [Signal]
     delegate void LoggedIn();
     
+    [Signal]
+    delegate void PlayersOnline();
+    
     public string Playername { get; set;}
     
     public List<string> Messages = new List<string>();
     
-    private Dictionary<int, string> players = new Dictionary<int, string>();
+    public Dictionary<int, string> players = new Dictionary<int, string>();
     
     public override void _Ready()
     {
@@ -37,26 +40,30 @@ public class NetworkUtilities : Node
     
     public bool HostLobby()
     {
+        bool hosted;
         var peer = new NetworkedMultiplayerENet();
         var result = peer.CreateServer(DEFAULT_PORT, MAX_PLAYERS);
         if (result == 0)
         { 
             GetTree().NetworkPeer = peer;
             GD.Print($"Hosting server at {ADDRESS}:{DEFAULT_PORT}.");
-            return true;
+            hosted = true;
         }
         else
         {
-            return false;
+            hosted = false;
         }
+        return hosted;
     }
     
     public bool IsHosting()
     {
+        bool hosting;
         if(GetTree().NetworkPeer != null) 
-            return true;
+            hosting = true;
         else
-            return false;
+            hosting = false;
+        return hosting;
     }
     
     public void JoinGame()
@@ -65,7 +72,7 @@ public class NetworkUtilities : Node
 
         var clientPeer = new NetworkedMultiplayerENet();
         var result = clientPeer.CreateClient(ADDRESS, DEFAULT_PORT);
-
+        
         GetTree().NetworkPeer = clientPeer;
     }
     
@@ -140,15 +147,16 @@ public class NetworkUtilities : Node
         }
     }
 
-    [Remote]
+
+    [RemoteSync]
     private void RegisterPlayer(string playerName)
     {
         var peerId = GetTree().GetRpcSenderId();
         players.Add(peerId, playerName);
-        
+        EmitSignal(nameof(PlayersOnline));
         GD.Print($"player {playerName} added with peer ID {peerId}");
     }
-
+    
     [Remote]
     private void RemovePlayer(int peerId)
     {

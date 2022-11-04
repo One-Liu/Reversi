@@ -14,6 +14,7 @@ namespace ReversiFEI
         {
             using (var db = new PlayerContext())
                 {
+                    bool logInUser;
                     try
                     {
                         var player = db.Player
@@ -44,6 +45,8 @@ namespace ReversiFEI
                     {
                         return null;
                     }
+                    
+                    return logInUser;
                 }
         }
         
@@ -66,23 +69,26 @@ namespace ReversiFEI
             
             using (var db = new PlayerContext())
             {
+                bool userRegistered;
                 try
                 {
                     db.Player.Add(playerRegistration);
                     
                     if(db.SaveChanges() == 1)
                     {
-                        return true;
+                        userRegistered = true;
                     }
                     else
                     {
-                        return false;
+                        userRegistered = false;
                     }
                 }
                 catch (MySqlException e)
                 {
                     throw e;
                 }
+                
+                return userRegistered;
             }
         }
     }
