@@ -19,6 +19,7 @@ config/icon="res://icon.png"
 [autoload]
 
 NetworkUtilities="*res://src/script/businessLogic/NetworkUtilities.cs"
+Controls="*res://src/script/userInterface/Controls.cs"
 
 [editor]
 

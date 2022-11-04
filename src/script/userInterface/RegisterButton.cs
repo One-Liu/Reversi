@@ -89,7 +89,7 @@ public class RegisterButton : Button
         {
             if(password.Equals(confirmPassword))
             {
-                SignUp(email, username, password);
+                AwaitSignUp(email, username, password);
             }
         }
     }
@@ -115,7 +115,7 @@ public class RegisterButton : Button
         return validEmail;
     }
     
-    private async void SignUp(string email, string username, string password)
+    private async void AwaitSignUp(string email, string username, string password)
     {
         var networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
             
