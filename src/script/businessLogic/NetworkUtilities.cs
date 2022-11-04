@@ -17,11 +17,14 @@ public class NetworkUtilities : Node
     [Signal]
     delegate void MessageReceived();
     
+    [Signal]
+    delegate void PlayersOnline();
+    
     public string PlayerName { get; set;}
     
     public List<string> Messages = new List<string>();
     
-    private Dictionary<int, string> players = new Dictionary<int, string>();
+    public Dictionary<int, string> players = new Dictionary<int, string>();
     
     public override void _Ready()
     {
@@ -62,7 +65,7 @@ public class NetworkUtilities : Node
 
         var clientPeer = new NetworkedMultiplayerENet();
         var result = clientPeer.CreateClient(ADDRESS, DEFAULT_PORT);
-
+        
         GetTree().NetworkPeer = clientPeer;
     }
     
@@ -92,6 +95,7 @@ public class NetworkUtilities : Node
         EmitSignal(nameof(MessageReceived));
     }
     
+
     private void PlayerConnected(int peerId) //fix duplicate key issue
     {
         GD.Print($"player no.{peerId} has connected.");
@@ -137,15 +141,16 @@ public class NetworkUtilities : Node
         }
     }
 
-    [Remote]
+
+    [RemoteSync]
     private void RegisterPlayer(string playerName)
     {
         var peerId = GetTree().GetRpcSenderId();
         players.Add(peerId, playerName);
-        
+        EmitSignal(nameof(PlayersOnline));
         GD.Print($"player {playerName} added with peer ID {peerId}");
     }
-
+    
     [Remote]
     private void RemovePlayer(int peerId)
     {
