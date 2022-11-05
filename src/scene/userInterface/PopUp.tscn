@@ -281,11 +281,22 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -29.0
-margin_top = 15.0
-margin_right = 30.0
-margin_bottom = 35.0
+margin_left = -37.0
+margin_top = 13.0
+margin_right = 22.0
+margin_bottom = 33.0
 text = "ACCEPT"
+
+[node name="CancelButton" type="Button" parent="NewChallenge"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 34.0
+margin_top = 13.0
+margin_right = 95.0
+margin_bottom = 33.0
+text = "CANCEL"
 
 [node name="ChangeNickname" type="WindowDialog" parent="."]
 anchor_left = 0.5
@@ -610,3 +621,8 @@ margin_bottom = 29.0
 [connection signal="pressed" from="SetOfPiecesUpdated/AcceptButton" to="." method="HideSetOfPiecesUpdatedPopUp"]
 [connection signal="pressed" from="PasswordUpdated/AcceptButton" to="." method="HidePasswordUpdatedPopUp"]
 [connection signal="pressed" from="NicknameUpdated/AcceptButton" to="." method="HideNicknameUpdatedPopUp"]
+[connection signal="pressed" from="NewChallenge/CancelButton" to="." method="HideNewChallengePopUp"]
+[connection signal="pressed" from="ChangeNickname/CancelButton" to="." method="HideChangeNicknamePopUp"]
+[connection signal="pressed" from="ChangePassword/CancelButton" to="." method="HideChangePasswordPopUp"]
+[connection signal="pressed" from="ChangeSetOfPieces/CancelButton" to="." method="HideChangeSetOfPiecesPopUp"]
+[connection signal="pressed" from="ChangeAvatar/CancelButton" to="." method="HideChangeAvatarPopUp"]
