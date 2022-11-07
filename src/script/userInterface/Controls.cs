@@ -40,8 +40,6 @@ public class Controls : Node
     
     private void GoToLobby()
     {
-        networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
-        networkUtilities.JoinGame();
         GetTree().ChangeScene("res://src/scene/userInterface/Lobby.tscn");
     }
 
