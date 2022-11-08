@@ -66,6 +66,8 @@ public class Lobby : Control
             if(player.Value != null && player.Value != networkUtilities.Playername)
                 playerList.AddItem((String)player.Value);
         }
+        
+        playerList.SortItemsByText();
 
         SetOnlinePlayers();
     }
