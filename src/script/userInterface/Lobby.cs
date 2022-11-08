@@ -51,7 +51,7 @@ namespace ReversiFEI.Network
         
         private async Task ReceiveMessages()
         {
-            while(true)
+            while(GetTree().NetworkPeer != null)
             {
                 await ToSignal(networkUtilities, "MessageReceived");
                 GetNode("Panel").GetNode<TextEdit>("ChatBox").Text += networkUtilities.Messages.Last();
@@ -60,7 +60,7 @@ namespace ReversiFEI.Network
         
         private async Task SetOnlinePlayers()
         {
-            while(true)
+            while(GetTree().NetworkPeer != null)
             {
                 await ToSignal(networkUtilities,"PlayersOnline");
             
