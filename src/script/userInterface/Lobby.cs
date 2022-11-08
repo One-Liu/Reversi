@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
 
@@ -47,14 +48,14 @@ public class Lobby : Control
         GetNode("Panel").GetNode<LineEdit>("ChatLineEdit").Clear();
     }
     
-    private async void ReceiveMessages()
+    private async Task ReceiveMessages()
     {
         await ToSignal(networkUtilities, "MessageReceived");
         GetNode("Panel").GetNode<TextEdit>("ChatBox").Text += networkUtilities.Messages.Last();
         ReceiveMessages();
     }
     
-    private async void SetOnlinePlayers()
+    private async Task SetOnlinePlayers()
     {
         await ToSignal(networkUtilities,"PlayersOnline");
         

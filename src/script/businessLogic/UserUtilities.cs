@@ -4,9 +4,9 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using MySql.Data.MySqlClient;
-using ReversiFEI;
+using ReversiFEI.DatabaseContext;
 
-namespace ReversiFEI
+namespace ReversiFEI.UserUtilities
 {
     public static class UserUtilities
     {
@@ -17,7 +17,8 @@ namespace ReversiFEI
                     try
                     {
                         var player = db.Player
-                            .SingleOrDefault(b => b.Email == email);
+                            .SingleOrDefault(b => b.Email == email) 
+                            ?? new Player();
                         
                         byte[] salt = player.Salt;
                         byte[] key = player.Password;
@@ -36,13 +37,9 @@ namespace ReversiFEI
                             }
                         }
                     }
-                    catch(MySqlException e)
+                    catch(MySqlException)
                     {
-                        throw e;
-                    }
-                    catch(NullReferenceException e)
-                    {
-                        return null;
+                        throw;
                     }
                 }
         }
@@ -80,9 +77,9 @@ namespace ReversiFEI
                         userRegistered = false;
                     }
                 }
-                catch (MySqlException e)
+                catch (MySqlException)
                 {
-                    throw e;
+                    throw;
                 }
                 
                 return userRegistered;

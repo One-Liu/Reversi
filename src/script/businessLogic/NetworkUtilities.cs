@@ -4,7 +4,7 @@ using Godot;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using ReversiFEI;
+using ReversiFEI.UserUtilities;
 using System.Threading;
 
 public class NetworkUtilities : Node 
@@ -157,7 +157,7 @@ public class NetworkUtilities : Node
         EmitSignal(nameof(PlayersOnline));
         GD.Print($"player {playerName} added with peer ID {peerId}");
         }
-        catch(ArgumentException e)
+        catch(ArgumentException)
         {
             RpcId(GetTree().GetRpcSenderId(),nameof(LogInFailed));
         }

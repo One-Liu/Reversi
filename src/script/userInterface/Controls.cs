@@ -1,7 +1,7 @@
 using Godot;
 using System;
-
 using System.Linq;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using MySql.Data.MySqlClient;
@@ -119,7 +119,7 @@ public class Controls : Node
         return !String.IsNullOrEmpty(password);
     }
     
-    private async void LogIn()
+    private async Task LogIn()
     {
         networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
         
@@ -145,7 +145,7 @@ public class Controls : Node
         }   
     }
     
-    private async void SignUp()
+    private async Task SignUp()
     {
         networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
         
@@ -154,17 +154,14 @@ public class Controls : Node
         string password = GetParent().GetNode<LineEdit>("PasswordLineEdit").Text;
         string confirmPassword = GetParent().GetNode<LineEdit>("ConfirmPasswordLineEdit").Text;
        
-        if(ValidateEmail(email))
+        if(ValidateEmail(email) && password.Equals(confirmPassword))
         {
-            if(password.Equals(confirmPassword))
-            {
-                networkUtilities.JoinGame();
-                await ToSignal(GetTree(), "connected_to_server");
-                if(GetTree().NetworkPeer == null)
-                    GD.Print("Sign up failed.");
-                else
-                    networkUtilities.SignUp(email, username, password);  
-            }
+            networkUtilities.JoinGame();
+            await ToSignal(GetTree(), "connected_to_server");
+            if(GetTree().NetworkPeer == null)
+                GD.Print("Sign up failed.");
+            else
+                networkUtilities.SignUp(email, username, password);
         }
     }
 }
