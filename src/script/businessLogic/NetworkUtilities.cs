@@ -169,6 +169,7 @@ public class NetworkUtilities : Node
         if (players.ContainsKey(peerId))
         {
             players.Remove(peerId);
+            EmitSignal(nameof(PlayersOnline));
             GD.Print($"Player no. {peerId} has disconnected.");
         }
     }
