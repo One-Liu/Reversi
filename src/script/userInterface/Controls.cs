@@ -13,6 +13,11 @@ namespace ReversiFEI.Controls
     public class Controls : Node
     {
         private NetworkUtilities networkUtilities;
+        
+        public override void _Ready()
+        {
+            networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
+        }
 
         private void GoToLogIn()
         {
@@ -29,9 +34,15 @@ namespace ReversiFEI.Controls
             GetTree().ChangeScene("res://src/scene/userInterface/MainMenu.tscn");
         }
         
+        private void GoToMainMenuAsGuest()
+        {
+            var rnd = new Random();
+            networkUtilities.Playername = "guest#" + rnd.Next(1,9999999).ToString();
+            GetTree().ChangeScene("res://src/scene/userInterface/MainMenu.tscn");
+        }
+        
         private void ExitLobby()
         {
-            networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
             networkUtilities.LeaveGame();
             GetTree().ChangeScene("res://src/scene/userInterface/MainMenu.tscn");
         }
@@ -122,8 +133,6 @@ namespace ReversiFEI.Controls
         
         private async Task LogIn()
         {
-            networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
-            
             string email = GetParent().GetNode<LineEdit>("EmailLineEdit").Text;
             string password = GetParent().GetNode<LineEdit>("PasswordLineEdit").Text;
             
@@ -148,8 +157,6 @@ namespace ReversiFEI.Controls
         
         private async Task SignUp()
         {
-            networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
-            
             string email = GetParent().GetNode<LineEdit>("EmailLineEdit").Text;
             string username = GetParent().GetNode<LineEdit>("UsernameLineEdit").Text;
             string password = GetParent().GetNode<LineEdit>("PasswordLineEdit").Text;

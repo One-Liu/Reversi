@@ -3,84 +3,89 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using ReversiFEI.Network;
 
-public class Lobby : Control
+namespace ReversiFEI.Network
 {
-    private NetworkUtilities networkUtilities;
-    
-    public override void _Ready()
+    public class Lobby : Control
     {
-        networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
-        if(OS.HasFeature("Server"))
+        private NetworkUtilities networkUtilities;
+        
+        public override void _Ready()
         {
-            if(!networkUtilities.IsHosting())
+            networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
+            if(OS.HasFeature("Server"))
             {
-                if(!networkUtilities.HostLobby())
+                if(!networkUtilities.IsHosting())
                 {
-                    GD.Print("Failed to start server, shutting down");
-                    GetTree().Quit();
-                    return;
+                    if(!networkUtilities.HostLobby())
+                    {
+                        GD.Print("Failed to start server, shutting down");
+                        GetTree().Quit();
+                        return;
+                    }
                 }
             }
+            else 
+            {
+                networkUtilities.JoinGame();
+            }
+            
+            ReceiveMessages();
+            SetOnlinePlayers();
         }
-        else 
+        
+        public override void _Input(InputEvent inputEvent)
         {
-            networkUtilities.JoinGame();
-        }
+            if (inputEvent.IsActionPressed("lobby_SendMessage"))
+            {
+                SendMessage();
+            }
+        }    
         
-        ReceiveMessages();
-        SetOnlinePlayers();
-    }
-    
-    public override void _Input(InputEvent inputEvent)
-    {
-        if (inputEvent.IsActionPressed("lobby_SendMessage"))
+        private void SendMessage()
         {
-            SendMessage();
+            var message = GetNode("Panel").GetNode<LineEdit>("ChatLineEdit").Text;
+            networkUtilities.SendMessage(message);
+            GetNode("Panel").GetNode<LineEdit>("ChatLineEdit").Clear();
         }
-    }    
-    
-    private void SendMessage()
-    {
-        var message = GetNode("Panel").GetNode<LineEdit>("ChatLineEdit").Text;
-        networkUtilities.SendMessage(message);
-        GetNode("Panel").GetNode<LineEdit>("ChatLineEdit").Clear();
-    }
-    
-    private async Task ReceiveMessages()
-    {
-        await ToSignal(networkUtilities, "MessageReceived");
-        GetNode("Panel").GetNode<TextEdit>("ChatBox").Text += networkUtilities.Messages.Last();
-        ReceiveMessages();
-    }
-    
-    private async Task SetOnlinePlayers()
-    {
-        await ToSignal(networkUtilities,"PlayersOnline");
         
-        var playerList = GetNode("OnlinePlayersList").GetNode<ItemList>("OnlinePlayers");
-        playerList.Clear();
-        
-        foreach(KeyValuePair<int, string> player in networkUtilities.players)
+        private async Task ReceiveMessages()
         {
-            if(player.Value != null && player.Value != networkUtilities.Playername)
-                playerList.AddItem((String)player.Value);
+            while(true)
+            {
+                await ToSignal(networkUtilities, "MessageReceived");
+                GetNode("Panel").GetNode<TextEdit>("ChatBox").Text += networkUtilities.Messages.Last();
+            }
         }
         
-        playerList.SortItemsByText();
-
-        SetOnlinePlayers();
-    }
+        private async Task SetOnlinePlayers()
+        {
+            while(true)
+            {
+                await ToSignal(networkUtilities,"PlayersOnline");
+            
+                var playerList = GetNode("OnlinePlayersList").GetNode<ItemList>("OnlinePlayers");
+                playerList.Clear();
+                
+                foreach(KeyValuePair<int, string> player in networkUtilities.players)
+                {
+                    if(player.Value != null && player.Value != networkUtilities.Playername)
+                        playerList.AddItem((String)player.Value);
+                }
+                
+                playerList.SortItemsByText();
+            }
+        }
+        
+        private void _on_OnlinePlayers_item_selected(int index)
+        {
+            _on_Popup_about_to_show();
+        }
+        
+        private void _on_Popup_about_to_show()
+        {
+            GetNode("OnlinePlayersList").GetNode("OnlinePlayers").GetNode<Popup>("Popup").Visible = true;
     
-    private void _on_OnlinePlayers_item_selected(int index)
-    {
-        _on_Popup_about_to_show();
-    }
-     
-    private void _on_Popup_about_to_show()
-    {
-        GetNode("OnlinePlayersList").GetNode("OnlinePlayers").GetNode<Popup>("Popup").Visible = true;
-  
+        }
     }
 }
