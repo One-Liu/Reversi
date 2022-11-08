@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-
+using ReversiFEI.Network;
 
 public class Lobby : Control
 {

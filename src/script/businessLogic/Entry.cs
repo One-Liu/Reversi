@@ -1,19 +1,22 @@
 using Godot;
 using System;
 
-public class Entry : Node
+namespace ReversiFEI
 {
-    public override void _Ready()
+    public class Entry : Node
     {
-        if(OS.HasFeature("Server"))
+        public override void _Ready()
         {
-            GD.Print("Server executable detected, initiating server lobby...");
-            GetTree().ChangeScene("res://src/scene/userInterface/Lobby.tscn");
-        }
-        else 
-        {
-            GD.Print("Client executable detected, initiating client...");
-            GetTree().ChangeScene("res://src/scene/userInterface/ReversiMenu.tscn");
+            if(OS.HasFeature("Server"))
+            {
+                GD.Print("Server executable detected, initiating server lobby...");
+                GetTree().ChangeScene("res://src/scene/userInterface/Lobby.tscn");
+            }
+            else 
+            {
+                GD.Print("Client executable detected, initiating client...");
+                GetTree().ChangeScene("res://src/scene/userInterface/ReversiMenu.tscn");
+            }
         }
     }
 }

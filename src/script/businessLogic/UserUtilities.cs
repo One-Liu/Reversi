@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using MySql.Data.MySqlClient;
 using ReversiFEI.DatabaseContext;
 
-namespace ReversiFEI.UserUtilities
+namespace ReversiFEI.UserTools
 {
     public static class UserUtilities
     {
