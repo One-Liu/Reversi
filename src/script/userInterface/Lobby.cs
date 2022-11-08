@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 
 public class Lobby : Control
@@ -31,8 +32,6 @@ public class Lobby : Control
         SetOnlinePlayers();
     }
     
-    
-    
     public override void _Input(InputEvent inputEvent)
     {
         if (inputEvent.IsActionPressed("lobby_SendMessage"))
@@ -40,8 +39,6 @@ public class Lobby : Control
             SendMessage();
         }
     }    
-    
-    
     
     private void SendMessage()
     {
@@ -61,19 +58,21 @@ public class Lobby : Control
     {
         await ToSignal(networkUtilities,"PlayersOnline");
         
+        var playerList = GetNode("OnlinePlayersList").GetNode<ItemList>("OnlinePlayers");
+        playerList.Clear();
         
-        
-        GetNode("OnlinePlayersList").GetNode<ItemList>("OnlinePlayers").AddItem((String)networkUtilities.players.ElementAt(0),null,true);
+        foreach(KeyValuePair<int, string> player in networkUtilities.players)
+        {
+            if(player.Value != null && player.Value != networkUtilities.Playername)
+                playerList.AddItem((String)player.Value);
+        }
+
         SetOnlinePlayers();
-        
-        
     }
-    
     
     private void _on_OnlinePlayers_item_selected(int index)
     {
         _on_Popup_about_to_show();
-
     }
      
     private void _on_Popup_about_to_show()
@@ -81,10 +80,4 @@ public class Lobby : Control
         GetNode("OnlinePlayersList").GetNode("OnlinePlayers").GetNode<Popup>("Popup").Visible = true;
   
     }
-
 }
-
-   
-
-
-

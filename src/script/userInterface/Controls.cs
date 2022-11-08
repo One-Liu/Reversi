@@ -27,12 +27,14 @@ public class Controls : Node
     {
         GetTree().ChangeScene("res://src/scene/userInterface/MainMenu.tscn");
     }
+    
     private void ExitLobby()
     {
         networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
         networkUtilities.LeaveGame();
         GetTree().ChangeScene("res://src/scene/userInterface/MainMenu.tscn");
     }
+    
     private void GoToReversiMenu()
     {
         GetTree().ChangeScene("res://src/scene/userInterface/ReversiMenu.tscn");

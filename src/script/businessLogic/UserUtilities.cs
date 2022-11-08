@@ -14,7 +14,6 @@ namespace ReversiFEI
         {
             using (var db = new PlayerContext())
                 {
-                    bool logInUser;
                     try
                     {
                         var player = db.Player
@@ -45,8 +44,6 @@ namespace ReversiFEI
                     {
                         return null;
                     }
-                    
-                    return logInUser;
                 }
         }
         

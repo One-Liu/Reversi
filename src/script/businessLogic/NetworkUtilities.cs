@@ -9,6 +9,7 @@ using System.Threading;
 
 public class NetworkUtilities : Node 
 {
+    private readonly int SERVER_ID = 1;
     private readonly int DEFAULT_PORT = 4321;
     private readonly int MAX_PLAYERS = 30;
     private readonly string ADDRESS = "localhost"; //for local testing
@@ -91,7 +92,7 @@ public class NetworkUtilities : Node
     public void SendMessage(string message)
     {
         var peerId = Playername;
-        Rpc("ReceiveMessage", peerId, message);
+        Rpc(nameof(ReceiveMessage), peerId, message);
     }
     
     [RemoteSync]
@@ -134,7 +135,7 @@ public class NetworkUtilities : Node
     public void LogIn(string email, string password)
     {
         {
-            RpcId(1, "LogInPlayer", email, password); // peer id 1 is always the server, RpcId sends Rpc only to specified Id.
+            RpcId(SERVER_ID, nameof(LogInPlayer), email, password);
             GD.Print("Login request sent");
         }
     }
@@ -142,19 +143,24 @@ public class NetworkUtilities : Node
     public void SignUp(string email, string username, string password)
     {
         {
-            RpcId(1, "SignUpPlayer", email, username, password);
+            RpcId(SERVER_ID, nameof(SignUpPlayer), email, username, password);
             GD.Print("Signup request sent");
         }
     }
 
-
-    [RemoteSync]
+    [Remote]
     private void RegisterPlayer(string playerName)
     {
+        try{
         var peerId = GetTree().GetRpcSenderId();
         players.Add(peerId, playerName);
         EmitSignal(nameof(PlayersOnline));
         GD.Print($"player {playerName} added with peer ID {peerId}");
+        }
+        catch(ArgumentException e)
+        {
+            RpcId(GetTree().GetRpcSenderId(),nameof(LogInFailed));
+        }
     }
     
     [Remote]
@@ -176,12 +182,12 @@ public class NetworkUtilities : Node
         
         if(nickname != null)
         {
-            RpcId(senderId, "LogInSuccesful", nickname);
+            RpcId(senderId, nameof(LogInSuccesful), nickname);
             GD.Print($"Player no. {senderId} logged in successfully.");
         }
         else
         {
-            RpcId(senderId, "LogInFailed");
+            RpcId(senderId, nameof(LogInFailed));
             GD.Print($"Player no. {senderId} logged in failed.");
         }
     }
@@ -192,12 +198,12 @@ public class NetworkUtilities : Node
         int senderId = GetTree().GetRpcSenderId();
         if(UserUtilities.SignUp(email, username, password))
         {
-            RpcId(senderId, "SignUpSuccesful");
+            RpcId(senderId, nameof(SignUpSuccesful));
             GD.Print($"Player no. {senderId} signed up successfully.");
         }
         else
         {
-            RpcId(senderId, "SignUpFailed");
+            RpcId(senderId, nameof(SignUpFailed));
             GD.Print($"Player no. {senderId} sign up failed.");
         }
     }
