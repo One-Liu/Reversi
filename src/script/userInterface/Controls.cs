@@ -130,31 +130,7 @@ namespace ReversiFEI.Controls
         private bool ValidatePassword(String password) {        
             return !String.IsNullOrEmpty(password);
         }
-        
-        private async Task LogIn()
-        {
-            string email = GetParent().GetNode<LineEdit>("EmailLineEdit").Text;
-            string password = GetParent().GetNode<LineEdit>("PasswordLineEdit").Text;
-            
-            if(ValidateEmail(email) && ValidatePassword(password)) 
-            {
-                email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
-                
-                networkUtilities.JoinGame();
-                await ToSignal(GetTree(), "connected_to_server");
-                if(GetTree().NetworkPeer == null)
-                    GD.Print("Log in failed.");
-                else
-                    networkUtilities.LogIn(email, password);
-                    
-                await ToSignal(networkUtilities, "LoggedIn");
-                GoToMainMenu();
-                
-            } else {
-                GD.Print("Invalid email or password");
-            }   
-        }
-        
+
         private async Task SignUp()
         {
             string email = GetParent().GetNode<LineEdit>("EmailLineEdit").Text;
@@ -172,5 +148,163 @@ namespace ReversiFEI.Controls
                     networkUtilities.SignUp(email, username, password);
             }
         }
+
+        private async Task LogIn()
+        {
+            string email = GetParent().GetNode<LineEdit>("EmailLineEdit").Text;
+            string password = GetParent().GetNode<LineEdit>("PasswordLineEdit").Text;
+            
+            if(ValidateEmail(email) && ValidatePassword(password)) 
+            {
+                email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
+                
+                networkUtilities.JoinGame();
+                await ToSignal(GetTree(), "connected_to_server");
+                if(GetTree().NetworkPeer == null)
+                    GD.Print("Log in failed.");
+                else
+                    networkUtilities.LogIn(email, password);
+                    
+                await ToSignal(networkUtilities, "LoggedIn");
+                ShowNicknameUpdatedPopUp();
+                GoToMainMenu();
+            } else {
+                GD.Print("Invalid email or password");
+            }   
+        }
+        
+        private void ShowConnectionFailedPopUp()
+        {
+            GetNode<WindowDialog>("PopUp/ConnectionFailed").Visible = true;
+        }
+        
+        private void HideConnectionFailedPopUp()
+        {
+            GetNode<WindowDialog>("ConnectionFailed").Visible = false;
+        }
+        
+        private void ShowChallengeDeclinedPopUp()
+        {
+            GetNode<WindowDialog>("PopUp/ChallengeDeclined").Visible = true;
+        }
+        
+        private void HideChallengeDeclinedPopUp()
+        {
+            GetNode<WindowDialog>("ChallengeDeclined").Visible = false;
+        }
+        
+        private void ShowFriendAddedPopUp()
+        {
+            GetNode<WindowDialog>("PopUp/FriendAdded").Visible = true;
+        }
+        
+        private void HideFriendAddedPopUp()
+        {
+            GetNode<WindowDialog>("FriendAdded").Visible = false;
+        }
+        
+        private void ShowFriendDeletedPopUp()
+        {
+            GetNode<WindowDialog>("PopUp/FriendDeleted").Visible = true;
+        }
+        
+        private void HideFriendDeletedPopUp()
+        {
+            GetNode<WindowDialog>("FriendDeleted").Visible = false;
+        }
+        
+        private void ShowSetOfPiecesUpdatedPopUp()
+        {
+            GetNode<WindowDialog>("PopUp/SetOfPiecesUpdated").Visible = true;
+        }
+        
+        private void HideSetOfPiecesUpdatedPopUp()
+        {
+            GetNode<WindowDialog>("SetOfPiecesUpdated").Visible = false;
+        }
+        
+        private void ShowPasswordUpdatedPopUp()
+        {
+            GetNode<WindowDialog>("PopUp/PasswordUpdated").Visible = true;
+        }
+        
+        private void HidePasswordUpdatedPopUp()
+        {
+            GetNode<WindowDialog>("PasswordUpdated").Visible = false;
+        }
+        
+        private void ShowNicknameUpdatedPopUp()
+        {
+            GetNode<WindowDialog>("PopUp/NicknameUpdated").Visible = true;
+        }
+        
+        private void HideNicknameUpdatedPopUp()
+        {
+            GetNode<WindowDialog>("NicknameUpdated").Visible = false;
+        }
+        
+        private void ShowNewChallengePopUp()
+        {
+            GetNode<WindowDialog>("PopUp/NewChallenge").Visible = true;
+        }
+        
+        private void HideNewChallengePopUp()
+        {
+            GetNode<WindowDialog>("NewChallenge").Visible = false;
+        }
+        
+        private void ShowChangeNicknamePopUp()
+        {
+            GetNode<WindowDialog>("PopUp/ChangeNickname").Visible = true;
+        }
+        
+        private void HideChangeNicknamePopUp()
+        {
+            GetNode<WindowDialog>("ChangeNickname").Visible = false;
+        }
+        
+        private void ShowChangePasswordPopUp()
+        {
+            GetNode<WindowDialog>("PopUp/ChangePassword").Visible = true;
+        }
+        
+        private void HideChangePasswordPopUp()
+        {
+            GetNode<WindowDialog>("ChangePassword").Visible = false;
+        }
+        
+        private void ShowChangeSetOfPiecesPopUp()
+        {
+            GetNode<WindowDialog>("PopUp/ChangeSetOfPieces").Visible = true;
+        }
+        
+        private void HideChangeSetOfPiecesPopUp()
+        {
+            GetNode<WindowDialog>("ChangeSetOfPieces").Visible = false;
+        }
+        
+        private void ShowChangeAvatarPopUp()
+        {
+            GetNode<WindowDialog>("PopUp/ChangeAvatar").Visible = true;
+        }
+
+        private void HidePlayerOptionsPopUp()
+        {
+            GetNode<WindowDialog>("PlayerOptions").Visible = false;
+        }
+        
+        private void ChangeSoundState()
+        {
+            if(GetNode<CheckButton>("SoundCheckButton").Pressed)
+            {
+                GD.Print("On");
+            }
+            else
+            {
+                GD.Print("Off");
+            }
+        }
     }
 }
+    
+    

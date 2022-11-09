@@ -12,6 +12,7 @@ margin_left = -2.0
 margin_top = -2.0
 margin_right = -2.0
 margin_bottom = -2.0
+script = ExtResource( 2 )
 
 [node name="EmailLineEdit" type="LineEdit" parent="."]
 anchor_left = 0.5
@@ -39,17 +40,18 @@ secret = true
 clear_button_enabled = true
 placeholder_text = "PASSWORD"
 
-[node name="InvalidEmailOrPassword" type="RichTextLabel" parent="."]
+[node name="InvalidEmailOrPassword" type="Label" parent="."]
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -5.0
+margin_left = -161.0
 margin_top = 1.0
-margin_right = 162.0
+margin_right = 160.0
 margin_bottom = 22.0
-text = "Invalid email or password"
+text = "INCORRECT_EMAIL_OR_PASSWORD"
+align = 2
 
 [node name="RegisterButton" type="Button" parent="."]
 anchor_left = 0.5
@@ -61,7 +63,6 @@ margin_top = 37.0
 margin_right = -5.0
 margin_bottom = 72.0
 text = "REGISTER"
-script = ExtResource( 2 )
 
 [node name="LogInButton" type="Button" parent="."]
 anchor_left = 0.5
@@ -73,7 +74,6 @@ margin_top = 37.0
 margin_right = 161.0
 margin_bottom = 72.0
 text = "LOGIN"
-script = ExtResource( 2 )
 
 [node name="ReturnButton" type="Button" parent="."]
 anchor_left = 0.5
@@ -85,7 +85,6 @@ margin_top = 84.0
 margin_right = 161.0
 margin_bottom = 115.0
 text = "RETURN"
-script = ExtResource( 2 )
 
 [node name="ReversiLogo" type="Sprite" parent="."]
 position = Vector2( 515, 60 )
@@ -99,6 +98,6 @@ margin_top = 337.0
 margin_right = 522.0
 margin_bottom = 337.0
 
-[connection signal="pressed" from="RegisterButton" to="RegisterButton" method="GoToSignUp"]
-[connection signal="pressed" from="LogInButton" to="LogInButton" method="LogIn"]
-[connection signal="pressed" from="ReturnButton" to="ReturnButton" method="GoToReversiMenu"]
+[connection signal="pressed" from="RegisterButton" to="." method="GoToSignUp"]
+[connection signal="pressed" from="LogInButton" to="." method="LogIn"]
+[connection signal="pressed" from="ReturnButton" to="." method="GoToReversiMenu"]

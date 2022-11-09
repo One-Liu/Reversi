@@ -21,14 +21,10 @@ config/icon="res://icon.png"
 NetworkUtilities="*res://src/script/businessLogic/NetworkUtilities.cs"
 Controls="*res://src/script/userInterface/Controls.cs"
 
-[editor]
+[display]
 
-version_control_autoload_on_startup=true
-version_control_plugin_name="GitAPI"
-
-[gdnative]
-
-singletons=[  ]
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
 
 [global]
 
