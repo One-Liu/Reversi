@@ -121,7 +121,7 @@ namespace ReversiFEI.Network
         {
             GD.Print($"player no.{peerId} has connected.");
             if(!OS.HasFeature("Server"))
-            Rpc(nameof(RegisterPlayer), Playername);
+                Rpc(nameof(RegisterPlayer), Playername);
         }
 
         private void PlayerDisconnected(int peerId)
