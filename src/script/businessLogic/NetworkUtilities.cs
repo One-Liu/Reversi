@@ -28,9 +28,21 @@ namespace ReversiFEI.Network
         
         public string Playername { get; set;}
         
-        public List<string> Messages = new List<string>();
+        private List<string> messages = new List<string>();
         
-        public Dictionary<int, string> players = new Dictionary<int, string>();
+        public List<string> Messages
+        {
+            get {return messages;}
+            set {messages = value;}
+        }
+        
+        private Dictionary<int, string> players = new Dictionary<int, string>();
+        
+        public Dictionary<int, string> Players
+        {
+            get {return players;}
+            set {players = value;}
+        }
         
         public override void _Ready()
         {
@@ -74,7 +86,7 @@ namespace ReversiFEI.Network
             GD.Print($"Joining lobby with address {ADDRESS}:{DEFAULT_PORT}");
 
             var clientPeer = new NetworkedMultiplayerENet();
-            var result = clientPeer.CreateClient(ADDRESS, DEFAULT_PORT);
+            clientPeer.CreateClient(ADDRESS, DEFAULT_PORT);
             
             GetTree().NetworkPeer = clientPeer;
         }
@@ -108,7 +120,8 @@ namespace ReversiFEI.Network
         private void PlayerConnected(int peerId)
         {
             GD.Print($"player no.{peerId} has connected.");
-            Rpc(nameof(RegisterPlayer),Playername);
+            if(!OS.HasFeature("Server"))
+            Rpc(nameof(RegisterPlayer), Playername);
         }
 
         private void PlayerDisconnected(int peerId)
@@ -136,32 +149,28 @@ namespace ReversiFEI.Network
         
         public void LogIn(string email, string password)
         {
-            {
-                RpcId(SERVER_ID, nameof(LogInPlayer), email, password);
-                GD.Print("Login request sent");
-            }
+            RpcId(SERVER_ID, nameof(LogInPlayer), email, password);
+            GD.Print("Login request sent");
         }
         
         public void SignUp(string email, string username, string password)
         {
-            {
-                RpcId(SERVER_ID, nameof(SignUpPlayer), email, username, password);
-                GD.Print("Signup request sent");
-            }
+            RpcId(SERVER_ID, nameof(SignUpPlayer), email, username, password);
+            GD.Print("Signup request sent");
         }
 
-        [Remote]
-        private void RegisterPlayer(string playerName)
+        [RemoteSync]
+        private void RegisterPlayer(string playername)
         {
             try{
-            var peerId = GetTree().GetRpcSenderId();
-            players.Add(peerId, playerName);
-            EmitSignal(nameof(PlayersOnline));
-            GD.Print($"player {playerName} added with peer ID {peerId}");
+                var peerId = GetTree().GetRpcSenderId();
+                players.Add(peerId, playername);
+                EmitSignal(nameof(PlayersOnline));
+                GD.Print($"player {playername} added with peer ID {peerId}");
             }
             catch(ArgumentException)
             {
-                RpcId(GetTree().GetRpcSenderId(),nameof(LogInFailed));
+                GD.Print($"Player {playername} already added.");
             }
         }
         
@@ -172,7 +181,7 @@ namespace ReversiFEI.Network
             {
                 players.Remove(peerId);
                 EmitSignal(nameof(PlayersOnline));
-                GD.Print($"Player no. {peerId} has disconnected.");
+                GD.Print($"Player no.{peerId} has disconnected.");
             }
         }
         
@@ -222,7 +231,7 @@ namespace ReversiFEI.Network
         private void SignUpFailed()
         {
             GD.Print("Sign up failed.");
-            GetTree().NetworkPeer = null;
+            LeaveGame();
         }
         
         [Puppet]
@@ -238,7 +247,7 @@ namespace ReversiFEI.Network
         private void LogInFailed()
         {
             GD.Print("Log in failed.");
-            GetTree().NetworkPeer = null;
+            LeaveGame();
         }
     }
 }

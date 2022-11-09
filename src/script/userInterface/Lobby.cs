@@ -62,18 +62,19 @@ namespace ReversiFEI.Network
         {
             while(GetTree().NetworkPeer != null)
             {
-                await ToSignal(networkUtilities,"PlayersOnline");
             
                 var playerList = GetNode("OnlinePlayersList").GetNode<ItemList>("OnlinePlayers");
                 playerList.Clear();
                 
-                foreach(KeyValuePair<int, string> player in networkUtilities.players)
+                foreach(string player in networkUtilities.Players.Select(player => player.Value))
                 {
-                    if(player.Value != null && player.Value != networkUtilities.Playername)
-                        playerList.AddItem((String)player.Value);
+                    if(player != null && player != networkUtilities.Playername)
+                        playerList.AddItem(player);
                 }
                 
                 playerList.SortItemsByText();
+                
+                await ToSignal(networkUtilities,"PlayersOnline");
             }
         }
         

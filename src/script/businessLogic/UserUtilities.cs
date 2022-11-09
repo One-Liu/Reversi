@@ -37,8 +37,9 @@ namespace ReversiFEI.UserTools
                             }
                         }
                     }
-                    catch(MySqlException)
+                    catch(MySqlException e)
                     {
+                        GD.PushError(e.Message);
                         throw;
                     }
                 }
@@ -77,11 +78,11 @@ namespace ReversiFEI.UserTools
                         userRegistered = false;
                     }
                 }
-                catch (MySqlException)
+                catch (MySqlException e)
                 {
+                    GD.PushError(e.Message);
                     throw;
                 }
-                
                 return userRegistered;
             }
         }

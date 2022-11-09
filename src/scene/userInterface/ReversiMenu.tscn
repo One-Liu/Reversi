@@ -43,6 +43,7 @@ orbit_velocity_random = 0.0
 [node name="ReversiMenu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 2 )
 
 [node name="Panel" type="Panel" parent="."]
 material = SubResource( 1 )
@@ -66,7 +67,6 @@ margin_bottom = 27.0
 theme = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "LOGIN"
-script = ExtResource( 2 )
 
 [node name="GoToSignUpButton" type="Button" parent="."]
 modulate = Color( 0, 0.905882, 1, 1 )
@@ -80,7 +80,6 @@ margin_top = 37.0
 margin_right = -5.0
 margin_bottom = 72.0
 text = "REGISTER"
-script = ExtResource( 2 )
 
 [node name="GuestButton" type="Button" parent="."]
 modulate = Color( 0, 0.905882, 1, 1 )
@@ -94,7 +93,6 @@ margin_top = 37.0
 margin_right = 161.0
 margin_bottom = 72.0
 text = "LOGIN_GUEST"
-script = ExtResource( 2 )
 
 [node name="ExitButton" type="Button" parent="."]
 modulate = Color( 1, 0, 0, 1 )
@@ -108,7 +106,6 @@ margin_top = 84.0
 margin_right = 161.0
 margin_bottom = 115.0
 text = "EXIT"
-script = ExtResource( 2 )
 
 [node name="ChangeLanguageButton" type="Button" parent="."]
 anchor_left = 0.5
@@ -121,7 +118,6 @@ margin_right = 95.0
 margin_bottom = -35.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "CHANGE_LANGUAGE"
-script = ExtResource( 2 )
 
 [node name="ReversiLogo" type="Sprite" parent="."]
 position = Vector2( 508, 97 )
@@ -137,8 +133,7 @@ rotation = -2.87979
 process_material = SubResource( 8 )
 texture = ExtResource( 4 )
 
-[connection signal="pressed" from="GoToLogInButton" to="GoToLogInButton" method="GoToLogIn"]
-[connection signal="pressed" from="GoToSignUpButton" to="GoToSignUpButton" method="GoToSignUp"]
-[connection signal="pressed" from="GuestButton" to="GuestButton" method="GoToMainMenuAsGuest"]
-[connection signal="pressed" from="ExitButton" to="ExitButton" method="Exit"]
-[connection signal="pressed" from="ChangeLanguageButton" to="ChangeLanguageButton" method="ChangeLanguage"]
+[connection signal="pressed" from="GoToLogInButton" to="." method="GoToLogIn"]
+[connection signal="pressed" from="GoToSignUpButton" to="." method="GoToSignUp"]
+[connection signal="pressed" from="GuestButton" to="." method="GoToMainMenuAsGuest"]
+[connection signal="pressed" from="ExitButton" to="." method="Exit"]
