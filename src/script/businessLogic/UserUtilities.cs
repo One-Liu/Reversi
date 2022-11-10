@@ -4,20 +4,21 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using MySql.Data.MySqlClient;
-using ReversiFEI;
+using ReversiFEI.DatabaseContext;
 
-namespace ReversiFEI
+namespace ReversiFEI.UserTools
 {
     public static class UserUtilities
     {
-        public static bool LogIn(string email, string password)
+        public static string LogIn(string email, string password)
         {
             using (var db = new PlayerContext())
                 {
                     try
                     {
                         var player = db.Player
-                            .SingleOrDefault(b => b.Email == email);
+                            .SingleOrDefault(b => b.Email == email) 
+                            ?? new Player();
                         
                         byte[] salt = player.Salt;
                         byte[] key = player.Password;
@@ -28,21 +29,18 @@ namespace ReversiFEI
                             
                             if(newKey.SequenceEqual(key))
                             {
-                                return true;
+                                return player.Nickname;
                             } 
                             else
                             {
-                                return false;
+                                return null;
                             }
                         }
                     }
                     catch(MySqlException e)
                     {
-                        throw e;
-                    }
-                    catch(NullReferenceException e)
-                    {
-                        return false;
+                        GD.PushError(e.Message);
+                        throw;
                     }
                 }
         }
@@ -66,23 +64,26 @@ namespace ReversiFEI
             
             using (var db = new PlayerContext())
             {
+                bool userRegistered;
                 try
                 {
                     db.Player.Add(playerRegistration);
                     
                     if(db.SaveChanges() == 1)
                     {
-                        return true;
+                        userRegistered = true;
                     }
                     else
                     {
-                        return false;
+                        userRegistered = false;
                     }
                 }
                 catch (MySqlException e)
                 {
-                    throw e;
+                    GD.PushError(e.Message);
+                    throw;
                 }
+                return userRegistered;
             }
         }
     }

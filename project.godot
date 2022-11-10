@@ -16,23 +16,37 @@ run/flush_stdout_on_print=true
 boot_splash/show_image=false
 config/icon="res://icon.png"
 
+[autoload]
+
+NetworkUtilities="*res://src/script/businessLogic/NetworkUtilities.cs"
+Controls="*res://src/script/userInterface/Controls.cs"
+
 [display]
 
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
 
-[editor]
+[global]
 
-version_control_autoload_on_startup=true
-version_control_plugin_name="GitAPI"
-
-[gdnative]
-
-singletons=[  ]
+std=false
+stdout=false
 
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
+
+[input]
+
+lobby_SendMessage={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":16777221,"unicode":0,"echo":false,"script":null)
+ ]
+}
+lobby_selectPlayer={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
 
 [locale]
 

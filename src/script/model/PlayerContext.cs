@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace ReversiFEI{
+namespace ReversiFEI.DatabaseContext
+{
 
     public class PlayerContext : DbContext
     {
