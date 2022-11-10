@@ -15,7 +15,7 @@ namespace ReversiFEI.Network
         private readonly int DEFAULT_PORT = 4321;
         private readonly int MAX_PLAYERS = 30;
         private readonly string ADDRESS = "localhost"; //for local testing
-        //private static readonly string ADDRESS = "x.x.x.x"; //for live functionality
+        //private readonly string ADDRESS = "x.x.x.x"; //for live functionality
         
         [Signal]
         delegate void MessageReceived();
@@ -26,7 +26,15 @@ namespace ReversiFEI.Network
         [Signal]
         delegate void PlayersOnline();
         
+        [Signal]
+        delegate void StartMatch();
+        
+        [Signal]
+        delegate void CancelMatch();
+        
         public string Playername { get; set;}
+        
+        public int OpponentId { get; set;}
         
         private List<string> messages = new List<string>();
         
@@ -39,6 +47,14 @@ namespace ReversiFEI.Network
         private Dictionary<int, string> players = new Dictionary<int, string>();
         
         public Dictionary<int, string> Players
+        {
+            get {return players;}
+            set {players = value;}
+        }
+        
+        private Dictionary<int, string> friends = new Dictionary<int, string>();
+        
+        public Dictionary<int, string> Friends
         {
             get {return players;}
             set {players = value;}
@@ -117,6 +133,46 @@ namespace ReversiFEI.Network
             EmitSignal(nameof(MessageReceived));
         }
         
+        public void SendChallenge(int playerid)
+        {
+            GD.Print($"Challenging player {playerid}");
+            RpcId(playerid, nameof(ReceiveChallenge));
+        }
+        
+        [Remote]
+        private void ReceiveChallenge()
+        {
+            int sender = GetTree().GetRpcSenderId();
+            bool accept = false;
+            
+            GD.Print($"Challenged by player {sender}");
+            
+            /*if(cond) //acceptance condition
+                accept = true;*/
+                
+            if(accept)
+            {
+                RpcId(sender,nameof(ChallengeAccepted));
+            }
+            else
+                RpcId(sender,nameof(ChallengeDeclined));
+        }
+        
+        [Remote]
+        private void ChallengeAccepted()
+        {
+            if(OpponentId == GetTree().GetRpcSenderId())
+                EmitSignal(nameof(StartMatch));
+            else
+                EmitSignal(nameof(CancelMatch));
+        }
+        
+        [Remote]
+        private void ChallengeDeclined()
+        {
+            EmitSignal(nameof(CancelMatch));
+        }
+        
         private void PlayerConnected(int peerId)
         {
             GD.Print($"player no.{peerId} has connected.");
@@ -162,15 +218,20 @@ namespace ReversiFEI.Network
         [RemoteSync]
         private void RegisterPlayer(string playername)
         {
-            try{
-                var peerId = GetTree().GetRpcSenderId();
+            var peerId = GetTree().GetRpcSenderId();
+            bool alreadyRegistered = false;
+            
+            foreach(string player in players.Select(player => player.Value))
+            {
+                if(player == playername)
+                    alreadyRegistered = true;
+            }
+            
+            if(!alreadyRegistered)
+            {
                 players.Add(peerId, playername);
                 EmitSignal(nameof(PlayersOnline));
                 GD.Print($"player {playername} added with peer ID {peerId}");
-            }
-            catch(ArgumentException)
-            {
-                GD.Print($"Player {playername} already added.");
             }
         }
         

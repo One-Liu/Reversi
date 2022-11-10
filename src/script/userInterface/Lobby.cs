@@ -10,6 +10,8 @@ namespace ReversiFEI.Network
     {
         private NetworkUtilities networkUtilities;
         
+        Task<bool> challengeAccepted;
+        
         public override void _Ready()
         {
             networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
@@ -30,8 +32,10 @@ namespace ReversiFEI.Network
                 networkUtilities.JoinGame();
             }
             
-            ReceiveMessages();
-            SetOnlinePlayers();
+            networkUtilities.Connect("MessageReceived",this,nameof(ReceiveMessages));
+            networkUtilities.Connect("PlayersOnline",this,nameof(SetOnlinePlayers));
+            networkUtilities.Connect("StartMatch",this,nameof(ChallengeAccepted));
+            networkUtilities.Connect("CancelMatch",this,nameof(ChallengeDeclined));
         }
         
         public override void _Input(InputEvent inputEvent)
@@ -44,49 +48,64 @@ namespace ReversiFEI.Network
         
         private void SendMessage()
         {
-            var message = GetNode("Panel").GetNode<LineEdit>("ChatLineEdit").Text;
+            var message = GetNode<LineEdit>("Panel/ChatLineEdit").Text;
             networkUtilities.SendMessage(message);
             GetNode("Panel").GetNode<LineEdit>("ChatLineEdit").Clear();
         }
         
-        private async Task ReceiveMessages()
+        private void ReceiveMessages()
         {
-            while(GetTree().NetworkPeer != null)
-            {
-                await ToSignal(networkUtilities, "MessageReceived");
-                GetNode("Panel").GetNode<TextEdit>("ChatBox").Text += networkUtilities.Messages.Last();
-            }
+            GetNode("Panel").GetNode<TextEdit>("ChatBox").Text += networkUtilities.Messages.Last();
         }
         
-        private async Task SetOnlinePlayers()
+        private void SetOnlinePlayers()
         {
-            while(GetTree().NetworkPeer != null)
-            {
+            var playerList = GetNode<ItemList>("OnlinePlayersList/OnlinePlayers");
+            playerList.Clear();
             
-                var playerList = GetNode("OnlinePlayersList").GetNode<ItemList>("OnlinePlayers");
-                playerList.Clear();
-                
-                foreach(string player in networkUtilities.Players.Select(player => player.Value))
-                {
-                    if(player != null && player != networkUtilities.Playername)
-                        playerList.AddItem(player);
-                }
-                
-                playerList.SortItemsByText();
-                
-                await ToSignal(networkUtilities,"PlayersOnline");
+            foreach(string player in networkUtilities.Players.Select(player => player.Value))
+            {
+                if(player != null && player != networkUtilities.Playername)
+                    playerList.AddItem(player);
             }
+            
+            playerList.SortItemsByText();
         }
         
-        private void _on_OnlinePlayers_item_selected(int index)
+        private void _on_OnlinePlayers_item_activated(int index)
         {
-            _on_Popup_about_to_show();
+            _on_Popup_about_to_show(index);
         }
         
-        private void _on_Popup_about_to_show()
+        private void _on_Popup_about_to_show(int index)
         {
-            GetNode("OnlinePlayersList").GetNode("OnlinePlayers").GetNode<Popup>("Popup").Visible = true;
-    
+            string selectedPlayer = GetNode<ItemList>("OnlinePlayersList/OnlinePlayers").GetItemText(index);
+            foreach(KeyValuePair<int, string> player in networkUtilities.Players)
+            {
+                if(player.Value == selectedPlayer)
+                    networkUtilities.OpponentId = player.Key;
+            }
+            GetNode<Popup>("OnlinePlayersList/OnlinePlayers/Popup").Show();
+        }
+        
+        private async Task ChallengePlayer()
+        {
+            networkUtilities.SendChallenge(networkUtilities.OpponentId);
+            await challengeAccepted;
+            if(challengeAccepted.Result)
+                GD.Print("Challenge accepted.");
+            else
+                GD.Print("Challenge declined.");
+        }
+        
+        private void ChallengeAccepted()
+        {
+            challengeAccepted = Task<bool>.FromResult(true);
+        }
+        
+        private void ChallengeDeclined()
+        {
+            challengeAccepted = Task<bool>.FromResult(false);
         }
     }
 }

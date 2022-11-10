@@ -112,7 +112,7 @@ margin_top = -94.958
 margin_right = -0.085022
 margin_bottom = 0.0419922
 
-[node name="Button" type="Button" parent="OnlinePlayersList/OnlinePlayers/Popup"]
+[node name="ChallengeButton" type="Button" parent="OnlinePlayersList/OnlinePlayers/Popup"]
 modulate = Color( 1, 0.823529, 0.823529, 1 )
 margin_right = 163.0
 margin_bottom = 27.0
@@ -123,7 +123,7 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="Button2" type="Button" parent="OnlinePlayersList/OnlinePlayers/Popup"]
+[node name="AddFriendButton" type="Button" parent="OnlinePlayersList/OnlinePlayers/Popup"]
 margin_top = 28.0
 margin_right = 163.0
 margin_bottom = 49.0
@@ -179,6 +179,7 @@ text = "Return"
 script = ExtResource( 1 )
 
 [connection signal="pressed" from="Panel/SendButton" to="." method="SendMessage"]
-[connection signal="item_selected" from="OnlinePlayersList/OnlinePlayers" to="." method="_on_OnlinePlayers_item_selected"]
+[connection signal="item_activated" from="OnlinePlayersList/OnlinePlayers" to="." method="_on_OnlinePlayers_item_activated"]
 [connection signal="about_to_show" from="OnlinePlayersList/OnlinePlayers/Popup" to="." method="_on_Popup_about_to_show"]
+[connection signal="pressed" from="OnlinePlayersList/OnlinePlayers/Popup/ChallengeButton" to="." method="ChallengePlayer"]
 [connection signal="pressed" from="ReturnButton" to="ReturnButton" method="ExitLobby"]
