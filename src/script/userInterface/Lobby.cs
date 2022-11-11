@@ -3,21 +3,25 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using ReversiFEI.Controller;
 
 namespace ReversiFEI.Network
 {
     public class Lobby : Control
     {
         private NetworkUtilities networkUtilities;
+        private Controls controls;
         
-        Task<bool> challengeAccepted;
-        
+        private bool challengeStatus; 
+
         public override void _Ready()
         {
+            controls = GetNode("/root/Controls") as Controls;
             networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
-            if(OS.HasFeature("Server"))
+            
+            if(!networkUtilities.IsHosting())
             {
-                if(!networkUtilities.IsHosting())
+                if(OS.HasFeature("Server"))
                 {
                     if(!networkUtilities.HostLobby())
                     {
@@ -26,16 +30,19 @@ namespace ReversiFEI.Network
                         return;
                     }
                 }
-            }
-            else 
-            {
-                networkUtilities.JoinGame();
+                else 
+                {
+                    networkUtilities.JoinGame();
+                }
             }
             
             networkUtilities.Connect("MessageReceived",this,nameof(ReceiveMessages));
             networkUtilities.Connect("PlayersOnline",this,nameof(SetOnlinePlayers));
+            networkUtilities.Connect("ChallengeReceived",this,nameof(ShowChallengeNotice));
             networkUtilities.Connect("StartMatch",this,nameof(ChallengeAccepted));
             networkUtilities.Connect("CancelMatch",this,nameof(ChallengeDeclined));
+            networkUtilities.Connect("ChallengeReplyReceived",this,nameof(ReplyReceived));
+            GetNode<ConfirmationDialog>("ChallengeNotice").GetCloseButton().Connect("pressed",this,nameof(DeclineChallenge));
         }
         
         public override void _Input(InputEvent inputEvent)
@@ -88,24 +95,48 @@ namespace ReversiFEI.Network
             GetNode<Popup>("OnlinePlayersList/OnlinePlayers/Popup").Show();
         }
         
-        private async Task ChallengePlayer()
+        private void ShowChallengeNotice()
+        {
+            var challengeNotice = GetNode<ConfirmationDialog>("ChallengeNotice");
+            challengeNotice.PopupExclusive = true;
+            challengeNotice.Visible = true;
+        }
+        
+        private void ChallengePlayer()
         {
             networkUtilities.SendChallenge(networkUtilities.OpponentId);
-            await challengeAccepted;
-            if(challengeAccepted.Result)
+        }
+        
+        private void ReplyReceived()
+        {
+            if(challengeStatus)
+            {
                 GD.Print("Challenge accepted.");
+                controls.GoToMatch();
+            }
             else
                 GD.Print("Challenge declined.");
+        }
+
+        private void AcceptChallenge()
+        {
+            networkUtilities.ReplyToChallenge(true);
+            controls.GoToMatch();
+        }
+        
+        private void DeclineChallenge()
+        {
+            networkUtilities.ReplyToChallenge(false);
         }
         
         private void ChallengeAccepted()
         {
-            challengeAccepted = Task<bool>.FromResult(true);
+            challengeStatus = true;
         }
         
         private void ChallengeDeclined()
         {
-            challengeAccepted = Task<bool>.FromResult(false);
+            challengeStatus = false;
         }
     }
 }

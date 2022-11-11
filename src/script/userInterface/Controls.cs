@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 using MySql.Data.MySqlClient;
 using ReversiFEI.Network;
 
-namespace ReversiFEI.Controls
+namespace ReversiFEI.Controller
 {
     public class Controls : Node
     {
@@ -17,6 +17,7 @@ namespace ReversiFEI.Controls
         public override void _Ready()
         {
             networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
+            GD.Randomize();
         }
 
         private void GoToLogIn()
@@ -36,8 +37,7 @@ namespace ReversiFEI.Controls
         
         private void GoToMainMenuAsGuest()
         {
-            var rnd = new Random();
-            networkUtilities.Playername = "guest#" + rnd.Next(1,9999999).ToString();
+            networkUtilities.Playername = "guest#" + GD.Randi() % 99999999998 + 1;
             GetTree().ChangeScene("res://src/scene/userInterface/MainMenu.tscn");
         }
         
@@ -57,6 +57,10 @@ namespace ReversiFEI.Controls
             GetTree().ChangeScene("res://src/scene/userInterface/Lobby.tscn");
         }
 
+        public void GoToMatch()
+        {
+            GetTree().ChangeScene("res://src/scene/userInterface/Match.tscn");
+        }
 
         private void GoToHowTo()
         {

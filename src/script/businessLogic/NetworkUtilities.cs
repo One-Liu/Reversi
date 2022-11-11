@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using ReversiFEI.UserTools;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace ReversiFEI.Network
 {
@@ -25,6 +25,12 @@ namespace ReversiFEI.Network
         
         [Signal]
         delegate void PlayersOnline();
+        
+        [Signal]
+        delegate void ChallengeReceived();
+        
+        [Signal]
+        delegate void ChallengeReplyReceived();
         
         [Signal]
         delegate void StartMatch();
@@ -142,35 +148,46 @@ namespace ReversiFEI.Network
         [Remote]
         private void ReceiveChallenge()
         {
-            int sender = GetTree().GetRpcSenderId();
-            bool accept = false;
+            OpponentId = GetTree().GetRpcSenderId();
             
-            GD.Print($"Challenged by player {sender}");
+            GD.Print($"Challenged by player {OpponentId}");
             
-            /*if(cond) //acceptance condition
-                accept = true;*/
-                
-            if(accept)
-            {
-                RpcId(sender,nameof(ChallengeAccepted));
-            }
-            else
-                RpcId(sender,nameof(ChallengeDeclined));
+            EmitSignal(nameof(ChallengeReceived));
         }
         
+        public void ReplyToChallenge(bool accept)
+        {
+            GD.Print("Responding succesfully.");
+            if(accept)
+            {
+                RpcId(OpponentId,nameof(ChallengeAccepted));
+            }
+            else
+            {
+                RpcId(OpponentId,nameof(ChallengeDeclined));
+                OpponentId = -1;
+            }
+        }
+
         [Remote]
         private void ChallengeAccepted()
         {
             if(OpponentId == GetTree().GetRpcSenderId())
                 EmitSignal(nameof(StartMatch));
             else
+            {
                 EmitSignal(nameof(CancelMatch));
+                OpponentId = -1;
+            }
+            EmitSignal(nameof(ChallengeReplyReceived));
         }
         
         [Remote]
         private void ChallengeDeclined()
         {
             EmitSignal(nameof(CancelMatch));
+            EmitSignal(nameof(ChallengeReplyReceived));
+            OpponentId = -1;
         }
         
         private void PlayerConnected(int peerId)
