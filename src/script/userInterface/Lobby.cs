@@ -13,7 +13,8 @@ namespace ReversiFEI.Network
         private Controls controls;
         
         private bool challengeStatus; 
-
+        private bool friendRequestStatus;
+        
         public override void _Ready()
         {
             controls = GetNode("/root/Controls") as Controls;
@@ -42,6 +43,10 @@ namespace ReversiFEI.Network
             networkUtilities.Connect("StartMatch",this,nameof(ChallengeAccepted));
             networkUtilities.Connect("CancelMatch",this,nameof(ChallengeDeclined));
             networkUtilities.Connect("ChallengeReplyReceived",this,nameof(ReplyReceived));
+            networkUtilities.Connect("FriendRequestReceived",this,nameof(ShowFriendRequestNotice));
+            networkUtilities.Connect("FriendRequestReplyReceived",this,nameof(FriendRequestReplyReceived));
+            
+          
             GetNode<ConfirmationDialog>("ChallengeNotice").GetCloseButton().Connect("pressed",this,nameof(DeclineChallenge));
         }
         
@@ -81,6 +86,7 @@ namespace ReversiFEI.Network
         
         private void _on_OnlinePlayers_item_activated(int index)
         {
+            
             _on_Popup_about_to_show(index);
         }
         
@@ -92,7 +98,12 @@ namespace ReversiFEI.Network
                 if(player.Value == selectedPlayer)
                     networkUtilities.OpponentId = player.Key;
             }
+           //AnchorLeft=GetNode<ItemList>("OnlinePlayersList/OnlinePlayers").GetItemAtPosition(index).AnchorLeft();
             GetNode<Popup>("OnlinePlayersList/OnlinePlayers/Popup").Show();
+           // AnchorLeft=911;
+            //AnchorTop=774;
+            //AnchorRight=911;
+           // AnchorBottom=774;
         }
         
         private void ShowChallengeNotice()
@@ -138,5 +149,38 @@ namespace ReversiFEI.Network
         {
             challengeStatus = false;
         }
+        
+        private void ShowFriendRequestNotice()
+        {
+            var friendRequestNotice = GetNode<ConfirmationDialog>("FriendRequestNotice");
+            friendRequestNotice.PopupExclusive = true;
+            friendRequestNotice.Visible = true;
+        }
+        
+        private void AddFriend()
+        {
+            networkUtilities.SendFriendRequest(networkUtilities.FriendId);
+        }
+        
+        
+        
+        private void FriendRequestReplyReceived()
+        {
+            if(friendRequestStatus)
+            {
+                GD.Print("Friend request accepted.");
+                GD.Print("Funcion añade amigo");
+            }
+            else
+                GD.Print("Friend request declined.");
+        }
+        
+        
     }
 }
+
+
+
+
+
+

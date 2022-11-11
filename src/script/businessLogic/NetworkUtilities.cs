@@ -38,9 +38,17 @@ namespace ReversiFEI.Network
         [Signal]
         delegate void CancelMatch();
         
+        [Signal]
+        delegate void FriendRequestReceived();
+        
+        [Signal]
+        delegate void FriendRequestReplyReceived();
+        
         public string Playername { get; set;}
         
         public int OpponentId { get; set;}
+        
+         public int FriendId { get; set;}
         
         private List<string> messages = new List<string>();
         
@@ -145,6 +153,7 @@ namespace ReversiFEI.Network
             RpcId(playerid, nameof(ReceiveChallenge));
         }
         
+       
         [Remote]
         private void ReceiveChallenge()
         {
@@ -187,6 +196,57 @@ namespace ReversiFEI.Network
         {
             EmitSignal(nameof(CancelMatch));
             EmitSignal(nameof(ChallengeReplyReceived));
+            OpponentId = -1;
+        }
+        
+         public void SendFriendRequest(int playerid)
+        {
+            GD.Print($"Friend request sent {playerid}");
+            RpcId(playerid, nameof(ReceiveFriendRequest));
+        }
+        
+         [Remote]
+        private void ReceiveFriendRequest()
+        {
+            FriendId = GetTree().GetRpcSenderId();
+            
+            GD.Print($"Friend request sent by player {FriendId}");
+            
+            EmitSignal(nameof(FriendRequestReceived));
+        }
+        
+        public void ReplyToFriendRequest(bool acceptFriendRequest)
+        {
+            GD.Print("Responding succesfully.");
+            if(acceptFriendRequest)
+            {
+                RpcId(FriendId,nameof(ChallengeAccepted));
+            }
+            else
+            {
+                RpcId(FriendId,nameof(ChallengeDeclined));
+                OpponentId = -1;
+            }
+        }
+        
+        [Remote]
+        private void FriendRequestAccepted()
+        {
+            if(FriendId == GetTree().GetRpcSenderId())
+               GD.Print("Añade amigo");
+            else
+            {
+                //Add friend
+                FriendId = -1;
+            }
+            EmitSignal(nameof(FriendRequestReplyReceived));
+        }
+        
+        [Remote]
+        private void FriendRequestDeclined()
+        {
+            //friend request declined
+            EmitSignal(nameof(FriendRequestReplyReceived));
             OpponentId = -1;
         }
         
