@@ -137,10 +137,10 @@ namespace ReversiFEI.Controller
 
         private async Task SignUp()
         {
-            string email = GetParent().GetNode<LineEdit>("EmailLineEdit").Text;
-            string username = GetParent().GetNode<LineEdit>("UsernameLineEdit").Text;
-            string password = GetParent().GetNode<LineEdit>("PasswordLineEdit").Text;
-            string confirmPassword = GetParent().GetNode<LineEdit>("ConfirmPasswordLineEdit").Text;
+            string email = GetNode<LineEdit>("EmailLineEdit").Text;
+            string username = GetNode<LineEdit>("UsernameLineEdit").Text;
+            string password = GetNode<LineEdit>("PasswordLineEdit").Text;
+            string confirmPassword = GetNode<LineEdit>("ConfirmPasswordLineEdit").Text;
         
             if(ValidateEmail(email) && password.Equals(confirmPassword))
             {
@@ -155,8 +155,8 @@ namespace ReversiFEI.Controller
 
         private async Task LogIn()
         {
-            string email = GetParent().GetNode<LineEdit>("EmailLineEdit").Text;
-            string password = GetParent().GetNode<LineEdit>("PasswordLineEdit").Text;
+            string email = GetNode<LineEdit>("EmailLineEdit").Text;
+            string password = GetNode<LineEdit>("PasswordLineEdit").Text;
             
             if(ValidateEmail(email) && ValidatePassword(password)) 
             {
@@ -310,5 +310,3 @@ namespace ReversiFEI.Controller
         }
     }
 }
-    
-    

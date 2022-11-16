@@ -130,5 +130,5 @@ text = "PASSWORD_MISMATCH"
 align = 2
 
 [connection signal="pressed" from="LogInButton" to="." method="GoToLogIn"]
-[connection signal="pressed" from="RegisterButton" to="." method="Register"]
+[connection signal="pressed" from="RegisterButton" to="." method="SignUp"]
 [connection signal="pressed" from="ReturnButton" to="." method="GoToReversiMenu"]

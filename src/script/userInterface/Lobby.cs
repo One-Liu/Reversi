@@ -75,12 +75,24 @@ namespace ReversiFEI.Network
             var playerList = GetNode<ItemList>("OnlinePlayersList/OnlinePlayers");
             playerList.Clear();
             
+            var friendsList = GetNode<ItemList>("OnlineFriendsList/OnlineFriends");
+            friendsList.Clear();
+
             foreach(string player in networkUtilities.Players.Select(player => player.Value))
             {
-                if(player != null && player != networkUtilities.Playername)
-                    playerList.AddItem(player);
+                foreach(string friend in networkUtilities.Friends)
+                {
+                    if(player != null && player != networkUtilities.Playername)
+                    {
+                        if(player == friend)
+                            friendsList.AddItem(player);
+                        else
+                            playerList.AddItem(player);
+                    }
+                }
             }
-            
+
+            friendsList.SortItemsByText();
             playerList.SortItemsByText();
         }
         

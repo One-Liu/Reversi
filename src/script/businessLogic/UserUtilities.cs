@@ -86,5 +86,56 @@ namespace ReversiFEI.UserTools
                 return userRegistered;
             }
         }
+        
+        public static List<string> GetFriends(string playerName)
+        {
+            var playerId = GetPlayerId(playerName);
+            
+            using (var db = new PlayerContext())
+            {
+                try
+                {
+                    //Divided in two consults because linq doesn't support conditions in joins                    
+                    var friendsList = 
+                        (from friend in
+                            (from player in db.Player
+                            join playerFriends in db.Friends on playerId equals playerFriends.Player1Id
+                            select player)
+                            .Union
+                            (from player in db.Player
+                            join playerFriends in db.Friends on playerId equals playerFriends.Player2Id
+                            select player)
+                            where friend.PlayerId != playerId
+                            select friend.Nickname
+                        ).ToList();
+                    
+                    return friendsList;
+                }
+                catch(MySqlException e)
+                {
+                    GD.PushError(e.Message);
+                    throw;
+                }
+            }
+        }
+
+        private static int GetPlayerId(string nickname)
+        {
+            using (var db = new PlayerContext())
+            {
+                try
+                {                
+                    var player = 
+                        db.Player
+                        .SingleOrDefault(b => b.Nickname == nickname);
+                    return player.PlayerId;
+                }
+                catch(MySqlException e)
+                {
+                    GD.PushError(e.Message);
+                    throw;
+                }
+            }
+        }
     }
 }

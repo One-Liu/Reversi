@@ -66,12 +66,11 @@ namespace ReversiFEI.Network
             set {players = value;}
         }
         
-        private Dictionary<int, string> friends = new Dictionary<int, string>();
+        private List<string> friends = new List<string>();
         
-        public Dictionary<int, string> Friends
+        public List<string> Friends
         {
-            get {return players;}
-            set {players = value;}
+            get {return friends;}
         }
         
         public override void _Ready()
@@ -386,6 +385,13 @@ namespace ReversiFEI.Network
         {
             GD.Print("Log in failed.");
             LeaveGame();
+        }
+
+        public void UpdateFriends()
+        {
+            GD.Print("Updating friends list...");
+            friends.Clear();
+            friends = UserUtilities.GetFriends(Playername);
         }
     }
 }
