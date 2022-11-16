@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/script/userInterface/Tile.cs" type="Script" id=1]
+
+[node name="Tile" type="TextureButton"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+
+[connection signal="pressed" from="." to="." method="_on_Tile_pressed"]
