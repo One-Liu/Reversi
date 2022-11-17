@@ -1,53 +1,58 @@
 using Godot;
 using System;
 
-public class BoardContainer : GridContainer
+namespace ReversiFEI.Matches
 {
-    public Texture playerTexture { get; set; }
-    public Texture opponentTexture { get; set; }
-    
-    public void Populate(int boardSize)
+    public class BoardContainer : GridContainer
     {
-        var tile = GD.Load<PackedScene>("res://src/scene/userInterface/Tile.tscn");
+        public Texture PlayerTexture { get; set; }
+        public Texture OpponentTexture { get; set; }
         
-        for(int i = 0; i < boardSize; i++)
+        
+        public void Populate(int boardSize)
         {
-            for(int j = 0; j < boardSize; j++)
+            var tile = GD.Load<PackedScene>("res://src/scene/userInterface/Tile.tscn");
+            
+            for(int i = 0; i < boardSize; i++)
             {
-                Tile tileInstance = (Tile) tile.Instance();
-                tileInstance.XPosition = i;
-                tileInstance.YPosition = j;
-                AddChild(tileInstance);
+                for(int j = 0; j < boardSize; j++)
+                {
+                    var tileInstance = tile.Instance() as Tile;
+                    tileInstance.XPosition = i;
+                    tileInstance.YPosition = j;
+                    AddChild(tileInstance);
+                }
             }
         }
-    }
-    
-    public void UpdateGameState(int[,] board)
-    {
-        foreach(Tile t in GetChildren())
+        
+        public void UpdateGameState(int[,] board)
         {
-            for(int i = 0; i < board.GetLength(0); i++)
+            foreach(Tile t in GetChildren())
             {
-                for(int j = 0; j < board.GetLength(1); j++)
+                for(int i = 0; i < board.GetLength(0); i++)
                 {
-                    switch(board[i,j])
+                    for(int j = 0; j < board.GetLength(1); j++)
                     {
-                        case 1:
-                            if(t.XPosition.Equals(i) & t.YPosition.Equals(j))
-                            {
-                                t.TextureNormal = playerTexture;
-                            }
-                            break;
-                        case -1:
-                            if(t.XPosition.Equals(i) & t.YPosition.Equals(j))
-                            {
-                                t.TextureNormal = opponentTexture;
-                            }
-                            break;
-                        case 0:
-                            break;
-                        default:
-                            GD.Print($"Undefined state behaviour at coordinates {i},{j}");
+                        switch(board[i,j])
+                        {
+                            case 1:
+                                if(t.XPosition.Equals(i) & t.YPosition.Equals(j))
+                                {
+                                    t.TextureNormal = PlayerTexture;
+                                }
+                                break;
+                            case -1:
+                                if(t.XPosition.Equals(i) & t.YPosition.Equals(j))
+                                {
+                                    t.TextureNormal = OpponentTexture;
+                                }
+                                break;
+                            case 0:
+                                break;
+                            default:
+                                GD.Print($"Undefined state behaviour at coordinates {i},{j}");
+                                break;
+                        }
                     }
                 }
             }
