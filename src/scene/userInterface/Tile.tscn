@@ -13,6 +13,7 @@ margin_top = -16.0
 margin_right = 16.0
 margin_bottom = 16.0
 texture_normal = ExtResource( 2 )
+texture_disabled = ExtResource( 2 )
 script = ExtResource( 1 )
 
 [connection signal="pressed" from="." to="." method="_on_Tile_pressed"]

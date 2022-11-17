@@ -7,16 +7,16 @@ namespace ReversiFEI.Matches
     {
         public int XPosition { get; set; }
         public int YPosition { get; set; }
-        private Match _Match;
+        private BoardContainer _BoardContainer;
         
         public override void _Ready()
         {
-            _Match = GetNode<Match>("/root/Match");
+            _BoardContainer = GetNode<BoardContainer>("/root/Match/BoardContainer");
         }
 
         private void _on_Tile_pressed()
         {
-            _Match.ChangeTileState(XPosition,YPosition,_Match.PlayerPiece);
+            _BoardContainer.ChangeTileState(XPosition,YPosition,_BoardContainer.PlayerPiece);
         }
     }
 }
