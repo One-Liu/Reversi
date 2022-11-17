@@ -16,7 +16,7 @@ namespace ReversiFEI.Matches
 
         private void _on_Tile_pressed()
         {
-            _BoardContainer.ChangeTileState(XPosition,YPosition,_BoardContainer.PlayerPiece);
+            _BoardContainer.MakeMove(XPosition,YPosition,_BoardContainer.PlayerPiece);
         }
     }
 }

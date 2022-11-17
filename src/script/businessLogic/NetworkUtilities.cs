@@ -44,6 +44,9 @@ namespace ReversiFEI.Network
         [Signal]
         delegate void FriendRequestReplyReceived();
         
+        [Signal]
+        delegate void PiecePlaced(int x, int y, int piece);
+        
         public string Playername { get; set;}
         
         public int OpponentId { get; set;}
@@ -249,6 +252,17 @@ namespace ReversiFEI.Network
             OpponentId = -1;
         }
         
+        public void SendMove(int x, int y, int piece, int opponentId)
+        {
+            RpcId(opponentId,nameof(ReceiveMove),x,y,piece);
+        }
+        
+        [RemoteSync]
+        private void ReceiveMove(int x, int y, int piece)
+        {
+            EmitSignal(nameof(PiecePlaced),x,y,piece);
+        }
+        
         private void PlayerConnected(int peerId)
         {
             GD.Print($"player no.{peerId} has connected.");
@@ -389,9 +403,12 @@ namespace ReversiFEI.Network
 
         public void UpdateFriends()
         {
-            GD.Print("Updating friends list...");
-            friends.Clear();
-            friends = UserUtilities.GetFriends(Playername);
+            if(!OS.HasFeature("Server"))
+            {
+                GD.Print("Updating friends list...");
+                friends.Clear();
+                friends = UserUtilities.GetFriends(Playername);
+            }
         }
     }
 }

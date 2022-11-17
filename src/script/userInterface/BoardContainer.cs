@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using ReversiFEI.Network;
 
 namespace ReversiFEI.Matches
 {
@@ -20,8 +21,14 @@ namespace ReversiFEI.Matches
         
         private int[,] board;
         
+        private NetworkUtilities networkUtilities;
+        
         public override void _Ready()
         {
+            networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
+            
+            networkUtilities.Connect("PiecePlaced",this,nameof(ReceiveOpponentMove));
+            
             PlayerTexture = (Texture) ResourceLoader.Load("res://resources/square_set1piece1.png");
             OpponentTexture = (Texture) ResourceLoader.Load("res://resources/square_set1piece2.png");
             ValidTexture = (Texture) ResourceLoader.Load("res://resources/square_valid.png");
@@ -75,12 +82,12 @@ namespace ReversiFEI.Matches
             }
         }
         
-        public void ChangeTileState(int xPosition, int yPosition, int newState)
+        private void ChangeTileState(int xPosition, int yPosition, int newState)
         {
             if(board[xPosition,yPosition] == EMPTY_CELL)
             {
                 board[xPosition,yPosition] = newState;
-                
+
                 FlipPieces(PlayerPiece,1,0);    //Horizontal search
                 FlipPieces(PlayerPiece,-1,0);
                 FlipPieces(PlayerPiece,0,1);    //Vertical search
@@ -97,6 +104,20 @@ namespace ReversiFEI.Matches
                 
                 UpdateGameState(board);
             }
+        }
+        
+        public void MakeMove(int xPosition, int yPosition, int newState)
+        {
+            int opponentId = networkUtilities.OpponentId;
+            networkUtilities.SendMove(xPosition,yPosition,newState,opponentId);
+            ChangeTileState(xPosition,yPosition,newState);
+            LockTiles();
+        }
+        
+        private void ReceiveOpponentMove(int xPosition, int yPosition, int newState)
+        {
+            ChangeTileState(xPosition,yPosition,newState);
+            UnlockTiles();
         }
         
         private void Populate(int boardSize)
@@ -156,6 +177,25 @@ namespace ReversiFEI.Matches
             }
             
             return legalMove;
+        }
+        
+        private void LockTiles()
+        {
+            foreach(Tile t in GetChildren())
+            {
+                t.Disabled = true;
+            }
+        }
+        
+        private void UnlockTiles()
+        {
+            foreach(Tile t in GetChildren())
+            {
+                int x = t.XPosition;
+                int y = t.YPosition;
+                if(IsLegalMove(x,y) && board[x,y] == EMPTY_CELL)
+                    t.Disabled = false;
+            }
         }
         
         private void FlipPieces(int piece, int xDirection, int yDirection)
