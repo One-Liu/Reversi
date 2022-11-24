@@ -413,6 +413,7 @@ namespace ReversiFEI.Network
         public void ChangeNickname(string newNickname)
         {
             UserUtilities.ChangeNickname(Playername, newNickname);
+            Playername = newNickname;
             GD.Print("Nickname updated");
         }
     }
