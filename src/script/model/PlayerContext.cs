@@ -29,6 +29,15 @@ namespace ReversiFEI.DatabaseContext
         public byte[] Salt { get; set; }
         public int GamesWon { get; set; }
         public int PiecesSet { get; set; }
+        
+        public Player()
+        {
+        }
+        
+        public Player(int id)
+        {
+            PlayerId = id;
+        }
     }
     
     public class Friends

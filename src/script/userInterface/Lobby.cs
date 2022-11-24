@@ -3,21 +3,26 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using ReversiFEI.Controller;
 
 namespace ReversiFEI.Network
 {
     public class Lobby : Control
     {
         private NetworkUtilities networkUtilities;
+        private Controls controls;
         
-        Task<bool> challengeAccepted;
+        private bool challengeStatus; 
+        private bool friendRequestStatus;
         
         public override void _Ready()
         {
+            controls = GetNode("/root/Controls") as Controls;
             networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
-            if(OS.HasFeature("Server"))
+            
+            if(!networkUtilities.IsHosting())
             {
-                if(!networkUtilities.IsHosting())
+                if(OS.HasFeature("Server"))
                 {
                     if(!networkUtilities.HostLobby())
                     {
@@ -26,16 +31,23 @@ namespace ReversiFEI.Network
                         return;
                     }
                 }
-            }
-            else 
-            {
-                networkUtilities.JoinGame();
+                else 
+                {
+                    networkUtilities.JoinGame();
+                }
             }
             
             networkUtilities.Connect("MessageReceived",this,nameof(ReceiveMessages));
             networkUtilities.Connect("PlayersOnline",this,nameof(SetOnlinePlayers));
+            networkUtilities.Connect("ChallengeReceived",this,nameof(ShowChallengeNotice));
             networkUtilities.Connect("StartMatch",this,nameof(ChallengeAccepted));
             networkUtilities.Connect("CancelMatch",this,nameof(ChallengeDeclined));
+            networkUtilities.Connect("ChallengeReplyReceived",this,nameof(ReplyReceived));
+            networkUtilities.Connect("FriendRequestReceived",this,nameof(ShowFriendRequestNotice));
+            networkUtilities.Connect("FriendRequestReplyReceived",this,nameof(FriendRequestReplyReceived));
+            
+          
+            GetNode<ConfirmationDialog>("ChallengeNotice").GetCloseButton().Connect("pressed",this,nameof(DeclineChallenge));
         }
         
         public override void _Input(InputEvent inputEvent)
@@ -64,19 +76,18 @@ namespace ReversiFEI.Network
             playerList.Clear();
             
             var friendsList = GetNode<ItemList>("OnlineFriendsList/OnlineFriends");
+            var friends = networkUtilities.Friends;
             friendsList.Clear();
 
+            networkUtilities.UpdateFriends();
             foreach(string player in networkUtilities.Players.Select(player => player.Value))
             {
-                foreach(string friend in networkUtilities.Friends)
+                if(player != null && player != networkUtilities.Playername)
                 {
-                    if(player != null && player != networkUtilities.Playername)
-                    {
-                        if(player == friend)
-                            friendsList.AddItem(player);
-                        else
-                            playerList.AddItem(player);
-                    }
+                    if(friends.Contains(player))
+                        friendsList.AddItem(player);
+                    else
+                        playerList.AddItem(player);
                 }
             }
 
@@ -86,6 +97,7 @@ namespace ReversiFEI.Network
         
         private void _on_OnlinePlayers_item_activated(int index)
         {
+            
             _on_Popup_about_to_show(index);
         }
         
@@ -97,27 +109,89 @@ namespace ReversiFEI.Network
                 if(player.Value == selectedPlayer)
                     networkUtilities.OpponentId = player.Key;
             }
+           //AnchorLeft=GetNode<ItemList>("OnlinePlayersList/OnlinePlayers").GetItemAtPosition(index).AnchorLeft();
             GetNode<Popup>("OnlinePlayersList/OnlinePlayers/Popup").Show();
+           // AnchorLeft=911;
+            //AnchorTop=774;
+            //AnchorRight=911;
+           // AnchorBottom=774;
         }
         
-        private async Task ChallengePlayer()
+        private void ShowChallengeNotice()
+        {
+            var challengeNotice = GetNode<ConfirmationDialog>("ChallengeNotice");
+            challengeNotice.PopupExclusive = true;
+            challengeNotice.Visible = true;
+        }
+        
+        private void ChallengePlayer()
         {
             networkUtilities.SendChallenge(networkUtilities.OpponentId);
-            await challengeAccepted;
-            if(challengeAccepted.Result)
+        }
+        
+        private void ReplyReceived()
+        {
+            if(challengeStatus)
+            {
                 GD.Print("Challenge accepted.");
+                controls.GoToMatch();
+            }
             else
                 GD.Print("Challenge declined.");
+        }
+
+        private void AcceptChallenge()
+        {
+            networkUtilities.ReplyToChallenge(true);
+            controls.GoToMatch();
+        }
+        
+        private void DeclineChallenge()
+        {
+            networkUtilities.ReplyToChallenge(false);
         }
         
         private void ChallengeAccepted()
         {
-            challengeAccepted = Task<bool>.FromResult(true);
+            challengeStatus = true;
         }
         
         private void ChallengeDeclined()
         {
-            challengeAccepted = Task<bool>.FromResult(false);
+            challengeStatus = false;
         }
+        
+        private void ShowFriendRequestNotice()
+        {
+            var friendRequestNotice = GetNode<ConfirmationDialog>("FriendRequestNotice");
+            friendRequestNotice.PopupExclusive = true;
+            friendRequestNotice.Visible = true;
+        }
+        
+        private void AddFriend()
+        {
+            networkUtilities.SendFriendRequest(networkUtilities.FriendId);
+        }
+        
+        
+        
+        private void FriendRequestReplyReceived()
+        {
+            if(friendRequestStatus)
+            {
+                GD.Print("Friend request accepted.");
+                GD.Print("Funcion añade amigo");
+            }
+            else
+                GD.Print("Friend request declined.");
+        }
+        
+        
     }
 }
+
+
+
+
+
+

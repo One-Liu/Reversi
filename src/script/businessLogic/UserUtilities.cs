@@ -127,7 +127,9 @@ namespace ReversiFEI.UserTools
                 {                
                     var player = 
                         db.Player
-                        .SingleOrDefault(b => b.Nickname == nickname);
+                        .SingleOrDefault(b => b.Nickname == nickname)
+                        ?? new Player(0);
+
                     return player.PlayerId;
                 }
                 catch(MySqlException e)
