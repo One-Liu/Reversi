@@ -13,36 +13,36 @@ namespace ReversiFEI.UserTools
         public static string LogIn(string email, string password)
         {
             using (var db = new PlayerContext())
+            {
+                try
                 {
-                    try
+                    var player = db.Player
+                        .SingleOrDefault(b => b.Email == email) 
+                        ?? new Player();
+                    
+                    byte[] salt = player.Salt;
+                    byte[] key = player.Password;
+            
+                    using (var deriveBytes = new Rfc2898DeriveBytes(password, salt))
                     {
-                        var player = db.Player
-                            .SingleOrDefault(b => b.Email == email) 
-                            ?? new Player();
+                        byte[] newKey = deriveBytes.GetBytes(64);
                         
-                        byte[] salt = player.Salt;
-                        byte[] key = player.Password;
-                
-                        using (var deriveBytes = new Rfc2898DeriveBytes(password, salt))
+                        if(newKey.SequenceEqual(key))
                         {
-                            byte[] newKey = deriveBytes.GetBytes(64);
-                            
-                            if(newKey.SequenceEqual(key))
-                            {
-                                return player.Nickname;
-                            } 
-                            else
-                            {
-                                return null;
-                            }
+                            return player.Nickname;
+                        } 
+                        else
+                        {
+                            return null;
                         }
                     }
-                    catch(MySqlException e)
-                    {
-                        GD.PushError(e.Message);
-                        throw;
-                    }
                 }
+                catch(MySqlException e)
+                {
+                    GD.PushError(e.Message);
+                    throw;
+                }
+            }
         }
         
         public static bool SignUp(string email, string username, string password)
@@ -136,6 +136,28 @@ namespace ReversiFEI.UserTools
                 {
                     GD.PushError(e.Message);
                     throw;
+                }
+            }
+        }
+        
+        public static void ChangeNickname(string nickname, string newNickname)
+        {            
+            using (var db = new PlayerContext())
+            {
+                try
+                {
+                    var user = 
+                        (from player in db.Player
+                        where player.Nickname == nickname
+                        select player).FirstOrDefault();
+                    
+                    user.Nickname = newNickname;
+                    db.SaveChanges();
+                }
+                catch(MySqlException e)
+                {
+                    GD.PushError(e.Message);
+                    throw;    
                 }
             }
         }

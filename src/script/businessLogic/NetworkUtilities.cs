@@ -137,8 +137,7 @@ namespace ReversiFEI.Network
 
         public void SendMessage(string message)
         {
-            var peerId = Playername;
-            Rpc(nameof(ReceiveMessage), peerId, message);
+            Rpc(nameof(ReceiveMessage), Playername, message);
         }
         
         [RemoteSync]
@@ -409,6 +408,13 @@ namespace ReversiFEI.Network
                 friends.Clear();
                 friends = UserUtilities.GetFriends(Playername);
             }
+        }
+        
+        public void ChangeNickname(string newNickname)
+        {
+            UserUtilities.ChangeNickname(Playername, newNickname);
+            Playername = newNickname;
+            GD.Print("Nickname updated");
         }
     }
 }
