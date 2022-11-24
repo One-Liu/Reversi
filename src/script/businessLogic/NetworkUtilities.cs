@@ -120,8 +120,7 @@ namespace ReversiFEI.Network
 
         public void SendMessage(string message)
         {
-            var peerId = Playername;
-            Rpc(nameof(ReceiveMessage), peerId, message);
+            Rpc(nameof(ReceiveMessage), Playername, message);
         }
         
         [RemoteSync]
