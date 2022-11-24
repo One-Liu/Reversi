@@ -409,5 +409,11 @@ namespace ReversiFEI.Network
                 friends = UserUtilities.GetFriends(Playername);
             }
         }
+        
+        public void ChangeNickname(string newNickname)
+        {
+            UserUtilities.ChangeNickname(Playername, newNickname);
+            GD.Print("Nickname updated");
+        }
     }
 }

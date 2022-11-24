@@ -308,5 +308,12 @@ namespace ReversiFEI.Controller
                 GD.Print("Off");
             }
         }
+        
+        private void ChangeNickname()
+        {
+            var newNickname = GetNode<LineEdit>("ChangeNickname/NewNicknameLineEdit").Text;
+            networkUtilities.ChangeNickname(newNickname);
+            GetNode<WindowDialog>("ChangeNickname").Visible = false;
+        }
     }
 }
