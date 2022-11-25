@@ -23,7 +23,7 @@ margin_left = -161.0
 margin_top = -83.0
 margin_right = 161.0
 margin_bottom = -57.0
-max_length = 100
+max_length = 50
 clear_button_enabled = true
 placeholder_text = "EMAIL"
 
@@ -36,6 +36,7 @@ margin_left = -161.0
 margin_top = -32.0
 margin_right = 161.0
 margin_bottom = -6.0
+max_length = 50
 secret = true
 clear_button_enabled = true
 placeholder_text = "PASSWORD"

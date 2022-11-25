@@ -28,11 +28,14 @@ margin_left = -270.4
 margin_top = 209.0
 margin_right = 379.6
 margin_bottom = 233.0
+max_length = 300
 placeholder_text = "TYPE_MESSAGE"
 
 [node name="ChatBox" type="TextEdit" parent="Panel"]
 margin_right = 721.0
 margin_bottom = 438.0
+readonly = true
+wrap_enabled = true
 
 [node name="SendButton" type="Button" parent="Panel"]
 modulate = Color( 0, 0.811765, 1, 1 )
@@ -53,18 +56,6 @@ margin_top = -11.0
 margin_right = 48.064
 margin_bottom = 29.0
 text = "LOBBY"
-
-[node name="ChatMessages" type="RichTextLabel" parent="."]
-anchor_left = 0.385
-anchor_top = 0.503
-anchor_right = 0.385
-anchor_bottom = 0.503
-margin_left = -355.24
-margin_top = -223.8
-margin_right = 364.76
-margin_bottom = 208.2
-fit_content_height = true
-scroll_active = false
 
 [node name="OnlinePlayersList" type="ItemList" parent="."]
 anchor_left = 0.866
@@ -182,6 +173,7 @@ margin_left = -100.0
 margin_top = -35.0
 margin_right = 100.0
 margin_bottom = 35.0
+rect_min_size = Vector2( 150, 52.5 )
 popup_exclusive = true
 window_title = "NEW_CHALLENGE"
 dialog_text = "NEW_CHALLENGE_MESSAGE"
@@ -196,6 +188,7 @@ margin_left = -100.0
 margin_top = -35.0
 margin_right = 100.0
 margin_bottom = 35.0
+rect_min_size = Vector2( 150, 52.5 )
 window_title = "Por favor, Confirma..."
 dialog_text = "FRIEND_REQUEST_MESSAGE"
 
