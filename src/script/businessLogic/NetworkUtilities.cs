@@ -462,11 +462,20 @@ namespace ReversiFEI.Network
             }
         }
         
-        public void ChangeNickname(string newNickname)
+        public bool ChangeNickname(string newNickname)
         {
-            UserUtilities.ChangeNickname(Playername, newNickname);
-            Playername = newNickname;
-            GD.Print("Nickname updated");
+            var nicknameUpdated = UserUtilities.ChangeNickname(Playername, newNickname);
+            
+            if(nicknameUpdated)
+            {
+                Playername = newNickname;
+                GD.Print("Nickname updated");
+            }
+            else
+            {
+                GD.Print("Nickname was not updated");
+            }
+            return nicknameUpdated;
         }
     }
 }
