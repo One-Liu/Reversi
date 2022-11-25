@@ -292,9 +292,9 @@ namespace ReversiFEI.Controller
             GetNode<WindowDialog>("PopUp/ChangeAvatar").Visible = true;
         }
 
-        private void HidePlayerOptionsPopUp()
+        private void HideChangeAvatarPopUp()
         {
-            GetNode<WindowDialog>("PlayerOptions").Visible = false;
+            GetNode<WindowDialog>("ChangeAvatar").Visible = false;
         }
         
         private void ChangeSoundState()
