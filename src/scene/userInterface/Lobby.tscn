@@ -204,7 +204,7 @@ margin_left = -100.0
 margin_top = -35.0
 margin_right = 100.0
 margin_bottom = 35.0
-window_title = "Por favor, Confirma..."
+window_title = "NEW_FRIEND_REQUEST"
 dialog_text = "FRIEND_REQUEST_MESSAGE"
 
 [connection signal="pressed" from="Panel/SendButton" to="." method="SendMessage"]

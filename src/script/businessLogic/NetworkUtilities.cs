@@ -21,6 +21,10 @@ namespace ReversiFEI.Network
         delegate void MessageReceived();
         
         [Signal]
+        delegate void MessageReceivedMatch();
+        
+        
+        [Signal]
         delegate void LoggedIn();
         
         [Signal]
@@ -46,6 +50,8 @@ namespace ReversiFEI.Network
         
         public string Playername { get; set;}
         
+        public int PlayerId{get; set;}
+        
         public int OpponentId { get; set;}
         
          public int FriendId { get; set;}
@@ -58,6 +64,15 @@ namespace ReversiFEI.Network
             set {messages = value;}
         }
         
+        private List<string> messagesMatch = new List<string>();
+        
+        public List<string> MessagesMatch
+        {
+            get {return messages;}
+            set {messages = value;}
+        }
+        
+        
         private Dictionary<int, string> players = new Dictionary<int, string>();
         
         public Dictionary<int, string> Players
@@ -66,13 +81,6 @@ namespace ReversiFEI.Network
             set {players = value;}
         }
         
-        private Dictionary<int, string> friends = new Dictionary<int, string>();
-        
-        public Dictionary<int, string> Friends
-        {
-            get {return players;}
-            set {players = value;}
-        }
         
         public override void _Ready()
         {
@@ -124,11 +132,8 @@ namespace ReversiFEI.Network
         public void LeaveGame()
         {
             GD.Print("Leaving current game");
-
             players.Clear();
-
             Rpc(nameof(RemovePlayer), GetTree().GetNetworkUniqueId());
-
             ((NetworkedMultiplayerENet)GetTree().NetworkPeer).CloseConnection();
             GetTree().NetworkPeer = null;
         }
@@ -137,6 +142,20 @@ namespace ReversiFEI.Network
         {
             var peerId = Playername;
             Rpc(nameof(ReceiveMessage), peerId, message);
+        }
+        
+        public void SendMessageMatch(string message)
+        {
+            var peerId = Playername;
+            Rpc(nameof(ReceiveMessageMatch), peerId, message);
+        }
+        
+        [RemoteSync]
+        public void ReceiveMessageMatch(string nickname,string message)
+        {
+            string receivedMessage = nickname+ ": " + message + "\n";
+            MessagesMatch.Add(receivedMessage);
+            EmitSignal(nameof(MessageReceivedMatch));
         }
         
         [RemoteSync]
@@ -158,9 +177,7 @@ namespace ReversiFEI.Network
         private void ReceiveChallenge()
         {
             OpponentId = GetTree().GetRpcSenderId();
-            
             GD.Print($"Challenged by player {OpponentId}");
-            
             EmitSignal(nameof(ChallengeReceived));
         }
         
@@ -177,7 +194,7 @@ namespace ReversiFEI.Network
                 OpponentId = -1;
             }
         }
-
+        
         [Remote]
         private void ChallengeAccepted()
         {
@@ -201,7 +218,7 @@ namespace ReversiFEI.Network
         
          public void SendFriendRequest(int playerid)
         {
-            GD.Print($"Friend request sent {playerid}");
+             GD.Print($"Friend request sent to {playerid}");
             RpcId(playerid, nameof(ReceiveFriendRequest));
         }
         
@@ -209,31 +226,34 @@ namespace ReversiFEI.Network
         private void ReceiveFriendRequest()
         {
             FriendId = GetTree().GetRpcSenderId();
-            
             GD.Print($"Friend request sent by player {FriendId}");
-            
             EmitSignal(nameof(FriendRequestReceived));
         }
         
-        public void ReplyToFriendRequest(bool acceptFriendRequest)
+        public void ReplyToFriendRequest(bool acceptFriendRequest,string playerFriend, string playerToBeFriend)
         {
             GD.Print("Responding succesfully.");
             if(acceptFriendRequest)
             {
-                RpcId(FriendId,nameof(ChallengeAccepted));
+                UserUtilities.AddFriend(playerToBeFriend,playerFriend);
+                GD.Print("Añade amigo");
             }
             else
             {
-                RpcId(FriendId,nameof(ChallengeDeclined));
-                OpponentId = -1;
+                RpcId(FriendId,nameof(FriendRequestDeclined));
+                FriendId = -1;
             }
         }
         
         [Remote]
-        private void FriendRequestAccepted()
+        public void FriendRequestAccepted(string playerFriend, string playerToBeAdded)
         {
             if(FriendId == GetTree().GetRpcSenderId())
-               GD.Print("Añade amigo");
+            {
+                //UserUtilities.AddFriend(playerToBeAdded,playerFriend);
+                GD.Print("Añade amigo");
+            }
+           
             else
             {
                 //Add friend
@@ -322,6 +342,7 @@ namespace ReversiFEI.Network
                 GD.Print($"Player no.{peerId} has disconnected.");
             }
         }
+        
         
         [Master]
         private void LogInPlayer(string email, string password)

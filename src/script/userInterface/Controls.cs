@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Net.Mail;
 using EmailValidation;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using MySql.Data.MySqlClient;
 using ReversiFEI.Network;
+using System.Text;
 
 namespace ReversiFEI.Controller
 {
@@ -134,29 +136,48 @@ namespace ReversiFEI.Controller
         private bool ValidatePassword(String password) {        
             return !String.IsNullOrEmpty(password);
         }
-
-        private async Task SignUp()
-        {
-            string email = GetParent().GetNode<LineEdit>("EmailLineEdit").Text;
-            string username = GetParent().GetNode<LineEdit>("UsernameLineEdit").Text;
-            string password = GetParent().GetNode<LineEdit>("PasswordLineEdit").Text;
-            string confirmPassword = GetParent().GetNode<LineEdit>("ConfirmPasswordLineEdit").Text;
         
+         private void Register()
+        {
+            Random generator = new Random();
+            string email = GetNode<LineEdit>("EmailLineEdit").Text;
+            string username = GetNode<LineEdit>("UsernameLineEdit").Text;
+            string password = GetNode<LineEdit>("PasswordLineEdit").Text;
+            string confirmPassword = GetNode<LineEdit>("ConfirmPasswordLineEdit").Text;
+            int verificationCode = generator.Next(100000, 1000000);
+                
             if(ValidateEmail(email) && password.Equals(confirmPassword))
             {
-                networkUtilities.JoinGame();
-                await ToSignal(GetTree(), "connected_to_server");
-                if(GetTree().NetworkPeer == null)
-                    GD.Print("Sign up failed.");
-                else
-                    networkUtilities.SignUp(email, username, password);
+                try
+                    {
+                        SmtpClient client = new SmtpClient("smtp-mail.outlook.com");
+                        client.Port = 587;
+                        client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                        client.UseDefaultCredentials = false;
+                        System.Net.NetworkCredential credential =
+                            new System.Net.NetworkCredential("reversifei@outlook.com", email);
+                        client.EnableSsl = true;
+                        client.Credentials = credential;
+
+                        MailMessage message = new MailMessage("reversifei@outlook.com", "franciscoxavieram@gmail.com");
+                        message.Subject = "Verification code for ReversiFEI";
+                        message.Body = "Hi, thanks for playing this game, this is your verification code: "+ verificationCode;
+                        client.Send(message);
+                        //int verification =  int.Parse(GetNode<LineEdit>("Verification/TextEdit").Text);
+                       GetNode<WindowDialog>("Verification").Visible = true;
+                       // VerificationButtonPressed(email,username,password,verificationCode,verification);
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
             }
         }
 
         private async Task LogIn()
         {
-            string email = GetParent().GetNode<LineEdit>("EmailLineEdit").Text;
-            string password = GetParent().GetNode<LineEdit>("PasswordLineEdit").Text;
+            string email = GetNode<LineEdit>("EmailLineEdit").Text;
+            string password = GetNode<LineEdit>("PasswordLineEdit").Text;
             
             if(ValidateEmail(email) && ValidatePassword(password)) 
             {
@@ -175,6 +196,25 @@ namespace ReversiFEI.Controller
             } else {
                 GD.Print("Invalid email or password");
             }   
+        }
+        
+        private async Task VerificationButtonPressed(string email, string username, string password, int verificationCode,int codeEntered)
+        {
+            if(verificationCode==codeEntered)
+            {
+                networkUtilities.JoinGame();
+                await ToSignal(GetTree(), "connected_to_server");
+                if(GetTree().NetworkPeer == null)
+                    GD.Print("Sign up failed.");
+                else
+                {
+                    networkUtilities.SignUp(email, username, password);
+                }
+            }else
+            {
+                GetNode<AcceptDialog>("IncorrectDialog").Visible = true;
+                string verification = GetNode<LineEdit>("Verification/TextEdit").Text;
+            }
         }
         
         private void ShowConnectionFailedPopUp()
@@ -311,4 +351,7 @@ namespace ReversiFEI.Controller
     }
 }
     
+    
+
+
     
