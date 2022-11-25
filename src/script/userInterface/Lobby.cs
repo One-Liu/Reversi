@@ -36,6 +36,10 @@ namespace ReversiFEI.Network
                     networkUtilities.JoinGame();
                 }
             }
+            else
+            {
+                SetOnlinePlayers();
+            }
             
             networkUtilities.Connect("MessageReceived",this,nameof(ReceiveMessages));
             networkUtilities.Connect("PlayersOnline",this,nameof(SetOnlinePlayers));
@@ -174,8 +178,6 @@ namespace ReversiFEI.Network
         {
             networkUtilities.SendFriendRequest(networkUtilities.FriendId);
         }
-        
-        
         
         private void FriendRequestReplyReceived()
         {
