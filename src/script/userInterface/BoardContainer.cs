@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using ReversiFEI.Network;
+using ReversiFEI.Controller;
 
 namespace ReversiFEI.Matches
 {
@@ -20,28 +21,37 @@ namespace ReversiFEI.Matches
         public int OpponentPiece { get; set;}
         
         private int[,] board;
+        private int myPieces = 0;
+        private int opponentPieces = 0;
         
         private NetworkUtilities networkUtilities;
+        private Controls controls;
         
         public override void _Ready()
         {
             networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
+            controls = GetNode("/root/Controls") as Controls;
             
             networkUtilities.Connect("PiecePlaced",this,nameof(ReceiveOpponentMove));
-            
-            PlayerTexture = (Texture) ResourceLoader.Load("res://resources/square_set1piece1.png");
-            OpponentTexture = (Texture) ResourceLoader.Load("res://resources/square_set1piece2.png");
-            ValidTexture = (Texture) ResourceLoader.Load("res://resources/square_valid.png");
-            
+            networkUtilities.Connect("OpponentTurnSkipped",this,nameof(OpponentSkippedTurn));
+            networkUtilities.Connect("MatchEnded",this,nameof(Results));
+
             Columns = boardSize;
-            PlayerPiece = 1; //Change to choose depending on turn order
-                             //ej. if player 1 then PlayerPiece = 1
-                             //else PlayerPiece = -1
+            PlayerPiece = networkUtilities.MyPiece;
 
             if(PlayerPiece == 1)
+            {
                 OpponentPiece = -1;
+                PlayerTexture = (Texture) ResourceLoader.Load("res://resources/square_set1piece1.png");
+                OpponentTexture = (Texture) ResourceLoader.Load("res://resources/square_set1piece2.png");
+            }
             else
+            {
                 OpponentPiece = 1;
+                PlayerTexture = (Texture) ResourceLoader.Load("res://resources/square_set1piece2.png");
+                OpponentTexture = (Texture) ResourceLoader.Load("res://resources/square_set1piece1.png");
+            }
+            ValidTexture = (Texture) ResourceLoader.Load("res://resources/square_valid.png");
             
             board = CreateBoard(boardSize);
             Populate(boardSize);
@@ -75,6 +85,9 @@ namespace ReversiFEI.Matches
                 board[coordinate1,coordinate2] = -1;
                 
                 UpdateGameState(board);
+                
+                if(!networkUtilities.MyTurn)
+                    LockTiles();
             }
             else
             {
@@ -88,19 +101,7 @@ namespace ReversiFEI.Matches
             {
                 board[xPosition,yPosition] = newState;
 
-                FlipPieces(PlayerPiece,1,0);    //Horizontal search
-                FlipPieces(PlayerPiece,-1,0);
-                FlipPieces(PlayerPiece,0,1);    //Vertical search
-                FlipPieces(PlayerPiece,0,-1);
-                FlipPieces(PlayerPiece,1,1);    //Diagonal search
-                FlipPieces(PlayerPiece,-1,-1);
-                
-                FlipPieces(OpponentPiece,1,0);
-                FlipPieces(OpponentPiece,-1,0);
-                FlipPieces(OpponentPiece,0,1);
-                FlipPieces(OpponentPiece,0,-1);
-                FlipPieces(OpponentPiece,1,1);
-                FlipPieces(OpponentPiece,-1,-1);
+                CheckBoard();
                 
                 UpdateGameState(board);
             }
@@ -109,7 +110,7 @@ namespace ReversiFEI.Matches
         public void MakeMove(int xPosition, int yPosition, int newState)
         {
             int opponentId = networkUtilities.OpponentId;
-            networkUtilities.SendMove(xPosition,yPosition,newState,opponentId);
+            networkUtilities.SendMove(xPosition,yPosition,newState);
             ChangeTileState(xPosition,yPosition,newState);
             LockTiles();
         }
@@ -117,7 +118,10 @@ namespace ReversiFEI.Matches
         private void ReceiveOpponentMove(int xPosition, int yPosition, int newState)
         {
             ChangeTileState(xPosition,yPosition,newState);
-            UnlockTiles();
+            if(MovesAvailable())
+                UnlockTiles();
+            else
+                networkUtilities.SkipTurn(false);
         }
         
         private void Populate(int boardSize)
@@ -179,6 +183,25 @@ namespace ReversiFEI.Matches
             return legalMove;
         }
         
+        private bool MovesAvailable()
+        {
+            bool availableMoves = false;
+            foreach(Tile tile in GetChildren())
+            {
+                if(IsLegalMove(tile.XPosition,tile.YPosition))
+                    availableMoves = true;
+            }
+            return availableMoves;
+        }
+        
+        private void OpponentSkippedTurn()
+        {
+            if(MovesAvailable())
+                UnlockTiles();
+            else
+                networkUtilities.SkipTurn(true);
+        }
+        
         private void LockTiles()
         {
             foreach(Tile t in GetChildren())
@@ -196,6 +219,27 @@ namespace ReversiFEI.Matches
                 if(IsLegalMove(x,y) && board[x,y] == EMPTY_CELL)
                     t.Disabled = false;
             }
+        }
+        
+        private void CheckBoard()
+        {
+            FlipPieces(PlayerPiece,1,0);    //Horizontal search
+            FlipPieces(PlayerPiece,-1,0);
+            FlipPieces(PlayerPiece,0,1);    //Vertical search
+            FlipPieces(PlayerPiece,0,-1);
+            FlipPieces(PlayerPiece,1,1);    //Diagonal search
+            FlipPieces(PlayerPiece,-1,-1);
+            FlipPieces(PlayerPiece,1,-1);
+            FlipPieces(PlayerPiece,-1,1);
+            
+            FlipPieces(OpponentPiece,1,0);
+            FlipPieces(OpponentPiece,-1,0);
+            FlipPieces(OpponentPiece,0,1);
+            FlipPieces(OpponentPiece,0,-1);
+            FlipPieces(OpponentPiece,1,1);
+            FlipPieces(OpponentPiece,-1,-1);
+            FlipPieces(OpponentPiece,1,-1);
+            FlipPieces(OpponentPiece,-1,1);
         }
         
         private void FlipPieces(int piece, int xDirection, int yDirection)
@@ -246,6 +290,9 @@ namespace ReversiFEI.Matches
                         }
                     }
                 }
+                
+                myPieces = CountPieces(PlayerPiece);
+                opponentPieces = CountPieces(OpponentPiece);
             }
             
             foreach(var (x,y) in tilesToFlip)
@@ -287,6 +334,41 @@ namespace ReversiFEI.Matches
                     }
                 }
             }
+            
+            CheckBoard();
+            
+            if(MovesAvailable())
+                UnlockTiles();
+            else
+                networkUtilities.SkipTurn(false);
+        }
+        
+        private int CountPieces(int piece)
+        {
+            int count = 0;
+            
+            for(int x = 0; x < board.GetLength(0); x++)
+            {
+                for(int y = 0; y < board.GetLength(1); y++)
+                {
+                    if(board[x,y] == piece)
+                        count++;
+                }
+            }
+            
+            return count;
+        }
+        
+        private void Results()
+        {
+            if(myPieces > opponentPieces)
+                GD.Print("You won!");
+            else if(myPieces > opponentPieces)
+                GD.Print("You lost...");
+            else
+                GD.Print("Tie!?");
+                
+            controls.GoToLobby();
         }
     }
 }

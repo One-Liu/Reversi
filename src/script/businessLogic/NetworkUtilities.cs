@@ -47,11 +47,21 @@ namespace ReversiFEI.Network
         [Signal]
         delegate void PiecePlaced(int x, int y, int piece);
         
+        [Signal]
+        delegate void OpponentTurnSkipped();
+        
+        [Signal]
+        delegate void MatchEnded();
+        
         public string Playername { get; set;}
         
         public int OpponentId { get; set;}
         
-         public int FriendId { get; set;}
+        public int FriendId { get; set;}
+        
+        public bool MyTurn { get; set;}
+        
+        public int MyPiece { get; set;}
         
         private List<string> messages = new List<string>();
         
@@ -154,7 +164,6 @@ namespace ReversiFEI.Network
             RpcId(playerid, nameof(ReceiveChallenge));
         }
         
-       
         [Remote]
         private void ReceiveChallenge()
         {
@@ -167,10 +176,24 @@ namespace ReversiFEI.Network
         
         public void ReplyToChallenge(bool accept)
         {
+            bool firstTurnDecide = false;
+            int firstTurn = (int) GD.Randi() % 2;
+            
+            MyPiece = -1;
+            int piece = 1;
+            
+            if(firstTurn == 1)
+            {
+                firstTurnDecide = true;
+                MyPiece = 1;
+                piece = -1;
+            }
+            
             GD.Print("Responding succesfully.");
             if(accept)
             {
-                RpcId(OpponentId,nameof(ChallengeAccepted));
+                RpcId(OpponentId,nameof(ChallengeAccepted),firstTurnDecide,piece);
+                MyTurn = !firstTurnDecide;
             }
             else
             {
@@ -180,10 +203,14 @@ namespace ReversiFEI.Network
         }
 
         [Remote]
-        private void ChallengeAccepted()
+        private void ChallengeAccepted(bool turn, int piece)
         {
             if(OpponentId == GetTree().GetRpcSenderId())
+            {
                 EmitSignal(nameof(StartMatch));
+                MyTurn = turn;
+                MyPiece = piece;
+            }
             else
             {
                 EmitSignal(nameof(CancelMatch));
@@ -251,15 +278,40 @@ namespace ReversiFEI.Network
             OpponentId = -1;
         }
         
-        public void SendMove(int x, int y, int piece, int opponentId)
+        public void SendMove(int x, int y, int piece)
         {
-            RpcId(opponentId,nameof(ReceiveMove),x,y,piece);
+            RpcId(OpponentId,nameof(ReceiveMove),x,y,piece);
         }
         
         [RemoteSync]
         private void ReceiveMove(int x, int y, int piece)
         {
             EmitSignal(nameof(PiecePlaced),x,y,piece);
+        }
+        
+        public void SkipTurn(bool lastTurnSkipped)
+        {
+            if(lastTurnSkipped)
+            {
+                RpcId(OpponentId,nameof(EndMatch));
+                EmitSignal(nameof(MatchEnded));
+            }
+            else
+            {
+                RpcId(OpponentId,nameof(TurnSkipped));
+            }
+        }
+        
+        [Remote]
+        private void TurnSkipped()
+        {
+            EmitSignal(nameof(OpponentTurnSkipped));
+        }
+        
+        [Remote]
+        private void EndMatch()
+        {
+            EmitSignal(nameof(MatchEnded));
         }
         
         private void PlayerConnected(int peerId)

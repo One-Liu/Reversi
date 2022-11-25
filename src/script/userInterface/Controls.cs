@@ -52,7 +52,7 @@ namespace ReversiFEI.Controller
             GetTree().ChangeScene("res://src/scene/userInterface/ReversiMenu.tscn");
         }
         
-        private void GoToLobby()
+        public void GoToLobby()
         {
             GetTree().ChangeScene("res://src/scene/userInterface/Lobby.tscn");
         }
