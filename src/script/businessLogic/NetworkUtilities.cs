@@ -477,5 +477,20 @@ namespace ReversiFEI.Network
             }
             return nicknameUpdated;
         }
+        
+        public bool ChangePassword(string newPassword)
+        {
+            var passwordUpdated = UserUtilities.ChangePassword(Playername, newNickname);
+            
+            if(passwordUpdated)
+            {
+                GD.Print("Password updated");
+            }
+            else
+            {
+                GD.Print("Password was not updated");
+            }
+            return passwordUpdated;
+        }
     }
 }

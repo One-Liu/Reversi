@@ -144,48 +144,76 @@ namespace ReversiFEI.UserTools
         {
             var nicknameUpdated = false;
             
-            if(ValidNickname(newNickname))
+            using (var db = new PlayerContext())
             {
-                using (var db = new PlayerContext())
+                try
                 {
-                    try
+                    var user = 
+                        (from player in db.Player
+                        where player.Nickname == nickname
+                        select player).FirstOrDefault();
+                    
+                    var nicknameAlreadyRegistered = 
+                        (from player in db.Player
+                        where player.Nickname == newNickname
+                        select player).FirstOrDefault();
+                    
+                    if(nicknameAlreadyRegistered == null)
                     {
-                        var user = 
-                            (from player in db.Player
-                            where player.Nickname == nickname
-                            select player).FirstOrDefault();
-                        
-                        var nicknameAlreadyRegistered = 
-                            (from player in db.Player
-                            where player.Nickname == newNickname
-                            select player).FirstOrDefault();
-                        
-                        if(nicknameAlreadyRegistered == null)
-                        {
-                            user.Nickname = newNickname;
-                            db.SaveChanges();
-                            nicknameUpdated = true;
-                        }
+                        user.Nickname = newNickname;
+                        db.SaveChanges();
+                        nicknameUpdated = true;
                     }
-                    catch(MySqlException e)
-                    {
-                        GD.PushError(e.Message);
-                        throw;    
-                    }
+                }
+                catch(MySqlException e)
+                {
+                    GD.PushError(e.Message);
+                    throw;    
                 }
             }
             
             return nicknameUpdated;
         }
         
-        private static bool ValidNickname(string nickname)
+        public static bool ChangePassword(string nickname, string password)
         {
-            var validNickname = false;
+            var passwordUpdated = false;
             
-            if(nickname != null && nickname.All(char.IsLetterOrDigit))
-                validNickname = true;
+            using (var db = new PlayerContext())
+            {
+                try
+                {
+                    var player = 
+                        (from player in db.Player
+                        where player.Nickname == nickname
+                        select player).FirstOrDefault();
+                    
+                    using (var deriveBytes = new Rfc2898DeriveBytes(password, salt))
+                    {
+                        byte[] newKey = deriveBytes.GetBytes(64);
+                        
+                        if(newKey.SequenceEqual(key))
+                        {
+                            return player.Nickname;
+                        } 
+                        else
+                        {
+                            return null;
+                        }
+                    }
+                    
+                    player.Password = password;
+                    db.SaveChanges();
+                    passwordUpdated = true;
+                }
+                catch(MySqlException e)
+                {
+                    GD.PushError(e.Message);
+                    throw;    
+                }
+            }
             
-            return validNickname;
+            return passwordUpdated;
         }
     }
 }

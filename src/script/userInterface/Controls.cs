@@ -311,12 +311,11 @@ namespace ReversiFEI.Controller
         
         private void ChangeNickname()
         {
-            var nickname = GetNode<LineEdit>("ChangeNickname/NewNicknameLineEdit").Text;
             var userNickname = networkUtilities.Playername;
-            
+            var nickname = GetNode<LineEdit>("ChangeNickname/NewNicknameLineEdit").Text;
             var newNickname = String.Concat(nickname.Where(c => !Char.IsWhiteSpace(c)));
             
-            if(userNickname != newNickname)
+            if(ValidNickname(userNickname, newNickname))
             {
                 var nicknameUpdated = networkUtilities.ChangeNickname(newNickname);
             
@@ -330,10 +329,48 @@ namespace ReversiFEI.Controller
             GetNode<WindowDialog>("ChangeNickname").Visible = false;
         }
         
+        private bool ValidNickname(string oldNickname, string newNickname)
+        {
+            var validNickname = false;
+            
+            if(!string.IsNullOrEmpty(newNickname) && newNickname != oldNickname && newNickname.All(char.IsLetterOrDigit))
+                validNickname = true;
+            
+            return validNickname;
+        }
+        
         private void _on_Panel_ready()
         {
             var userNickname = networkUtilities.Playername;
             GetNode<Label>("UserNicknameTitle").Text = userNickname;
+        }
+        
+        private void ChangePassword()
+        {   
+            var password = GetNode<LineEdit>("ChangePassword/NewPasswordLineEdit").Text;
+            var newPassword = String.Concat(password.Where(c => !Char.IsWhiteSpace(c)));
+            
+            if(ValidPassword(newPassword))
+            {
+                var passwordUpdated = networkUtilities.ChangePassword(newPassword);
+                
+                if(passwordUpdated)
+                {
+                    GetNode<WindowDialog>("PasswordUpdated").Visible = true;
+                } 
+            }
+            
+            GetNode<WindowDialog>("ChangePassword").Visible = false;
+        }
+        
+        private bool ValidPassword(string newPassword)
+        {
+            var validPassword = false;
+            
+            if(!string.IsNullOrEmpty(newPassword) && newPassword.All(char.IsLetterOrDigit))
+                validPassword = true;
+            
+            return validPassword;
         }
     }
 }
