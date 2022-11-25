@@ -330,6 +330,7 @@ margin_left = -97.5
 margin_top = -17.5
 margin_right = 97.5
 margin_bottom = 6.5
+max_length = 20
 
 [node name="AcceptButton" type="Button" parent="ChangeNickname"]
 anchor_left = 0.5

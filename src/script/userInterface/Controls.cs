@@ -311,9 +311,29 @@ namespace ReversiFEI.Controller
         
         private void ChangeNickname()
         {
-            var newNickname = GetNode<LineEdit>("ChangeNickname/NewNicknameLineEdit").Text;
-            networkUtilities.ChangeNickname(newNickname);
+            var nickname = GetNode<LineEdit>("ChangeNickname/NewNicknameLineEdit").Text;
+            var userNickname = networkUtilities.Playername;
+            
+            var newNickname = String.Concat(nickname.Where(c => !Char.IsWhiteSpace(c)));
+            
+            if(userNickname != newNickname)
+            {
+                var nicknameUpdated = networkUtilities.ChangeNickname(newNickname);
+            
+                if(nicknameUpdated)
+                {
+                    GetParent().GetNode<Label>("UserNicknameTitle").Text = newNickname;
+                    GetNode<WindowDialog>("NicknameUpdated").Visible = true;
+                }
+            }
+            
             GetNode<WindowDialog>("ChangeNickname").Visible = false;
+        }
+        
+        private void _on_Panel_ready()
+        {
+            var userNickname = networkUtilities.Playername;
+            GetNode<Label>("UserNicknameTitle").Text = userNickname;
         }
     }
 }

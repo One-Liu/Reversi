@@ -140,26 +140,52 @@ namespace ReversiFEI.UserTools
             }
         }
         
-        public static void ChangeNickname(string nickname, string newNickname)
-        {            
-            using (var db = new PlayerContext())
+        public static bool ChangeNickname(string nickname, string newNickname)
+        {
+            var nicknameUpdated = false;
+            
+            if(ValidNickname(newNickname))
             {
-                try
+                using (var db = new PlayerContext())
                 {
-                    var user = 
-                        (from player in db.Player
-                        where player.Nickname == nickname
-                        select player).FirstOrDefault();
-                    
-                    user.Nickname = newNickname;
-                    db.SaveChanges();
-                }
-                catch(MySqlException e)
-                {
-                    GD.PushError(e.Message);
-                    throw;    
+                    try
+                    {
+                        var user = 
+                            (from player in db.Player
+                            where player.Nickname == nickname
+                            select player).FirstOrDefault();
+                        
+                        var nicknameAlreadyRegistered = 
+                            (from player in db.Player
+                            where player.Nickname == newNickname
+                            select player).FirstOrDefault();
+                        
+                        if(nicknameAlreadyRegistered == null)
+                        {
+                            user.Nickname = newNickname;
+                            db.SaveChanges();
+                            nicknameUpdated = true;
+                        }
+                    }
+                    catch(MySqlException e)
+                    {
+                        GD.PushError(e.Message);
+                        throw;    
+                    }
                 }
             }
+            
+            return nicknameUpdated;
+        }
+        
+        private static bool ValidNickname(string nickname)
+        {
+            var validNickname = false;
+            
+            if(nickname != null && nickname.All(char.IsLetterOrDigit))
+                validNickname = true;
+            
+            return validNickname;
         }
     }
 }
