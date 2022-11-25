@@ -4,19 +4,41 @@ es_MX,Spanish (México),Español (México)
 CONNECTION_FAILED, Connection failed., Hubo un error de conexión.
 CONNECTION_FAILED_MESSAGE,Please try again later., Por favor intentelo de nuevo.
 CONNECTION_FAILED_BTN,Continue,Continuar
+NEW_CHALLENGE,New challenge,Nuevo desafío
+NEW_CHALLENGE_MESSAGE,You have been challenged!,¡Has sido desafiado!
+CHALLENGE_DECLINED,Challenge declined,Desafío rechazado
+CHALLENGE_DECLINED_MESSAGE,Your challenge has been declined,Tu desafío ha sido rechazado
+CHANGE_NICKNAME,Change nickname,Cambiar apodo
+CHANGE_NICKNAME_MESSAGE,New nickname,Nuevo apodo
+CHANGE_SET_OF_PIECES,Change set of pieces,Cambiar conjunto de piezas
+CHANGE_AVATAR,Change avatar,Cambiar avatar
+FRIEND_ADDED,Friend added,Amigo agregado
+FRIEND_ADDED_MESSAGE,A player has been added to your friends list,Un jugador ha sido agregado a tu lista de amigos
+FRIEND_DELETED,Friend deleted,Amigo eliminado
+FRIEND_DELETED_MESSAGE,A player has been deleted from your friends list,Un jugador ha sido eliminado de tu lista de amigos
+SET_OF_PIECES_UPDATED,Set of pieces updated,Conjunto de piezas actualizado
+SET_OF_PIECES_UPDATED_MESSAGE,Your set of pieces has been changed succesfully,Tu conjunto de piezas ha sido cambiado exitosamente
+PASSWORD_UPDATED,Password updated,Contraseña actualizada
+PASSWORD_UPDATED_MESSAGE,Your password has been changed succesfully,Tu contraseña ha sido cambiada exitosamente
+NICKNAME_UPDATED,Nickname updated,Apodo actualizado
+NICKNAME_UPDATED_MESSAGE,Your nickname has been changed succesfully,Tu apodo ha sido cambiado exitosamente
 LOGIN,Log in,Iniciar Sesión
 REGISTER,Sign up,Registrarse
 LOGIN_GUEST,Log in as a guest,Jugar como invitado
 EXIT,Exit,Salir
+ACCEPT,Accept,Aceptar
+CANCEL,Cancel,Cancelar
 CHANGE_LANGUAGE,Change language,Cambiar lenguaje
+CHANGE_PASSWORD,Change password,Cambiar contraseña
+NEW_PASSWORD,New password,Nueva contraseña
 LANGUAGE,Language,Lenguaje
 NICKNAME,Nickname,Apodo
-EMAIL,Email,Email
+EMAIL,Email,Correo electrónico
 RETURN,Return,Regresar
 PASSWORD,Password,Contraseña
 CONFIRM_PASSWORD,Confirm password,Confirmar contraseña
-INCORRECT_EMAIL_OR_PASSWORD,Incorrect email or password.,Email o constraseña incorrecta.
-REQUIRED_FIELD,This field cannot be empty.,Este campo no puede estar vacío.
+INCORRECT_EMAIL_OR_PASSWORD,Incorrect email or password.,Email o contraseña incorrecta.
+REQUIRED_FIELD,Fields cannot be empty.,Los campos no pueden estar vacíos.
 PASSWORD_MISMATCH,Passwords don't match.,Las contraseñas no coinciden.
 ENTER_LOBBY,Enter lobby,Entrar al lobby
 HOW_TO_PLAY,How to play,Como jugar
@@ -25,6 +47,7 @@ LOBBY,Lobby,Lobby
 TYPE_MESSAGE,Type a message here...,Escribe un mensaje aquí...
 SOCIAL,Social,Social
 FRIENDS,Friends,Amigos
+SEND,Send,Enviar
 OTHER_PLAYERS,Other players,Otros jugadores
 ONLINE,Online,En línea
 CHALLENGE,Challenge,Retar
@@ -32,6 +55,7 @@ DELETE_FRIEND,Remove from friends,Quitar de amigos
 ADD_FRIEND,Add friend,Añadir amigo
 CUSTOMIZE_PROFILE,Customize profile,Personalizar perfil
 PIECE_APPEARANCE,Customize pieces,Personalizar piezas
+AVATAR_APPEARANCE,Customize avatar,Personalizar avatar
 EDIT,Edit,Editar
 SOUND,Sound,Sonido
 ACTIVATE_SOUND,Sound On/Off,Activar/Desactivar sonido
@@ -42,3 +66,5 @@ INSTRUCTIONS_4,"*In order to make a move, you must place your piece in such a wa
 INSTRUCTIONS_5,"*When a player has no valid moves they must skip their turn. Players cannot forfeit their turn voluntarily".,"*Cuando un jugador no tiene movimientos válidos este debes saltar su turno. Un jugador no puede saltar su turno voluntariamente."
 INSTRUCTIONS_6,"*When you surround your opponent's pieces with yours, they become yours.","*Cuando rodeas las fichas de tu oponente, se convierten en tus fichas."
 INSTRUCTIONS_7,"*When it's not possible for both players to make any more moves, whoever has more pieces on the board wins.","*Cuando no es posible que ningún jugador realize más movimientos, el jugador que tiene más fichas en el tablero gana."
+FRIENDS_LIST,Friends list,Lista de amigos
+LEADERBOARD,Leaderboard,Tabla de clasificación

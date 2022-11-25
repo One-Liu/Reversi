@@ -1,54 +1,70 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/script/userInterface/Controls.cs" type="Script" id=1]
-[ext_resource path="res://src/script/userInterface/Lobby.cs" type="Script" id=2]
+[ext_resource path="res://resources/challenge.png" type="Texture" id=2]
+[ext_resource path="res://src/script/userInterface/Lobby.cs" type="Script" id=4]
+
+[sub_resource type="Theme" id=1]
+
+[sub_resource type="ImageTexture" id=2]
 
 [node name="Lobby" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 2 )
+script = ExtResource( 4 )
 
-[node name="TitleLobby" type="RichTextLabel" parent="."]
-anchor_left = 0.039
-anchor_top = 0.055
-anchor_right = 0.039
-anchor_bottom = 0.055
-margin_left = -19.936
-margin_top = -20.0
-margin_right = 20.064
-margin_bottom = 20.0
-text = "Lobby"
+[node name="Panel" type="Panel" parent="."]
+margin_left = 36.0
+margin_top = 74.0
+margin_right = 761.0
+margin_bottom = 552.0
 
-[node name="TitleChat" type="RichTextLabel" parent="."]
-anchor_left = 0.039
-anchor_top = 0.092
-anchor_right = 0.039
-anchor_bottom = 0.092
-margin_left = -19.936
-margin_top = -20.2
-margin_right = 20.064
-margin_bottom = 19.8
-text = "Chat"
-
-[node name="ChatLineEdit" type="LineEdit" parent="."]
+[node name="ChatLineEdit" type="LineEdit" parent="Panel"]
 anchor_left = 0.384
 anchor_top = 0.5
 anchor_right = 0.384
 anchor_bottom = 0.5
-margin_left = -353.216
-margin_top = 223.0
-margin_right = 353.784
-margin_bottom = 247.0
+margin_left = -270.4
+margin_top = 209.0
+margin_right = 379.6
+margin_bottom = 233.0
+placeholder_text = "TYPE_MESSAGE"
+
+[node name="ChatBox" type="TextEdit" parent="Panel"]
+margin_right = 721.0
+margin_bottom = 438.0
+
+[node name="SendButton" type="Button" parent="Panel"]
+modulate = Color( 0, 0.811765, 1, 1 )
+margin_left = 661.0
+margin_top = 449.0
+margin_right = 720.0
+margin_bottom = 473.0
+theme = SubResource( 1 )
+text = "SEND"
+
+[node name="TitleLobby" type="Label" parent="."]
+anchor_left = 0.039
+anchor_top = 0.055
+anchor_right = 0.039
+anchor_bottom = 0.055
+margin_left = -1.936
+margin_top = -11.0
+margin_right = 48.064
+margin_bottom = 29.0
+text = "LOBBY"
 
 [node name="ChatMessages" type="RichTextLabel" parent="."]
 anchor_left = 0.385
 anchor_top = 0.503
 anchor_right = 0.385
 anchor_bottom = 0.503
-margin_left = -349.24
-margin_top = -230.8
-margin_right = 348.76
-margin_bottom = 203.2
+margin_left = -355.24
+margin_top = -223.8
+margin_right = 364.76
+margin_bottom = 208.2
+fit_content_height = true
+scroll_active = false
 
 [node name="OnlinePlayersList" type="ItemList" parent="."]
 anchor_left = 0.866
@@ -60,6 +76,53 @@ margin_top = 13.0
 margin_right = 119.216
 margin_bottom = 251.0
 
+[node name="TitleOnline" type="Label" parent="OnlinePlayersList"]
+modulate = Color( 0.576471, 1, 0, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -2.0
+margin_bottom = -210.0
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "ONLINE"
+align = 1
+valign = 1
+
+[node name="OnlinePlayers" type="ItemList" parent="OnlinePlayersList"]
+margin_left = 4.0
+margin_top = 23.0
+margin_right = 239.0
+margin_bottom = 240.0
+
+[node name="Popup" type="Popup" parent="OnlinePlayersList/OnlinePlayers"]
+visible = true
+anchor_left = 0.911
+anchor_top = 0.774
+anchor_right = 0.911
+anchor_bottom = 0.774
+margin_left = -147.085
+margin_top = -94.958
+margin_right = -0.085022
+margin_bottom = 0.0419922
+
+[node name="ChallengeButton" type="Button" parent="OnlinePlayersList/OnlinePlayers/Popup"]
+modulate = Color( 1, 0.823529, 0.823529, 1 )
+margin_right = 163.0
+margin_bottom = 27.0
+text = "CHALLENGE"
+icon = ExtResource( 2 )
+expand_icon = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="AddFriendButton" type="Button" parent="OnlinePlayersList/OnlinePlayers/Popup"]
+margin_top = 28.0
+margin_right = 163.0
+margin_bottom = 49.0
+text = "ADD_FRIEND"
+icon = SubResource( 2 )
+
 [node name="OnlineFriendsList" type="ItemList" parent="."]
 anchor_left = 0.866
 anchor_top = 0.5
@@ -70,18 +133,34 @@ margin_top = -229.0
 margin_right = 119.216
 margin_bottom = 9.0
 
-[node name="TitleSocial" type="RichTextLabel" parent="."]
+[node name="TitleFriends" type="Label" parent="OnlineFriendsList"]
+modulate = Color( 0.576471, 1, 0, 1 )
+margin_right = 235.0
+margin_bottom = 27.0
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "FRIENDS"
+align = 1
+valign = 1
+
+[node name="OnlineFriends" type="ItemList" parent="OnlineFriendsList"]
+margin_top = 20.0
+margin_right = 237.0
+margin_bottom = 230.0
+
+[node name="TitleSocial" type="Label" parent="."]
 anchor_left = 0.866
 anchor_top = 0.5
 anchor_right = 0.866
 anchor_bottom = 0.5
-margin_left = -19.7841
+margin_left = -26.784
 margin_top = -274.0
-margin_right = 20.2159
+margin_right = 20.216
 margin_bottom = -234.0
-text = "Social"
+text = "SOCIAL"
 
 [node name="ReturnButton" type="Button" parent="."]
+modulate = Color( 1, 0.219608, 0.219608, 1 )
 anchor_left = 0.865
 anchor_top = 0.5
 anchor_right = 0.865
@@ -90,7 +169,41 @@ margin_left = -57.7601
 margin_top = 266.0
 margin_right = 57.2399
 margin_bottom = 286.0
-text = "Return"
+text = "RETURN"
 script = ExtResource( 1 )
 
-[connection signal="pressed" from="ReturnButton" to="ReturnButton" method="GoToMainMenu"]
+[node name="ChallengeNotice" type="ConfirmationDialog" parent="."]
+visible = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -100.0
+margin_top = -35.0
+margin_right = 100.0
+margin_bottom = 35.0
+popup_exclusive = true
+window_title = "NEW_CHALLENGE"
+dialog_text = "NEW_CHALLENGE_MESSAGE"
+
+[node name="FriendRequestNotice" type="ConfirmationDialog" parent="."]
+visible = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -100.0
+margin_top = -35.0
+margin_right = 100.0
+margin_bottom = 35.0
+window_title = "Por favor, Confirma..."
+dialog_text = "FRIEND_REQUEST_MESSAGE"
+
+[connection signal="pressed" from="Panel/SendButton" to="." method="SendMessage"]
+[connection signal="item_activated" from="OnlinePlayersList/OnlinePlayers" to="." method="_on_OnlinePlayers_item_activated"]
+[connection signal="about_to_show" from="OnlinePlayersList/OnlinePlayers/Popup" to="." method="_on_Popup_about_to_show"]
+[connection signal="pressed" from="OnlinePlayersList/OnlinePlayers/Popup/ChallengeButton" to="." method="ChallengePlayer"]
+[connection signal="pressed" from="OnlinePlayersList/OnlinePlayers/Popup/AddFriendButton" to="." method="AddFriend"]
+[connection signal="pressed" from="ReturnButton" to="ReturnButton" method="ExitLobby"]
+[connection signal="confirmed" from="ChallengeNotice" to="." method="AcceptChallenge"]
+[connection signal="confirmed" from="FriendRequestNotice" to="." method="AcceptFriendRequest"]

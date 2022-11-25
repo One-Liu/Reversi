@@ -1,0 +1,128 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/script/userInterface/BoardContainer.cs" type="Script" id=2]
+
+[node name="Match" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_horizontal_guides_": [  ]
+}
+
+[node name="ChatVBoxContainer" type="VBoxContainer" parent="."]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 14.0
+margin_top = -288.0
+margin_right = 299.0
+margin_bottom = 282.0
+
+[node name="Chat" type="RichTextLabel" parent="ChatVBoxContainer"]
+margin_right = 285.0
+margin_bottom = 542.0
+size_flags_vertical = 3
+
+[node name="ChatHBoxContainer" type="HBoxContainer" parent="ChatVBoxContainer"]
+margin_top = 546.0
+margin_right = 285.0
+margin_bottom = 570.0
+
+[node name="ChatLineEdit" type="LineEdit" parent="ChatVBoxContainer/ChatHBoxContainer"]
+margin_right = 235.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+text = "TYPE_MESSAGE"
+
+[node name="SendButton" type="Button" parent="ChatVBoxContainer/ChatHBoxContainer"]
+margin_left = 239.0
+margin_right = 285.0
+margin_bottom = 24.0
+text = "SEND"
+
+[node name="PlayerHBoxContainer" type="HBoxContainer" parent="."]
+margin_left = 478.0
+margin_top = 485.0
+margin_right = 1024.0
+margin_bottom = 588.0
+
+[node name="PlayerVBoxContainer" type="VBoxContainer" parent="PlayerHBoxContainer"]
+margin_right = 179.0
+margin_bottom = 103.0
+size_flags_horizontal = 3
+
+[node name="PlayersNickname" type="Label" parent="PlayerHBoxContainer/PlayerVBoxContainer"]
+margin_top = 44.0
+margin_right = 179.0
+margin_bottom = 58.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "PLAYER"
+
+[node name="PlayerPoints" type="Label" parent="PlayerHBoxContainer"]
+margin_left = 183.0
+margin_top = 44.0
+margin_right = 362.0
+margin_bottom = 58.0
+size_flags_horizontal = 3
+text = "POINTS:"
+align = 2
+
+[node name="PlayerTotalPoints" type="Label" parent="PlayerHBoxContainer"]
+margin_left = 366.0
+margin_top = 44.0
+margin_right = 546.0
+margin_bottom = 58.0
+size_flags_horizontal = 3
+text = "POINTS"
+
+[node name="OpponentHBoxContainer" type="HBoxContainer" parent="."]
+margin_left = 478.0
+margin_top = 1.0
+margin_right = 1024.0
+margin_bottom = 74.0
+
+[node name="OpponentVBoxContainer" type="VBoxContainer" parent="OpponentHBoxContainer"]
+margin_right = 179.0
+margin_bottom = 73.0
+size_flags_horizontal = 3
+
+[node name="OpponentNickname" type="Label" parent="OpponentHBoxContainer/OpponentVBoxContainer"]
+margin_top = 29.0
+margin_right = 179.0
+margin_bottom = 43.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "OPPONENT"
+
+[node name="OpponentPoints" type="Label" parent="OpponentHBoxContainer"]
+margin_left = 183.0
+margin_top = 29.0
+margin_right = 362.0
+margin_bottom = 43.0
+size_flags_horizontal = 3
+text = "POINTS:"
+align = 2
+
+[node name="OpponentTotalPoints" type="Label" parent="OpponentHBoxContainer"]
+margin_left = 366.0
+margin_top = 29.0
+margin_right = 546.0
+margin_bottom = 43.0
+size_flags_horizontal = 3
+text = "POINTS"
+
+[node name="BoardContainer" type="GridContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -20.0
+margin_right = 20.0
+margin_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_pivot_offset = Vector2( 20, 20 )
+custom_constants/vseparation = 0
+custom_constants/hseparation = 0
+script = ExtResource( 2 )

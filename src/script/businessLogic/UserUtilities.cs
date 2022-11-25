@@ -4,47 +4,45 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using MySql.Data.MySqlClient;
-using ReversiFEI;
+using ReversiFEI.DatabaseContext;
 
-namespace ReversiFEI
+namespace ReversiFEI.UserTools
 {
     public static class UserUtilities
     {
-        public static bool LogIn(string email, string password)
+        public static string LogIn(string email, string password)
         {
             using (var db = new PlayerContext())
+            {
+                try
                 {
-                    try
+                    var player = db.Player
+                        .SingleOrDefault(b => b.Email == email) 
+                        ?? new Player();
+                    
+                    byte[] salt = player.Salt;
+                    byte[] key = player.Password;
+            
+                    using (var deriveBytes = new Rfc2898DeriveBytes(password, salt))
                     {
-                        var player = db.Player
-                            .SingleOrDefault(b => b.Email == email);
+                        byte[] newKey = deriveBytes.GetBytes(64);
                         
-                        byte[] salt = player.Salt;
-                        byte[] key = player.Password;
-                
-                        using (var deriveBytes = new Rfc2898DeriveBytes(password, salt))
+                        if(newKey.SequenceEqual(key))
                         {
-                            byte[] newKey = deriveBytes.GetBytes(64);
-                            
-                            if(newKey.SequenceEqual(key))
-                            {
-                                return true;
-                            } 
-                            else
-                            {
-                                return false;
-                            }
+                            return player.Nickname;
+                        } 
+                        else
+                        {
+                            return null;
                         }
                     }
-                    catch(MySqlException e)
-                    {
-                        throw e;
-                    }
-                    catch(NullReferenceException e)
-                    {
-                        return false;
-                    }
                 }
+                catch(MySqlException e)
+                {
+                    GD.PushError(e.Message);
+                    throw;
+                }
+            }
         }
         
         public static bool SignUp(string email, string username, string password)
@@ -66,24 +64,128 @@ namespace ReversiFEI
             
             using (var db = new PlayerContext())
             {
+                bool userRegistered;
                 try
                 {
                     db.Player.Add(playerRegistration);
                     
                     if(db.SaveChanges() == 1)
                     {
-                        return true;
+                        userRegistered = true;
                     }
                     else
                     {
-                        return false;
+                        userRegistered = false;
                     }
                 }
                 catch (MySqlException e)
                 {
-                    throw e;
+                    GD.PushError(e.Message);
+                    throw;
+                }
+                return userRegistered;
+            }
+        }
+        
+        public static List<string> GetFriends(string playerName)
+        {
+            var playerId = GetPlayerId(playerName);
+            
+            using (var db = new PlayerContext())
+            {
+                try
+                {
+                    //Divided in two consults because linq doesn't support conditions in joins                    
+                    var friendsList = 
+                        (from friend in
+                            (from player in db.Player
+                            join playerFriends in db.Friends on playerId equals playerFriends.Player1Id
+                            select player)
+                            .Union
+                            (from player in db.Player
+                            join playerFriends in db.Friends on playerId equals playerFriends.Player2Id
+                            select player)
+                            where friend.PlayerId != playerId
+                            select friend.Nickname
+                        ).ToList();
+                    
+                    return friendsList;
+                }
+                catch(MySqlException e)
+                {
+                    GD.PushError(e.Message);
+                    throw;
                 }
             }
+        }
+
+        private static int GetPlayerId(string nickname)
+        {
+            using (var db = new PlayerContext())
+            {
+                try
+                {                
+                    var player = 
+                        db.Player
+                        .SingleOrDefault(b => b.Nickname == nickname)
+                        ?? new Player(0);
+
+                    return player.PlayerId;
+                }
+                catch(MySqlException e)
+                {
+                    GD.PushError(e.Message);
+                    throw;
+                }
+            }
+        }
+        
+        public static bool ChangeNickname(string nickname, string newNickname)
+        {
+            var nicknameUpdated = false;
+            
+            if(ValidNickname(newNickname))
+            {
+                using (var db = new PlayerContext())
+                {
+                    try
+                    {
+                        var user = 
+                            (from player in db.Player
+                            where player.Nickname == nickname
+                            select player).FirstOrDefault();
+                        
+                        var nicknameAlreadyRegistered = 
+                            (from player in db.Player
+                            where player.Nickname == newNickname
+                            select player).FirstOrDefault();
+                        
+                        if(nicknameAlreadyRegistered == null)
+                        {
+                            user.Nickname = newNickname;
+                            db.SaveChanges();
+                            nicknameUpdated = true;
+                        }
+                    }
+                    catch(MySqlException e)
+                    {
+                        GD.PushError(e.Message);
+                        throw;    
+                    }
+                }
+            }
+            
+            return nicknameUpdated;
+        }
+        
+        private static bool ValidNickname(string nickname)
+        {
+            var validNickname = false;
+            
+            if(nickname != null && nickname.All(char.IsLetterOrDigit))
+                validNickname = true;
+            
+            return validNickname;
         }
     }
 }

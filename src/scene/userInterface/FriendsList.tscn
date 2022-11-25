@@ -1,23 +1,25 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://src/script/userInterface/Controls.cs" type="Script" id=1]
+[ext_resource path="res://src/script/userInterface/FriendsList.cs" type="Script" id=2]
 
-[node name="Control" type="Control"]
+[node name="FriendsList" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 2 )
 
-[node name="FriendsListTitle" type="RichTextLabel" parent="."]
+[node name="FriendsListTitle" type="Label" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -56.0
-margin_top = -250.0
-margin_right = 57.0
-margin_bottom = -227.0
-text = "Friends list"
+margin_left = -55.0
+margin_top = -232.0
+margin_right = 31.0
+margin_bottom = -218.0
+text = "FRIENDS_LIST"
 
-[node name="FriendsItemList" type="ItemList" parent="."]
+[node name="FriendsList" type="ItemList" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -36,7 +38,7 @@ margin_left = -162.0
 margin_top = 173.0
 margin_right = 162.0
 margin_bottom = 204.0
-text = "Return"
+text = "RETURN"
 script = ExtResource( 1 )
 
 [connection signal="pressed" from="ReturnButton" to="ReturnButton" method="GoToMainMenu"]

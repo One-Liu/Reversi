@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace ReversiFEI{
+namespace ReversiFEI.DatabaseContext
+{
 
     public class PlayerContext : DbContext
     {
@@ -28,13 +29,22 @@ namespace ReversiFEI{
         public byte[] Salt { get; set; }
         public int GamesWon { get; set; }
         public int PiecesSet { get; set; }
+        
+        public Player()
+        {
+        }
+        
+        public Player(int id)
+        {
+            PlayerId = id;
+        }
     }
     
     public class Friends
     {
         public int FriendsId { get; set; }
         
-        public Player Player1 { get; set; }
-        public Player Player2 { get; set; }
+        public int Player1Id { get; set; }
+        public int Player2Id { get; set; }
     }
 }
