@@ -189,7 +189,6 @@ namespace ReversiFEI.Network
                 piece = -1;
             }
             
-            GD.Print("Responding succesfully.");
             if(accept)
             {
                 RpcId(OpponentId,nameof(ChallengeAccepted),firstTurnDecide,piece);
