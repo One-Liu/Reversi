@@ -37,6 +37,10 @@ namespace ReversiFEI.Network
                     networkUtilities.JoinGame();
                 }
             }
+            else
+            {
+                SetOnlinePlayers();
+            }
             
             networkUtilities.Connect("MessageReceived",this,nameof(ReceiveMessages));
             networkUtilities.Connect("PlayersOnline",this,nameof(SetOnlinePlayers));
@@ -74,12 +78,23 @@ namespace ReversiFEI.Network
             var playerList = GetNode<ItemList>("OnlinePlayersList/OnlinePlayers");
             playerList.Clear();
             
+            var friendsList = GetNode<ItemList>("OnlineFriendsList/OnlineFriends");
+            var friends = networkUtilities.Friends;
+            friendsList.Clear();
+
+            networkUtilities.UpdateFriends();
             foreach(string player in networkUtilities.Players.Select(player => player.Value))
             {
                 if(player != null && player != networkUtilities.Playername)
-                    playerList.AddItem(player);
+                {
+                    if(friends.Contains(player))
+                        friendsList.AddItem(player);
+                    else
+                        playerList.AddItem(player);
+                }
             }
-            
+
+            friendsList.SortItemsByText();
             playerList.SortItemsByText();
         }
         
@@ -168,13 +183,16 @@ namespace ReversiFEI.Network
             friendRequestNotice.Visible = true;
         }
         
+        private void AddFriend()
+        {
+            networkUtilities.SendFriendRequest(networkUtilities.FriendId);
+        }
         
         private void FriendRequestReplyReceived()
         {
             if(friendRequestStatus)
             {
-                GD.Print("Friend request accepted.");
-                GD.Print(playerWantToAdd+"y frpr "+playerToBeAdded);
+
                 networkUtilities.FriendRequestAccepted(playerWantToAdd,playerToBeAdded);
             }
             else
@@ -183,7 +201,6 @@ namespace ReversiFEI.Network
         
            private void AcceptFriendRequest()
         {
-            GD.Print(playerWantToAdd+"y afr "+playerToBeAdded);
             networkUtilities.ReplyToFriendRequest(true,playerWantToAdd,playerToBeAdded);
         }
         
@@ -201,8 +218,6 @@ namespace ReversiFEI.Network
         {
             friendRequestStatus = false;
         }
-        
-        
     }
 }
 

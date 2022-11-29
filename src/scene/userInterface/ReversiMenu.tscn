@@ -137,3 +137,4 @@ texture = ExtResource( 4 )
 [connection signal="pressed" from="GoToSignUpButton" to="." method="GoToSignUp"]
 [connection signal="pressed" from="GuestButton" to="." method="GoToMainMenuAsGuest"]
 [connection signal="pressed" from="ExitButton" to="." method="Exit"]
+[connection signal="pressed" from="ChangeLanguageButton" to="." method="ChangeLanguage"]

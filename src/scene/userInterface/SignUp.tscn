@@ -173,6 +173,6 @@ window_title = "¡Alerta!"
 dialog_text = "Your code is incorrect, please try again."
 
 [connection signal="pressed" from="LogInButton" to="." method="GoToLogIn"]
-[connection signal="pressed" from="RegisterButton" to="." method="Register"]
+[connection signal="pressed" from="RegisterButton" to="." method="SignUp"]
 [connection signal="pressed" from="ReturnButton" to="." method="GoToReversiMenu"]
 [connection signal="pressed" from="Verification/VerificationButton" to="." method="VerificationButtonPressed"]

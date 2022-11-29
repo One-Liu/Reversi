@@ -54,7 +54,7 @@ namespace ReversiFEI.Controller
             GetTree().ChangeScene("res://src/scene/userInterface/ReversiMenu.tscn");
         }
         
-        private void GoToLobby()
+        public void GoToLobby()
         {
             GetTree().ChangeScene("res://src/scene/userInterface/Lobby.tscn");
         }
@@ -91,7 +91,6 @@ namespace ReversiFEI.Controller
         {
             GetTree().ChangeScene("res://src/scene/userInterface/Sound.tscn");
         }
-
 
         private void GoToLanguage()
         {
@@ -136,9 +135,8 @@ namespace ReversiFEI.Controller
         private bool ValidatePassword(String password) {        
             return !String.IsNullOrEmpty(password);
         }
-        
-         private void Register()
-        {
+
+        private async Task SignUp()
             Random generator = new Random();
             string email = GetNode<LineEdit>("EmailLineEdit").Text;
             string username = GetNode<LineEdit>("UsernameLineEdit").Text;
@@ -350,10 +348,32 @@ namespace ReversiFEI.Controller
                 GD.Print("Off");
             }
         }
+        
+        private void ChangeNickname()
+        {
+            var nickname = GetNode<LineEdit>("ChangeNickname/NewNicknameLineEdit").Text;
+            var userNickname = networkUtilities.Playername;
+            
+            var newNickname = String.Concat(nickname.Where(c => !Char.IsWhiteSpace(c)));
+            
+            if(userNickname != newNickname)
+            {
+                var nicknameUpdated = networkUtilities.ChangeNickname(newNickname);
+            
+                if(nicknameUpdated)
+                {
+                    GetParent().GetNode<Label>("UserNicknameTitle").Text = newNickname;
+                    GetNode<WindowDialog>("NicknameUpdated").Visible = true;
+                }
+            }
+            
+            GetNode<WindowDialog>("ChangeNickname").Visible = false;
+        }
+        
+        private void _on_Panel_ready()
+        {
+            var userNickname = networkUtilities.Playername;
+            GetNode<Label>("UserNicknameTitle").Text = userNickname;
+        }
     }
 }
-    
-    
-
-
-    
