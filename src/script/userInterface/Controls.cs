@@ -146,23 +146,25 @@ namespace ReversiFEI.Controller
             string confirmPassword = GetNode<LineEdit>("ConfirmPasswordLineEdit").Text;
             int verificationCode = generator.Next(100000, 1000000);
                 
-            if(ValidateEmail(email) && password.Equals(confirmPassword))
-            {
-                try
-                    {
-                        SmtpClient client = new SmtpClient("smtp-mail.outlook.com");
+                SmtpClient client = new SmtpClient("smtp-mail.outlook.com");
                         client.Port = 587;
                         client.DeliveryMethod = SmtpDeliveryMethod.Network;
                         client.UseDefaultCredentials = false;
                         System.Net.NetworkCredential credential =
-                            new System.Net.NetworkCredential("reversifei@outlook.com", email);
+                            new System.Net.NetworkCredential("reversifei@outlook.com", "reversi123");
                         client.EnableSsl = true;
                         client.Credentials = credential;
 
-                        MailMessage message = new MailMessage("reversifei@outlook.com", "franciscoxavieram@gmail.com");
-                        message.Subject = "Verification code for ReversiFEI";
-                        message.Body = "Hi, thanks for playing this game, this is your verification code: "+ verificationCode;
+                        MailMessage message = new MailMessage("reversifei@outlook.com", "reversifei@gmail.com");
+                        message.Subject = "Test mail";
+                        message.Body = "This is a test";
                         client.Send(message);
+                
+            if(ValidateEmail(email) && password.Equals(confirmPassword))
+            {
+                try
+                    {
+                        
                         //int verification =  int.Parse(GetNode<LineEdit>("Verification/TextEdit").Text);
                        GetNode<WindowDialog>("Verification").Visible = true;
                        // VerificationButtonPressed(email,username,password,verificationCode,verification);

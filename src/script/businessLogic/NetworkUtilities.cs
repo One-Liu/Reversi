@@ -15,7 +15,7 @@ namespace ReversiFEI.Network
         private readonly int DEFAULT_PORT = 4321;
         private readonly int MAX_PLAYERS = 30;
         private readonly string ADDRESS = "localhost"; //for local testing
-        //private readonly string ADDRESS = "x.x.x.x"; //for live functionality
+       // private readonly string ADDRESS = "x"; //for live functionality
         
         [Signal]
         delegate void MessageReceived();
@@ -230,13 +230,13 @@ namespace ReversiFEI.Network
             EmitSignal(nameof(FriendRequestReceived));
         }
         
-        public void ReplyToFriendRequest(bool acceptFriendRequest,string playerFriend, string playerToBeFriend)
+        public void ReplyToFriendRequest(bool acceptFriendRequest,string playerNameOne,string playerNameTwo)
         {
             GD.Print("Responding succesfully.");
             if(acceptFriendRequest)
             {
-                UserUtilities.AddFriend(playerToBeFriend,playerFriend);
-                GD.Print("Añade amigo");
+                UserUtilities.AddFriend(playerNameOne,playerNameTwo);
+                RpcId(FriendId,nameof(FriendRequestAccepted));
             }
             else
             {
@@ -250,7 +250,8 @@ namespace ReversiFEI.Network
         {
             if(FriendId == GetTree().GetRpcSenderId())
             {
-                //UserUtilities.AddFriend(playerToBeAdded,playerFriend);
+                GD.Print(playerFriend+"y FRA "+playerToBeAdded);
+                UserUtilities.AddFriend(playerToBeAdded,playerFriend);
                 GD.Print("Añade amigo");
             }
            

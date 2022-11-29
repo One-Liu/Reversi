@@ -14,8 +14,8 @@ namespace ReversiFEI.Network
         
         private bool challengeStatus; 
         private bool friendRequestStatus;
-        private string playerToBeAdded;
-        private string playerWantToAdd;
+        static string playerToBeAdded;
+        static string playerWantToAdd;
         public override void _Ready()
         {
             controls = GetNode("/root/Controls") as Controls;
@@ -45,8 +45,6 @@ namespace ReversiFEI.Network
             networkUtilities.Connect("CancelMatch",this,nameof(ChallengeDeclined));
             networkUtilities.Connect("ChallengeReplyReceived",this,nameof(ReplyReceived));
             networkUtilities.Connect("FriendRequestReceived",this,nameof(ShowFriendRequestNotice));
-            networkUtilities.Connect("FriendRequestReplyReceived",this,nameof(FriendRequestReplyReceived));
-            
           
             GetNode<ConfirmationDialog>("ChallengeNotice").GetCloseButton().Connect("pressed",this,nameof(DeclineChallenge));
         }
@@ -165,7 +163,6 @@ namespace ReversiFEI.Network
         
         private void ShowFriendRequestNotice()
         {
-            
             var friendRequestNotice = GetNode<ConfirmationDialog>("FriendRequestNotice");
             friendRequestNotice.PopupExclusive = true;
             friendRequestNotice.Visible = true;
