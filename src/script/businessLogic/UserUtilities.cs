@@ -204,10 +204,6 @@ namespace ReversiFEI.UserTools
                     {
                         passwordUpdated = true;
                     }
-                    else
-                    {
-                        passwordUpdated = false;
-                    }
                 }
                 catch(MySqlException e)
                 {
