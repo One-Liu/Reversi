@@ -595,6 +595,7 @@ expand_icon = true
 [connection signal="pressed" from="NewChallenge/CancelButton" to="." method="HideNewChallengePopUp"]
 [connection signal="pressed" from="ChangeNickname/AcceptButton" to="." method="ChangeNickname"]
 [connection signal="pressed" from="ChangeNickname/CancelButton" to="." method="HideChangeNicknamePopUp"]
+[connection signal="pressed" from="ChangePassword/AcceptButton" to="." method="ChangePassword"]
 [connection signal="pressed" from="ChangePassword/CancelButton" to="." method="HideChangePasswordPopUp"]
 [connection signal="pressed" from="ChangeSetOfPieces/CancelButton" to="." method="HideChangeSetOfPiecesPopUp"]
 [connection signal="pressed" from="ChangeAvatar/CancelButton" to="." method="HideChangeAvatarPopUp"]
