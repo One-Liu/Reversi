@@ -49,7 +49,6 @@ namespace Tests.Reversi
         public void GetFriendsTest()
         {
             var retrievedFriendsList = UserUtilities.GetFriends(playerNickname);
-            retrievedFriendsList.ForEach(p => GD.Print(p));
             Assert.IsTrue(friendsList.All(retrievedFriendsList.Contains) && retrievedFriendsList.All(friendsList.Contains));
         }
         
