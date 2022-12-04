@@ -98,14 +98,22 @@ namespace ReversiFEI.UserTools
                     //Divided in two consults because linq doesn't support conditions in joins                    
                     var friendsList = 
                         (from friend in
-                            (from player in db.Player
-                            join playerFriends in db.Friends on playerId equals playerFriends.Player1Id
+                            (from friends in db.Friends
+                            join player in db.Player on friends.Player1Id equals player.PlayerId
+                            where friends.Player2Id == playerId
                             select player)
+                            .Union
+                            (from friends in db.Friends
+                            join player in db.Player on friends.Player2Id equals player.PlayerId
+                            where friends.Player1Id == playerId
+                            select player)
+                            /*
                             .Union
                             (from player in db.Player
                             join playerFriends in db.Friends on playerId equals playerFriends.Player2Id
                             select player)
-                            where friend.PlayerId != playerId
+                            */
+                            //where friend.PlayerId != playerId
                             select friend.Nickname
                         ).ToList();
                     
