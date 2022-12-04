@@ -20,6 +20,7 @@ namespace Tests.Reversi
         string newPlayerEmail;
         string newPlayerPassword;
         List<string> friendsList = new List<string>();
+        int newSetOfPieces;
         
         public void RunBeforeTestMethod()
         {
@@ -31,6 +32,7 @@ namespace Tests.Reversi
             newPlayerEmail = "luisito@gmail.com";
             newPlayerPassword = "luis01";
             friendsList.Add("luisito");
+            newSetOfPieces = 1;
         }
         
         [Test]
@@ -62,6 +64,12 @@ namespace Tests.Reversi
         public void ChangePasswordTest()
         {
             Assert.IsTrue(UserUtilities.ChangePassword(playerNickname,password));
+        }
+        
+        [Test]
+        public void ChangeSetOfPiecesTest()
+        {
+            Assert.IsTrue(UserUtilities.ChangeSetOfPieces(playerNickname,newSetOfPieces));
         }
     }
 }

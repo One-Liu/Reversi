@@ -492,5 +492,20 @@ namespace ReversiFEI.Network
             }
             return passwordUpdated;
         }
+        
+        public bool ChangeSetOfPieces(int setOfPieces)
+        {
+            var setOfPiecesUpdated = UserUtilities.ChangeSetOfPieces(Playername, setOfPieces);
+            
+            if(setOfPiecesUpdated)
+            {
+                GD.Print("Set of pieces updated");
+            }
+            else
+            {
+                GD.Print("Set of pieces was not updated");
+            }
+            return setOfPiecesUpdated;
+        }
     }
 }

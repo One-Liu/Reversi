@@ -357,7 +357,6 @@ margin_bottom = 38.5
 text = "CANCEL"
 
 [node name="ChangePassword" type="WindowDialog" parent="."]
-visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -414,6 +413,7 @@ margin_bottom = 48.5
 text = "CANCEL"
 
 [node name="ChangeSetOfPieces" type="WindowDialog" parent="."]
+visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -465,6 +465,7 @@ size_flags_vertical = 3
 margin_right = 252.0
 margin_bottom = 124.0
 size_flags_horizontal = 3
+toggle_mode = true
 icon = ExtResource( 1 )
 expand_icon = true
 
@@ -473,6 +474,7 @@ margin_left = 256.0
 margin_right = 509.0
 margin_bottom = 124.0
 size_flags_horizontal = 3
+toggle_mode = true
 icon = ExtResource( 4 )
 expand_icon = true
 
@@ -486,6 +488,7 @@ size_flags_vertical = 3
 margin_right = 252.0
 margin_bottom = 125.0
 size_flags_horizontal = 3
+toggle_mode = true
 icon = ExtResource( 5 )
 expand_icon = true
 
@@ -494,6 +497,7 @@ margin_left = 256.0
 margin_right = 509.0
 margin_bottom = 125.0
 size_flags_horizontal = 3
+toggle_mode = true
 icon = ExtResource( 3 )
 expand_icon = true
 
@@ -597,5 +601,10 @@ expand_icon = true
 [connection signal="pressed" from="ChangeNickname/CancelButton" to="." method="HideChangeNicknamePopUp"]
 [connection signal="pressed" from="ChangePassword/AcceptButton" to="." method="ChangePassword"]
 [connection signal="pressed" from="ChangePassword/CancelButton" to="." method="HideChangePasswordPopUp"]
+[connection signal="pressed" from="ChangeSetOfPieces/AcceptButton" to="." method="ChangeSetOfPieces"]
 [connection signal="pressed" from="ChangeSetOfPieces/CancelButton" to="." method="HideChangeSetOfPiecesPopUp"]
+[connection signal="pressed" from="ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer1/SetOfPieces1Button" to="." method="SelectSetOfPieces1"]
+[connection signal="pressed" from="ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer1/SetOfPieces2Button" to="." method="SelectSetOfPieces2"]
+[connection signal="pressed" from="ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer2/SetOfPieces3Button" to="." method="SelectSetOfPieces3"]
+[connection signal="pressed" from="ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer2/SetOfPieces4Button" to="." method="SelectSetOfPieces4"]
 [connection signal="pressed" from="ChangeAvatar/CancelButton" to="." method="HideChangeAvatarPopUp"]

@@ -372,5 +372,82 @@ namespace ReversiFEI.Controller
             
             return validPassword;
         }
+        
+        private void SelectSetOfPieces1()
+        {
+            var set2 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer1/SetOfPieces2Button");
+            var set3 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer2/SetOfPieces3Button");
+            var set4 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer2/SetOfPieces4Button");
+            
+            set2.Pressed = false;
+            set3.Pressed = false;
+            set4.Pressed = false;
+        }
+        
+        private void SelectSetOfPieces2()
+        {
+            var set1 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer1/SetOfPieces1Button");
+            var set3 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer2/SetOfPieces3Button");
+            var set4 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer2/SetOfPieces4Button");
+            
+            set1.Pressed = false;
+            set3.Pressed = false;
+            set4.Pressed = false;
+        }
+        
+        private void SelectSetOfPieces3()
+        {
+            var set1 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer1/SetOfPieces1Button");
+            var set2 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer1/SetOfPieces2Button");
+            var set4 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer2/SetOfPieces4Button");
+            
+            set1.Pressed = false;
+            set2.Pressed = false;
+            set4.Pressed = false;
+        }
+        
+        private void SelectSetOfPieces4()
+        {
+            var set1 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer1/SetOfPieces1Button");
+            var set2 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer1/SetOfPieces2Button");
+            var set3 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer2/SetOfPieces3Button");
+            
+            set1.Pressed = false;
+            set2.Pressed = false;
+            set3.Pressed = false;
+        }
+        
+        private void ChangeSetOfPieces()
+        {
+            var setOfPiecesUpdated = false;
+            var set1 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer1/SetOfPieces1Button");
+            var set2 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer1/SetOfPieces2Button");
+            var set3 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer2/SetOfPieces3Button");
+            var set4 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer2/SetOfPieces4Button");
+            
+            if(set1.Pressed)
+            {
+                setOfPiecesUpdated = networkUtilities.ChangeSetOfPieces(1);
+            }
+            else if(set2.Pressed)
+            {
+                setOfPiecesUpdated = networkUtilities.ChangeSetOfPieces(2);
+            }
+            else if(set3.Pressed)
+            {
+                setOfPiecesUpdated = networkUtilities.ChangeSetOfPieces(3);
+            }
+            else if(set4.Pressed)
+            {
+                setOfPiecesUpdated = networkUtilities.ChangeSetOfPieces(4);
+            }
+            
+            if(setOfPiecesUpdated)
+            {
+                GetNode<WindowDialog>("SetOfPiecesUpdated").Visible = true;
+            }
+            
+            HideChangeSetOfPiecesPopUp();
+        }
     }
 }
