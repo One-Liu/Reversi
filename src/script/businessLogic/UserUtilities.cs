@@ -107,13 +107,6 @@ namespace ReversiFEI.UserTools
                             join player in db.Player on friends.Player2Id equals player.PlayerId
                             where friends.Player1Id == playerId
                             select player)
-                            /*
-                            .Union
-                            (from player in db.Player
-                            join playerFriends in db.Friends on playerId equals playerFriends.Player2Id
-                            select player)
-                            */
-                            //where friend.PlayerId != playerId
                             select friend.Nickname
                         ).ToList();
                     
