@@ -170,7 +170,7 @@ namespace ReversiFEI.Controller
                     networkUtilities.LogIn(email, password);
                     
                 await ToSignal(networkUtilities, "LoggedIn");
-                ShowNicknameUpdatedPopUp();
+                //ShowNicknameUpdatedPopUp();
                 GoToMainMenu();
             } else {
                 GD.Print("Invalid email or password");
@@ -219,7 +219,7 @@ namespace ReversiFEI.Controller
         
         private void ShowSetOfPiecesUpdatedPopUp()
         {
-            GetNode<WindowDialog>("PopUp/SetOfPiecesUpdated").Visible = true;
+            GetNode<WindowDialog>("SetOfPiecesUpdated").Visible = true;
         }
         
         private void HideSetOfPiecesUpdatedPopUp()
@@ -227,9 +227,19 @@ namespace ReversiFEI.Controller
             GetNode<WindowDialog>("SetOfPiecesUpdated").Visible = false;
         }
         
+        private void ShowAvatarUpdatedPopUp()
+        {
+            GetNode<WindowDialog>("AvatarUpdated").Visible = true;
+        }
+        
+        private void HideAvatarUpdatedPopUp()
+        {
+            GetNode<WindowDialog>("AvatarUpdated").Visible = false;
+        }
+        
         private void ShowPasswordUpdatedPopUp()
         {
-            GetNode<WindowDialog>("PopUp/PasswordUpdated").Visible = true;
+            GetNode<WindowDialog>("PasswordUpdated").Visible = true;
         }
         
         private void HidePasswordUpdatedPopUp()
@@ -239,7 +249,7 @@ namespace ReversiFEI.Controller
         
         private void ShowNicknameUpdatedPopUp()
         {
-            GetNode<WindowDialog>("PopUp/NicknameUpdated").Visible = true;
+            GetNode<WindowDialog>("NicknameUpdated").Visible = true;
         }
         
         private void HideNicknameUpdatedPopUp()
@@ -322,7 +332,7 @@ namespace ReversiFEI.Controller
                 if(nicknameUpdated)
                 {
                     GetParent().GetNode<Label>("UserNicknameTitle").Text = newNickname;
-                    GetNode<WindowDialog>("NicknameUpdated").Visible = true;
+                    ShowNicknameUpdatedPopUp();
                 }
             }
             
@@ -356,11 +366,11 @@ namespace ReversiFEI.Controller
                 
                 if(passwordUpdated)
                 {
-                    GetNode<WindowDialog>("PasswordUpdated").Visible = true;
+                    ShowPasswordUpdatedPopUp();
                 } 
             }
             
-            GetNode<WindowDialog>("ChangePassword").Visible = false;
+            HideChangePasswordPopUp();
         }
         
         private bool ValidPassword(string newPassword)
@@ -444,10 +454,87 @@ namespace ReversiFEI.Controller
             
             if(setOfPiecesUpdated)
             {
-                GetNode<WindowDialog>("SetOfPiecesUpdated").Visible = true;
+                ShowSetOfPiecesUpdatedPopUp();
             }
             
             HideChangeSetOfPiecesPopUp();
+        }
+        
+        private void SelectAvatar1()
+        {
+            var avatar2 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer1/Avatar2Button");
+            var avatar3 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer2/Avatar3Button");
+            var avatar4 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer2/Avatar4Button");
+            
+            avatar2.Pressed = false;
+            avatar3.Pressed = false;
+            avatar4.Pressed = false;
+        }
+        
+        private void SelectAvatar2()
+        {
+            var avatar1 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer1/Avatar1Button");
+            var avatar3 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer2/Avatar3Button");
+            var avatar4 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer2/Avatar4Button");
+            
+            avatar1.Pressed = false;
+            avatar3.Pressed = false;
+            avatar4.Pressed = false;
+        }
+        
+        private void SelectAvatar3()
+        {
+            var avatar1 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer1/Avatar1Button");
+            var avatar2 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer1/Avatar2Button");
+            var avatar4 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer2/Avatar4Button");
+            
+            avatar1.Pressed = false;
+            avatar2.Pressed = false;
+            avatar4.Pressed = false;
+        }
+        
+        private void SelectAvatar4()
+        {
+            var avatar1 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer1/Avatar1Button");
+            var avatar2 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer1/Avatar2Button");
+            var avatar3 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer2/Avatar3Button");
+            
+            avatar1.Pressed = false;
+            avatar2.Pressed = false;
+            avatar3.Pressed = false;
+        }
+        
+        private void ChangeAvatar()
+        {
+            var avatarUpdated = false;
+            var avatar1 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer1/Avatar1Button");
+            var avatar2 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer1/Avatar2Button");
+            var avatar3 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer2/Avatar3Button");
+            var avatar4 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer2/Avatar4Button");
+            
+            if(avatar1.Pressed)
+            {
+                avatarUpdated = networkUtilities.ChangeAvatar(1);
+            }
+            else if(avatar2.Pressed)
+            {
+                avatarUpdated = networkUtilities.ChangeAvatar(2);
+            }
+            else if(avatar3.Pressed)
+            {
+                avatarUpdated = networkUtilities.ChangeAvatar(3);
+            }
+            else if(avatar4.Pressed)
+            {
+                avatarUpdated = networkUtilities.ChangeAvatar(4);
+            }
+            
+            if(avatarUpdated)
+            {
+                ShowAvatarUpdatedPopUp();
+            }
+            
+            HideChangeAvatarPopUp();
         }
     }
 }

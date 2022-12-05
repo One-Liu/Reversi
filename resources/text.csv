@@ -16,6 +16,8 @@ FRIEND_ADDED,Friend added,Amigo agregado
 FRIEND_ADDED_MESSAGE,A player has been added to your friends list,Un jugador ha sido agregado a tu lista de amigos
 FRIEND_DELETED,Friend deleted,Amigo eliminado
 FRIEND_DELETED_MESSAGE,A player has been deleted from your friends list,Un jugador ha sido eliminado de tu lista de amigos
+AVATAR_UPDATED,Avatar updated,Avatar actualizado
+AVATAR_UPDATED_MESSAGE,Your avatar has been changed succesfully,Tu avatar ha sido cambiado exitosamente
 SET_OF_PIECES_UPDATED,Set of pieces updated,Conjunto de piezas actualizado
 SET_OF_PIECES_UPDATED_MESSAGE,Your set of pieces has been changed succesfully,Tu conjunto de piezas ha sido cambiado exitosamente
 PASSWORD_UPDATED,Password updated,Contraseña actualizada

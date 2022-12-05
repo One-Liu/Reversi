@@ -187,6 +187,40 @@ margin_right = 30.0
 margin_bottom = 35.0
 text = "ACCEPT"
 
+[node name="AvatarUpdated" type="WindowDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -117.0
+margin_top = -31.0
+margin_right = 117.0
+margin_bottom = 59.0
+window_title = "AVATAR_UPDATED"
+
+[node name="Message" type="Label" parent="AvatarUpdated"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -105.0
+margin_top = -29.0
+margin_right = 105.0
+margin_bottom = -11.0
+text = "AVATAR_UPDATED_MESSAGE"
+autowrap = true
+
+[node name="AcceptButton" type="Button" parent="AvatarUpdated"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -29.0
+margin_top = 15.0
+margin_right = 30.0
+margin_bottom = 35.0
+text = "ACCEPT"
+
 [node name="PasswordUpdated" type="WindowDialog" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -413,7 +447,6 @@ margin_bottom = 48.5
 text = "CANCEL"
 
 [node name="ChangeSetOfPieces" type="WindowDialog" parent="."]
-visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -549,19 +582,21 @@ margin_right = 509.0
 margin_bottom = 124.0
 size_flags_vertical = 3
 
-[node name="SetOfPieces1Button" type="Button" parent="ChangeAvatar/AvatarsVBoxContainer/HBoxContainer1"]
+[node name="Avatar1Button" type="Button" parent="ChangeAvatar/AvatarsVBoxContainer/HBoxContainer1"]
 margin_right = 252.0
 margin_bottom = 124.0
 size_flags_horizontal = 3
+toggle_mode = true
 icon = ExtResource( 7 )
 icon_align = 1
 expand_icon = true
 
-[node name="SetOfPieces2Button" type="Button" parent="ChangeAvatar/AvatarsVBoxContainer/HBoxContainer1"]
+[node name="Avatar2Button" type="Button" parent="ChangeAvatar/AvatarsVBoxContainer/HBoxContainer1"]
 margin_left = 256.0
 margin_right = 509.0
 margin_bottom = 124.0
 size_flags_horizontal = 3
+toggle_mode = true
 icon = ExtResource( 8 )
 icon_align = 1
 expand_icon = true
@@ -572,19 +607,21 @@ margin_right = 509.0
 margin_bottom = 253.0
 size_flags_vertical = 3
 
-[node name="SetOfPieces3Button" type="Button" parent="ChangeAvatar/AvatarsVBoxContainer/HBoxContainer2"]
+[node name="Avatar3Button" type="Button" parent="ChangeAvatar/AvatarsVBoxContainer/HBoxContainer2"]
 margin_right = 252.0
 margin_bottom = 125.0
 size_flags_horizontal = 3
+toggle_mode = true
 icon = ExtResource( 6 )
 icon_align = 1
 expand_icon = true
 
-[node name="SetOfPieces4Button" type="Button" parent="ChangeAvatar/AvatarsVBoxContainer/HBoxContainer2"]
+[node name="Avatar4Button" type="Button" parent="ChangeAvatar/AvatarsVBoxContainer/HBoxContainer2"]
 margin_left = 256.0
 margin_right = 509.0
 margin_bottom = 125.0
 size_flags_horizontal = 3
+toggle_mode = true
 icon = ExtResource( 9 )
 icon_align = 1
 expand_icon = true
@@ -594,6 +631,7 @@ expand_icon = true
 [connection signal="pressed" from="FriendAdded/AcceptButton" to="." method="HideFriendAddedPopUp"]
 [connection signal="pressed" from="FriendDeleted/AcceptButton" to="." method="HideFriendDeletedPopUp"]
 [connection signal="pressed" from="SetOfPiecesUpdated/AcceptButton" to="." method="HideSetOfPiecesUpdatedPopUp"]
+[connection signal="pressed" from="AvatarUpdated/AcceptButton" to="." method="HideAvatarUpdatedPopUp"]
 [connection signal="pressed" from="PasswordUpdated/AcceptButton" to="." method="HidePasswordUpdatedPopUp"]
 [connection signal="pressed" from="NicknameUpdated/AcceptButton" to="." method="HideNicknameUpdatedPopUp"]
 [connection signal="pressed" from="NewChallenge/CancelButton" to="." method="HideNewChallengePopUp"]
@@ -607,4 +645,9 @@ expand_icon = true
 [connection signal="pressed" from="ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer1/SetOfPieces2Button" to="." method="SelectSetOfPieces2"]
 [connection signal="pressed" from="ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer2/SetOfPieces3Button" to="." method="SelectSetOfPieces3"]
 [connection signal="pressed" from="ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer2/SetOfPieces4Button" to="." method="SelectSetOfPieces4"]
+[connection signal="pressed" from="ChangeAvatar/AcceptButton" to="." method="ChangeAvatar"]
 [connection signal="pressed" from="ChangeAvatar/CancelButton" to="." method="HideChangeAvatarPopUp"]
+[connection signal="pressed" from="ChangeAvatar/AvatarsVBoxContainer/HBoxContainer1/Avatar1Button" to="." method="SelectAvatar1"]
+[connection signal="pressed" from="ChangeAvatar/AvatarsVBoxContainer/HBoxContainer1/Avatar2Button" to="." method="SelectAvatar2"]
+[connection signal="pressed" from="ChangeAvatar/AvatarsVBoxContainer/HBoxContainer2/Avatar3Button" to="." method="SelectAvatar3"]
+[connection signal="pressed" from="ChangeAvatar/AvatarsVBoxContainer/HBoxContainer2/Avatar4Button" to="." method="SelectAvatar4"]

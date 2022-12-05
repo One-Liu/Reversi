@@ -4,7 +4,7 @@ using ReversiFEI.Network;
 
 namespace Tests.Reversi
 {
-    [Title("UserUtilities tests")]
+    [Title("NetworkUtilities tests")]
     
     [Pre(nameof(RunBeforeTestMethod))]
     

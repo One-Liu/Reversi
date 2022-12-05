@@ -55,6 +55,8 @@ namespace ReversiFEI.Network
         
         public string Playername { get; set;}
         
+        public int PlayerAvatar { get; set;}
+        
         public int OpponentId { get; set;}
         
         public int FriendId { get; set;}
@@ -506,6 +508,24 @@ namespace ReversiFEI.Network
                 GD.Print("Set of pieces was not updated");
             }
             return setOfPiecesUpdated;
+        }
+        
+        public bool ChangeAvatar(int avatar)
+        {
+            var avatarUpdated = false;
+            
+            if(PlayerAvatar != avatar)
+            {
+                PlayerAvatar = avatar;
+                avatarUpdated = true;
+                GD.Print("Avatar updated");
+            }
+            else
+            {
+                GD.Print("Avatar was not updated");
+            }
+                
+            return avatarUpdated;
         }
     }
 }
