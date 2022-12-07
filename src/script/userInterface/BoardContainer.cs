@@ -86,14 +86,13 @@ namespace ReversiFEI.Matches
                 
                 UpdateGameState(board);
                 
-                if(!networkUtilities.MyTurn)
+                if(networkUtilities.MyTurn)
                 {
-                    GD.Print("Not my turn");
-                    LockTiles();
+                    UnlockTiles();
                 }
                 else
                 {
-                    UnlockTiles();
+                    LockTiles();
                 }
             }
             else
@@ -115,7 +114,7 @@ namespace ReversiFEI.Matches
             int opponentId = networkUtilities.OpponentId;
             networkUtilities.SendMove(xPosition,yPosition,newState);
             ChangeTileState(xPosition,yPosition,newState);
-            CheckBoard(PlayerPiece);
+            CheckBoard(PlayerPiece, xPosition, yPosition);
             UpdateGameState(board);
             LockTiles();
         }
@@ -123,7 +122,7 @@ namespace ReversiFEI.Matches
         private void ReceiveOpponentMove(int xPosition, int yPosition, int newState)
         {
             ChangeTileState(xPosition,yPosition,newState);
-            CheckBoard(OpponentPiece);
+            CheckBoard(OpponentPiece, xPosition, yPosition);
             UpdateGameState(board);
             if(MovesAvailable())
             {
@@ -223,6 +222,7 @@ namespace ReversiFEI.Matches
             foreach(Tile t in GetChildren())
             {
                 t.Disabled = true;
+                t.TextureHover = null;
             }
         }
         
@@ -239,37 +239,18 @@ namespace ReversiFEI.Matches
             }
         }
         
-        private void CheckBoard(int piece)
+        private void CheckBoard(int piece, int row, int col)
         {
-            ClockwiseScan(piece);
-            CounterclockwiseScan(piece);
+            for(int i = -1; i <= 1; i++)
+            {
+                for(int j = -1; j <= 1; j++)
+                {
+                    FlipPieces(piece, row, col, i, j);
+                }
+            }
         }
         
-        private void ClockwiseScan(int piece)
-        {
-            FlipPieces(piece,1,0);
-            FlipPieces(piece,1,1);
-            FlipPieces(piece,0,1);
-            FlipPieces(piece,-1,1);
-            FlipPieces(piece,-1,0);
-            FlipPieces(piece,-1,-1);
-            FlipPieces(piece,0,-1);
-            FlipPieces(piece,1,-1);
-            FlipPieces(piece,0,-1);
-        }
-        
-        private void CounterclockwiseScan(int piece)
-        {
-            FlipPieces(piece,0,-1);
-            FlipPieces(piece,-1,-1);
-            FlipPieces(piece,-1,0);
-            FlipPieces(piece,-1,1);
-            FlipPieces(piece,0,1);
-            FlipPieces(piece,1,1);
-            FlipPieces(piece,1,0);
-        }
-        
-        private void FlipPieces(int piece, int xDirection, int yDirection)
+        private void FlipPieces(int piece, int row, int col, int xDirection, int yDirection)
         {
             int otherPiece;
             
@@ -279,47 +260,24 @@ namespace ReversiFEI.Matches
                 otherPiece = PlayerPiece;
             
             var tilesToFlip = new List<(int, int)>();
-            var tileBuffer = new List<(int, int)>();
+            //var tileBuffer = new List<(int, int)>();
             
-            for(int x = 0; x < boardSize; x++)
+            int rowToCheck = row + xDirection;
+            int colToCheck = col + yDirection;
+            
+            while(rowToCheck >= 0 && rowToCheck < board.GetLength(0) && colToCheck >= 0 &&
+            colToCheck < board.GetLength(1) && board[rowToCheck, colToCheck] == otherPiece)
             {
-                for(int y = 0; y < boardSize; y++)
-                {
-                    if(board[x,y] == piece &&
-                        IsInsideBoard(x + xDirection) && IsInsideBoard(y + yDirection) 
-                        && board[x + xDirection, y + yDirection] == otherPiece)
-                    {
-                        while(board[x + xDirection, y + yDirection] == otherPiece)
-                        {
-                            tileBuffer.Add((x + xDirection, y + yDirection));
-                            xDirection = xDirection + xDirection;
-                            yDirection = yDirection + yDirection;
-                            
-                            try{
-                                if(board[x + xDirection, y + yDirection] == EMPTY_CELL)
-                                {
-                                    tileBuffer.Clear();
-                                    break;
-                                }
-                                
-                                if(board[x + xDirection, y + yDirection] == piece)
-                                {
-                                    tilesToFlip.AddRange(tileBuffer);
-                                    tileBuffer.Clear();
-                                    break;
-                                }
-                            }
-                            catch(IndexOutOfRangeException)
-                            {
-                                tileBuffer.Clear();
-                                break;
-                            }
-                        }
-                    }
-                }
-                
-                myPieces = CountPieces(PlayerPiece);
-                opponentPieces = CountPieces(OpponentPiece);
+                tilesToFlip.Add((rowToCheck,colToCheck));
+                rowToCheck += xDirection;
+                colToCheck += yDirection;
+            }
+            
+            if (rowToCheck < 0 || rowToCheck > board.GetLength(0) - 1 || colToCheck < 0 ||
+                colToCheck > board.GetLength(1) - 1 || (rowToCheck - xDirection == row && colToCheck - yDirection == col) ||
+                board[rowToCheck, colToCheck] != piece)
+            {
+                tilesToFlip.Clear();
             }
             
             foreach(var (x,y) in tilesToFlip)
