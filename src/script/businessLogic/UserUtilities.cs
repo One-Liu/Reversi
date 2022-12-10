@@ -228,12 +228,11 @@ namespace ReversiFEI.UserTools
                         .SingleOrDefault(b => b.Nickname == nickname)
                         ?? new Player();
                             
-                        user.GamesWon += 1;
-                        
-                        if(db.SaveChanges() == 1)
-                        {
-                            victoryAdded = true;
-                        }
+                    user.GamesWon += 1;
+                    
+                    if(db.SaveChanges() == 1)
+                    {
+                        victoryAdded = true;
                     }
                 }
                 catch(MySqlException e)

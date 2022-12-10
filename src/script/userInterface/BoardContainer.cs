@@ -35,7 +35,7 @@ namespace ReversiFEI.Matches
             networkUtilities.Connect("PiecePlaced",this,nameof(ReceiveOpponentMove));
             networkUtilities.Connect("OpponentTurnSkipped",this,nameof(OpponentSkippedTurn));
             networkUtilities.Connect("MatchEnded",this,nameof(Results));
-            GetTree.Connect("network_peer_disconnected", this, nameof(OpponentDisconnected));
+            GetTree().Connect("network_peer_disconnected", this, nameof(OpponentDisconnected));
 
             Columns = boardSize;
             PlayerPiece = networkUtilities.MyPiece;
@@ -330,7 +330,7 @@ namespace ReversiFEI.Matches
         
         private void OpponentDisconnected(int peerId)
         {
-            if(peerId = networkUtilities.OpponentId)
+            if(peerId == networkUtilities.OpponentId)
             {
                 RegisterVictory(true);
             }

@@ -321,7 +321,7 @@ namespace ReversiFEI.Network
         [Master]
         private void RegisterVictory()
         {
-            string username = players[GetTree().GetRpcSenderId()]
+            string username = players[GetTree().GetRpcSenderId()];
             
             UserUtilities.AddVictory(username);
         }
