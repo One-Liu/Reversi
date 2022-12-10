@@ -13,32 +13,30 @@ namespace Tests.Reversi
     public class UserUtilitiesTests : WAT.Test
     {   
         string playerNickname;
-        string newNickname;
         string email;
         string password;
         string newPlayerNickname;
         string newPlayerEmail;
         string newPlayerPassword;
         List<string> friendsList = new List<string>();
-        int newSetOfPieces;
+        int newPlayerSetOfPieces;
         
         public void RunBeforeTestMethod()
         {
-            playerNickname = "Lester";
-            newNickname = "xXLesterXx";
+            playerNickname = "pepe";
             email = "lester@gmail.com";
-            password = "lester";
-            newPlayerNickname = "luisito";
-            newPlayerEmail = "luisito@gmail.com";
-            newPlayerPassword = "luis01";
+            password = "luisito123";
+            newPlayerNickname = "punisher";
+            newPlayerEmail = "max@gmail.com";
+            newPlayerPassword = "pepe1234";
             friendsList.Add("luisito");
-            newSetOfPieces = 1;
+            newPlayerSetOfPieces = 1;
         }
         
         [Test]
         public void LogInTest()
         {
-            Assert.IsTrue(playerNickname == UserUtilities.LogIn(email, password));
+            Assert.IsTrue(UserUtilities.LogIn(email, password) != null);
         }
         
         [Test]
@@ -57,19 +55,19 @@ namespace Tests.Reversi
         [Test]
         public void ChangeNicknameTest()
         {
-            Assert.IsTrue(UserUtilities.ChangeNickname(playerNickname, newNickname));
+            Assert.IsTrue(UserUtilities.ChangeNickname(playerNickname, newPlayerNickname));
         }
         
         [Test]
         public void ChangePasswordTest()
         {
-            Assert.IsTrue(UserUtilities.ChangePassword(playerNickname,password));
+            Assert.IsTrue(UserUtilities.ChangePassword(playerNickname,newPlayerPassword));
         }
         
         [Test]
         public void ChangeSetOfPiecesTest()
         {
-            Assert.IsTrue(UserUtilities.ChangeSetOfPieces(playerNickname,newSetOfPieces));
+            Assert.IsTrue(UserUtilities.ChangeSetOfPieces(playerNickname,newPlayerSetOfPieces));
         }
     }
 }

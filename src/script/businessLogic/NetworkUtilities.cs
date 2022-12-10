@@ -21,6 +21,9 @@ namespace ReversiFEI.Network
         delegate void MessageReceived();
         
         [Signal]
+        delegate void SignedUp();
+        
+        [Signal]
         delegate void LoggedIn();
         
         [Signal]
@@ -138,7 +141,6 @@ namespace ReversiFEI.Network
         public void LeaveGame()
         {
             GD.Print("Leaving current game");
-
             players.Clear();
 
             Rpc(nameof(RemovePlayer), GetTree().GetNetworkUniqueId());
@@ -382,6 +384,7 @@ namespace ReversiFEI.Network
         {
             if (players.ContainsKey(peerId))
             {
+                Playername = null;
                 players.Remove(peerId);
                 EmitSignal(nameof(PlayersOnline));
                 GD.Print($"Player no.{peerId} has disconnected.");
@@ -428,6 +431,7 @@ namespace ReversiFEI.Network
         {
             GD.Print("Signed up successfully.");
             LeaveGame();
+            EmitSignal(nameof(SignedUp));
         }
         
         [Puppet]

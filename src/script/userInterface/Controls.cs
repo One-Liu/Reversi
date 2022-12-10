@@ -117,10 +117,10 @@ namespace ReversiFEI.Controller
             }
         }
         
-        private bool ValidateEmail(String email) {
+        private bool ValidateEmail(string email) {
             var validEmail = true;
             
-            if(String.IsNullOrEmpty(email))
+            if(string.IsNullOrEmpty(email))
             {
                 validEmail = false;
             }
@@ -128,53 +128,101 @@ namespace ReversiFEI.Controller
             {
                 validEmail = false;
             }
+            
             return validEmail;
         }
         
-        private bool ValidatePassword(String password) {        
-            return !String.IsNullOrEmpty(password);
+        private bool ValidatePassword(string password) {
+            var validPassword = true;
+            
+            if(string.IsNullOrEmpty(password))
+            {
+                validPassword = false;
+            }
+            else if(password.Length <= 8)
+            {
+                validPassword = false;
+            }
+            else if(!password.All(char.IsLetterOrDigit))
+            {
+                validPassword = false;
+            }
+            
+            return validPassword;
         }
 
         private async Task SignUp()
         {
             string email = GetNode<LineEdit>("EmailLineEdit").Text;
+            email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
             string username = GetNode<LineEdit>("UsernameLineEdit").Text;
             string password = GetNode<LineEdit>("PasswordLineEdit").Text;
             string confirmPassword = GetNode<LineEdit>("ConfirmPasswordLineEdit").Text;
+            var emptyFields = GetNode<Label>("EmptyFields");
+            var invalidEmailOrPassword = GetNode<Label>("InvalidEmailOrPassword");
+            var differentPasswords = GetNode<Label>("DifferentPasswords");
         
-            if(ValidateEmail(email) && password.Equals(confirmPassword))
+            if(string.IsNullOrEmpty(username) || string.IsNullOrEmpty(confirmPassword))
             {
+                emptyFields.Visible = true;
+                invalidEmailOrPassword.Visible = false;
+                differentPasswords.Visible = false;
+            }
+            else if(!ValidateEmail(email) || !ValidatePassword(password))
+            {
+                emptyFields.Visible = false;
+                invalidEmailOrPassword.Visible = true;
+                differentPasswords.Visible = false;
+            }
+            else if(!password.Equals(confirmPassword))
+            {
+                emptyFields.Visible = false;
+                invalidEmailOrPassword.Visible = false;
+                differentPasswords.Visible = true;
+            }
+            else
+            {
+                emptyFields.Visible = false;
+                invalidEmailOrPassword.Visible = false;
+                differentPasswords.Visible = false;
+                
                 networkUtilities.JoinGame();
                 await ToSignal(GetTree(), "connected_to_server");
                 if(GetTree().NetworkPeer == null)
                     GD.Print("Sign up failed.");
                 else
                     networkUtilities.SignUp(email, username, password);
+                
+                await ToSignal(networkUtilities, "SignedUp");
+                LogIn(email,password);
             }
         }
 
-        private async Task LogIn()
+        private void LogIn()
         {
             string email = GetNode<LineEdit>("EmailLineEdit").Text;
             string password = GetNode<LineEdit>("PasswordLineEdit").Text;
             
-            if(ValidateEmail(email) && ValidatePassword(password)) 
+            if(!ValidateEmail(email) || !ValidatePassword(password)) 
             {
-                email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
-                
-                networkUtilities.JoinGame();
-                await ToSignal(GetTree(), "connected_to_server");
-                if(GetTree().NetworkPeer == null)
-                    GD.Print("Log in failed.");
-                else
-                    networkUtilities.LogIn(email, password);
-                    
-                await ToSignal(networkUtilities, "LoggedIn");
-                //ShowNicknameUpdatedPopUp();
-                GoToMainMenu();
+                GetNode<Label>("InvalidEmailOrPassword").Visible = true;
             } else {
-                GD.Print("Invalid email or password");
+                email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
+                LogIn(email,password);
             }   
+        }
+        
+        private async Task LogIn(string email, string password)
+        {
+            networkUtilities.JoinGame();
+            await ToSignal(GetTree(), "connected_to_server");
+            if(GetTree().NetworkPeer == null)
+                GD.Print("Log in failed.");
+            else
+                networkUtilities.LogIn(email, password);
+                
+            await ToSignal(networkUtilities, "LoggedIn");
+            GoToMainMenu();
         }
         
         private void ShowConnectionFailedPopUp()
@@ -360,7 +408,7 @@ namespace ReversiFEI.Controller
             var password = GetNode<LineEdit>("ChangePassword/NewPasswordLineEdit").Text;
             var newPassword = String.Concat(password.Where(c => !Char.IsWhiteSpace(c)));
             
-            if(ValidPassword(newPassword))
+            if(ValidatePassword(newPassword))
             {
                 var passwordUpdated = networkUtilities.ChangePassword(newPassword);
                 
@@ -371,16 +419,6 @@ namespace ReversiFEI.Controller
             }
             
             HideChangePasswordPopUp();
-        }
-        
-        private bool ValidPassword(string newPassword)
-        {
-            var validPassword = false;
-            
-            if(!string.IsNullOrEmpty(newPassword) && newPassword.All(char.IsLetterOrDigit))
-                validPassword = true;
-            
-            return validPassword;
         }
         
         private void SelectSetOfPieces1()
