@@ -215,5 +215,34 @@ namespace ReversiFEI.UserTools
             
             return passwordUpdated;
         }
+        
+        public static bool ChangeSetOfPieces(string nickname, int setOfPieces)
+        {
+            var setOfPiecesUpdated = false;
+            
+            using (var db = new PlayerContext())
+            {
+                try
+                {
+                    var player = db.Player
+                        .SingleOrDefault(b => b.Nickname == nickname) 
+                        ?? new Player();
+                    
+                    player.PiecesSet = setOfPieces;
+                    
+                    if(db.SaveChanges() == 1)
+                    {
+                        setOfPiecesUpdated = true;
+                    }
+                }
+                catch(MySqlException e)
+                {
+                    GD.PushError(e.Message);
+                    throw;
+                }
+            }
+            
+            return setOfPiecesUpdated;
+        }
     }
 }

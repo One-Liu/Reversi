@@ -82,10 +82,10 @@ namespace ReversiFEI.Network
             playerList.Clear();
             
             var friendsList = GetNode<ItemList>("OnlineFriendsList/OnlineFriends");
-            var friends = networkUtilities.Friends;
             friendsList.Clear();
-
             networkUtilities.UpdateFriends();
+            var friends = networkUtilities.Friends;
+
             foreach(string player in networkUtilities.Players.Select(player => player.Value))
             {
                 if(player != null && player != networkUtilities.Playername)
