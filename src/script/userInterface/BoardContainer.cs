@@ -35,6 +35,7 @@ namespace ReversiFEI.Matches
             networkUtilities.Connect("PiecePlaced",this,nameof(ReceiveOpponentMove));
             networkUtilities.Connect("OpponentTurnSkipped",this,nameof(OpponentSkippedTurn));
             networkUtilities.Connect("MatchEnded",this,nameof(Results));
+            GetTree.Connect("network_peer_disconnected", this, nameof(OpponentDisconnected));
 
             Columns = boardSize;
             PlayerPiece = networkUtilities.MyPiece;
@@ -260,7 +261,6 @@ namespace ReversiFEI.Matches
                 otherPiece = PlayerPiece;
             
             var tilesToFlip = new List<(int, int)>();
-            //var tileBuffer = new List<(int, int)>();
             
             int rowToCheck = row + xDirection;
             int colToCheck = col + yDirection;
@@ -307,6 +307,9 @@ namespace ReversiFEI.Matches
                     }
                 }
             }
+            
+            myPieces = CountPieces(PlayerPiece);
+            opponentPieces = CountPieces(OpponentPiece);
         }
         
         private int CountPieces(int piece)
@@ -325,15 +328,40 @@ namespace ReversiFEI.Matches
             return count;
         }
         
+        private void OpponentDisconnected(int peerId)
+        {
+            if(peerId = networkUtilities.OpponentId)
+            {
+                RegisterVictory(true);
+            }
+        }
+        
         private void Results()
         {
+            myPieces = CountPieces(PlayerPiece);
+            opponentPieces = CountPieces(OpponentPiece);
+            
             if(myPieces > opponentPieces)
+            {
                 GD.Print("You won!");
+                RegisterVictory(true);
+                return;
+            }
             else if(myPieces < opponentPieces)
+            {
                 GD.Print("You lost...");
+            }
             else
                 GD.Print("Tie!?");
-                
+            
+            RegisterVictory(false);
+        }
+        
+        private void RegisterVictory(bool won)
+        {
+            if(won)
+                networkUtilities.RequestVictoryRegistration();
+            
             controls.GoToLobby();
         }
     }
