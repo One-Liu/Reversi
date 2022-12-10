@@ -231,6 +231,34 @@ namespace ReversiFEI.UserTools
             return passwordUpdated;
         }
         
+        public static bool AddVictory(string nickname)
+        {
+            var victoryAdded = false;
+            using (var db = new PlayerContext())
+            {
+                try
+                {
+                    var user = db.Player
+                        .SingleOrDefault(b => b.Nickname == nickname)
+                        ?? new Player();
+                            
+                    user.GamesWon += 1;
+                    
+                    if(db.SaveChanges() == 1)
+                    {
+                        victoryAdded = true;
+                    }
+                }
+                catch(MySqlException e)
+                {
+                    GD.PushError(e.Message);
+                    throw;    
+                }
+            }
+            
+            return victoryAdded;
+        }
+
         public static bool ChangeSetOfPieces(string nickname, int setOfPieces)
         {
             var setOfPiecesUpdated = false;
