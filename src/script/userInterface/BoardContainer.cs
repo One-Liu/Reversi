@@ -108,30 +108,29 @@ namespace ReversiFEI.Matches
             {
                 board[xPosition,yPosition] = newState;
             }
+            CheckBoard(newState, xPosition, yPosition);
+            UpdateGameState(board);
         }
         
         public void MakeMove(int xPosition, int yPosition, int newState)
         {
-            int opponentId = networkUtilities.OpponentId;
             networkUtilities.SendMove(xPosition,yPosition,newState);
             ChangeTileState(xPosition,yPosition,newState);
-            CheckBoard(PlayerPiece, xPosition, yPosition);
-            UpdateGameState(board);
             LockTiles();
         }
         
         private void ReceiveOpponentMove(int xPosition, int yPosition, int newState)
         {
             ChangeTileState(xPosition,yPosition,newState);
-            CheckBoard(OpponentPiece, xPosition, yPosition);
-            UpdateGameState(board);
             if(MovesAvailable())
             {
                 UnlockTiles();
             }
             else
+            {
                 GD.Print("No moves are available.");
                 networkUtilities.SkipTurn(false);
+            }
         }
         
         private void Populate(int boardSize)
@@ -196,15 +195,13 @@ namespace ReversiFEI.Matches
         private bool MovesAvailable()
         {
             bool availableMoves = false;
-            for(int i = 0; i < boardSize; i++)
+            foreach(Tile t in GetChildren())
             {
-                for(int j = 0; j < boardSize; j++)
+                if(IsLegalMove(t.XPosition,t.YPosition) 
+                && board[t.XPosition,t.YPosition] == EMPTY_CELL)
                 {
-                    if(IsLegalMove(i,j))
-                    {
-                        if(board[i,j] != PlayerPiece && board[i,j] != OpponentPiece)
-                        availableMoves = true;
-                    }
+                    availableMoves = true;
+                    break;
                 }
             }
             return availableMoves;
