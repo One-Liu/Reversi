@@ -35,6 +35,7 @@ namespace ReversiFEI.Matches
             networkUtilities.Connect("PiecePlaced",this,nameof(ReceiveOpponentMove));
             networkUtilities.Connect("OpponentTurnSkipped",this,nameof(OpponentSkippedTurn));
             networkUtilities.Connect("MatchEnded",this,nameof(Results));
+            GetTree().Connect("network_peer_disconnected", this, nameof(OpponentDisconnected));
 
             Columns = boardSize;
             PlayerPiece = networkUtilities.MyPiece;
@@ -107,30 +108,29 @@ namespace ReversiFEI.Matches
             {
                 board[xPosition,yPosition] = newState;
             }
+            CheckBoard(newState, xPosition, yPosition);
+            UpdateGameState(board);
         }
         
         public void MakeMove(int xPosition, int yPosition, int newState)
         {
-            int opponentId = networkUtilities.OpponentId;
             networkUtilities.SendMove(xPosition,yPosition,newState);
             ChangeTileState(xPosition,yPosition,newState);
-            CheckBoard(PlayerPiece, xPosition, yPosition);
-            UpdateGameState(board);
             LockTiles();
         }
         
         private void ReceiveOpponentMove(int xPosition, int yPosition, int newState)
         {
             ChangeTileState(xPosition,yPosition,newState);
-            CheckBoard(OpponentPiece, xPosition, yPosition);
-            UpdateGameState(board);
             if(MovesAvailable())
             {
                 UnlockTiles();
             }
             else
+            {
                 GD.Print("No moves are available.");
                 networkUtilities.SkipTurn(false);
+            }
         }
         
         private void Populate(int boardSize)
@@ -195,15 +195,13 @@ namespace ReversiFEI.Matches
         private bool MovesAvailable()
         {
             bool availableMoves = false;
-            for(int i = 0; i < boardSize; i++)
+            foreach(Tile t in GetChildren())
             {
-                for(int j = 0; j < boardSize; j++)
+                if(IsLegalMove(t.XPosition,t.YPosition) 
+                && board[t.XPosition,t.YPosition] == EMPTY_CELL)
                 {
-                    if(IsLegalMove(i,j))
-                    {
-                        if(board[i,j] != PlayerPiece && board[i,j] != OpponentPiece)
-                        availableMoves = true;
-                    }
+                    availableMoves = true;
+                    break;
                 }
             }
             return availableMoves;
@@ -260,7 +258,6 @@ namespace ReversiFEI.Matches
                 otherPiece = PlayerPiece;
             
             var tilesToFlip = new List<(int, int)>();
-            //var tileBuffer = new List<(int, int)>();
             
             int rowToCheck = row + xDirection;
             int colToCheck = col + yDirection;
@@ -307,6 +304,9 @@ namespace ReversiFEI.Matches
                     }
                 }
             }
+            
+            myPieces = CountPieces(PlayerPiece);
+            opponentPieces = CountPieces(OpponentPiece);
         }
         
         private int CountPieces(int piece)
@@ -325,15 +325,40 @@ namespace ReversiFEI.Matches
             return count;
         }
         
+        private void OpponentDisconnected(int peerId)
+        {
+            if(peerId == networkUtilities.OpponentId)
+            {
+                RegisterVictory(true);
+            }
+        }
+        
         private void Results()
         {
+            myPieces = CountPieces(PlayerPiece);
+            opponentPieces = CountPieces(OpponentPiece);
+            
             if(myPieces > opponentPieces)
+            {
                 GD.Print("You won!");
+                RegisterVictory(true);
+                return;
+            }
             else if(myPieces < opponentPieces)
+            {
                 GD.Print("You lost...");
+            }
             else
                 GD.Print("Tie!?");
-                
+            
+            RegisterVictory(false);
+        }
+        
+        private void RegisterVictory(bool won)
+        {
+            if(won)
+                networkUtilities.RequestVictoryRegistration();
+            
             controls.GoToLobby();
         }
     }

@@ -315,6 +315,19 @@ namespace ReversiFEI.Network
             EmitSignal(nameof(MatchEnded));
         }
         
+        public void RequestVictoryRegistration()
+        {
+            RpcId(1,nameof(RegisterVictory));
+        }
+        
+        [Master]
+        private void RegisterVictory()
+        {
+            string username = players[GetTree().GetRpcSenderId()];
+            
+            UserUtilities.AddVictory(username);
+        }
+        
         private void PlayerConnected(int peerId)
         {
             GD.Print($"player no.{peerId} has connected.");
@@ -380,7 +393,7 @@ namespace ReversiFEI.Network
         [Remote]
         private void RemovePlayer(int peerId)
         {
-            if (players.ContainsKey(peerId))
+            if(players.ContainsKey(peerId))
             {
                 players.Remove(peerId);
                 EmitSignal(nameof(PlayersOnline));
