@@ -60,6 +60,8 @@ namespace ReversiFEI.Network
         public string Playername { get; set;}
         
         public int PlayerId{get; set;}
+
+        public int PlayerAvatar { get; set;}
         
         public int OpponentId { get; set;}
         
@@ -214,7 +216,6 @@ namespace ReversiFEI.Network
                 piece = -1;
             }
             
-            GD.Print("Responding succesfully.");
             if(accept)
             {
                 RpcId(OpponentId,nameof(ChallengeAccepted),firstTurnDecide,piece);
@@ -343,6 +344,19 @@ namespace ReversiFEI.Network
             EmitSignal(nameof(MatchEnded));
         }
         
+        public void RequestVictoryRegistration()
+        {
+            RpcId(1,nameof(RegisterVictory));
+        }
+        
+        [Master]
+        private void RegisterVictory()
+        {
+            string username = players[GetTree().GetRpcSenderId()];
+            
+            UserUtilities.AddVictory(username);
+        }
+        
         private void PlayerConnected(int peerId)
         {
             GD.Print($"player no.{peerId} has connected.");
@@ -408,7 +422,7 @@ namespace ReversiFEI.Network
         [Remote]
         private void RemovePlayer(int peerId)
         {
-            if (players.ContainsKey(peerId))
+            if(players.ContainsKey(peerId))
             {
                 players.Remove(peerId);
                 EmitSignal(nameof(PlayersOnline));
@@ -506,6 +520,54 @@ namespace ReversiFEI.Network
                 GD.Print("Nickname was not updated");
             }
             return nicknameUpdated;
+        }
+        
+        public bool ChangePassword(string newPassword)
+        {
+            var passwordUpdated = UserUtilities.ChangePassword(Playername, newPassword);
+            
+            if(passwordUpdated)
+            {
+                GD.Print("Password updated");
+            }
+            else
+            {
+                GD.Print("Password was not updated");
+            }
+            return passwordUpdated;
+        }
+        
+        public bool ChangeSetOfPieces(int setOfPieces)
+        {
+            var setOfPiecesUpdated = UserUtilities.ChangeSetOfPieces(Playername, setOfPieces);
+            
+            if(setOfPiecesUpdated)
+            {
+                GD.Print("Set of pieces updated");
+            }
+            else
+            {
+                GD.Print("Set of pieces was not updated");
+            }
+            return setOfPiecesUpdated;
+        }
+        
+        public bool ChangeAvatar(int avatar)
+        {
+            var avatarUpdated = false;
+            
+            if(PlayerAvatar != avatar)
+            {
+                PlayerAvatar = avatar;
+                avatarUpdated = true;
+                GD.Print("Avatar updated");
+            }
+            else
+            {
+                GD.Print("Avatar was not updated");
+            }
+                
+            return avatarUpdated;
         }
     }
 }

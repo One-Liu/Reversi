@@ -71,6 +71,8 @@ namespace ReversiFEI.Network
         private void ReceiveMessages()
         {
             GetNode("Panel").GetNode<TextEdit>("ChatBox").Text += networkUtilities.Messages.Last();
+            var lineCount = GetNode<TextEdit>("Panel/ChatBox").GetLineCount();
+            GetNode<TextEdit>("Panel/ChatBox").CursorSetLine(lineCount);
         }
         
         private void SetOnlinePlayers()
@@ -79,10 +81,10 @@ namespace ReversiFEI.Network
             playerList.Clear();
             
             var friendsList = GetNode<ItemList>("OnlineFriendsList/OnlineFriends");
-            var friends = networkUtilities.Friends;
             friendsList.Clear();
-
             networkUtilities.UpdateFriends();
+            var friends = networkUtilities.Friends;
+
             foreach(string player in networkUtilities.Players.Select(player => player.Value))
             {
                 if(player != null && player != networkUtilities.Playername)

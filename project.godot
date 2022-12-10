@@ -8,6 +8,34 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Reference",
+"class": "WAT",
+"language": "GDScript",
+"path": "res://addons/WAT/namespace.gd"
+}, {
+"base": "Node",
+"class": "WATTest",
+"language": "GDScript",
+"path": "res://addons/WAT/test/test.gd"
+} ]
+_global_script_class_icons={
+"WAT": "",
+"WATTest": ""
+}
+
+[WAT]
+
+Test_Directory="res://tests"
+Results_Directory="res://tests"
+Test_Metadata_Directory="res://tests"
+Tags=PoolStringArray(  )
+Cache_Tests=true
+Window_Size=Vector2( 1280, 720 )
+Minimize_Window_When_Running_Tests=false
+Port=6008
+Display=8
+
 [application]
 
 config/name="Reversi FEI"
@@ -25,6 +53,10 @@ Controls="*res://src/script/userInterface/Controls.cs"
 
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/WAT/plugin.cfg" )
 
 [global]
 

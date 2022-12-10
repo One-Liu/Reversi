@@ -130,14 +130,15 @@ namespace ReversiFEI.UserTools
                     //Divided in two consults because linq doesn't support conditions in joins                    
                     var friendsList = 
                         (from friend in
-                            (from player in db.Player
-                            join playerFriends in db.Friends on playerId equals playerFriends.Player1Id
+                            (from friends in db.Friends
+                            join player in db.Player on friends.Player1Id equals player.PlayerId
+                            where friends.Player2Id == playerId
                             select player)
                             .Union
-                            (from player in db.Player
-                            join playerFriends in db.Friends on playerId equals playerFriends.Player2Id
+                            (from friends in db.Friends
+                            join player in db.Player on friends.Player2Id equals player.PlayerId
+                            where friends.Player1Id == playerId
                             select player)
-                            where friend.PlayerId != playerId
                             select friend.Nickname
                         ).ToList();
                     
@@ -176,48 +177,132 @@ namespace ReversiFEI.UserTools
         {
             var nicknameUpdated = false;
             
-            if(ValidNickname(newNickname))
+            using (var db = new PlayerContext())
             {
-                using (var db = new PlayerContext())
+                try
                 {
-                    try
+                    var nicknameAlreadyRegistered = 
+                        (from player in db.Player
+                        where player.Nickname == newNickname
+                        select player).FirstOrDefault();
+                    
+                    if(nicknameAlreadyRegistered == null)
                     {
-                        var user = 
-                            (from player in db.Player
-                            where player.Nickname == nickname
-                            select player).FirstOrDefault();
+                        var user = db.Player
+                            .SingleOrDefault(b => b.Nickname == nickname)
+                            ?? new Player();
+                            
+                        user.Nickname = newNickname;
                         
-                        var nicknameAlreadyRegistered = 
-                            (from player in db.Player
-                            where player.Nickname == newNickname
-                            select player).FirstOrDefault();
-                        
-                        if(nicknameAlreadyRegistered == null)
+                        if(db.SaveChanges() == 1)
                         {
-                            user.Nickname = newNickname;
-                            db.SaveChanges();
                             nicknameUpdated = true;
                         }
                     }
-                    catch(MySqlException e)
-                    {
-                        GD.PushError(e.Message);
-                        throw;    
-                    }
+                }
+                catch(MySqlException e)
+                {
+                    GD.PushError(e.Message);
+                    throw;    
                 }
             }
             
             return nicknameUpdated;
         }
         
-        private static bool ValidNickname(string nickname)
+        public static bool ChangePassword(string nickname, string password)
         {
-            var validNickname = false;
+            var passwordUpdated = false;
+            byte[] salt;
+            byte[] passwordBytes;
+                
+            using (var deriveBytes = new Rfc2898DeriveBytes(password, 16))
+            {
+                salt = deriveBytes.Salt;
+                passwordBytes = deriveBytes.GetBytes(64);
+            }
             
-            if(nickname != null && nickname.All(char.IsLetterOrDigit))
-                validNickname = true;
+            using (var db = new PlayerContext())
+            {
+                try
+                {
+                    var player = db.Player
+                        .SingleOrDefault(b => b.Nickname == nickname) 
+                        ?? new Player();
+                    
+                    player.Salt = salt;
+                    player.Password = passwordBytes;
+                    
+                    if(db.SaveChanges() == 1)
+                    {
+                        passwordUpdated = true;
+                    }
+                }
+                catch(MySqlException e)
+                {
+                    GD.PushError(e.Message);
+                    throw;    
+                }
+            }
             
-            return validNickname;
+            return passwordUpdated;
+        }
+        
+        public static bool AddVictory(string nickname)
+        {
+            var victoryAdded = false;
+            using (var db = new PlayerContext())
+            {
+                try
+                {
+                    var user = db.Player
+                        .SingleOrDefault(b => b.Nickname == nickname)
+                        ?? new Player();
+                            
+                    user.GamesWon += 1;
+                    
+                    if(db.SaveChanges() == 1)
+                    {
+                        victoryAdded = true;
+                    }
+                }
+                catch(MySqlException e)
+                {
+                    GD.PushError(e.Message);
+                    throw;    
+                }
+            }
+            
+            return victoryAdded;
+        }
+
+        public static bool ChangeSetOfPieces(string nickname, int setOfPieces)
+        {
+            var setOfPiecesUpdated = false;
+            
+            using (var db = new PlayerContext())
+            {
+                try
+                {
+                    var player = db.Player
+                        .SingleOrDefault(b => b.Nickname == nickname) 
+                        ?? new Player();
+                    
+                    player.PiecesSet = setOfPieces;
+                    
+                    if(db.SaveChanges() == 1)
+                    {
+                        setOfPiecesUpdated = true;
+                    }
+                }
+                catch(MySqlException e)
+                {
+                    GD.PushError(e.Message);
+                    throw;
+                }
+            }
+            
+            return setOfPiecesUpdated;
         }
     }
 }
