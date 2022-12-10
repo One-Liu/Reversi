@@ -219,6 +219,10 @@ namespace ReversiFEI.UserTools
         public static bool AddVictory(string nickname)
         {
             var victoryAdded = false;
+            using (var db = new PlayerContext())
+            {
+                try
+                {
                     var user = db.Player
                         .SingleOrDefault(b => b.Nickname == nickname)
                         ?? new Player();
