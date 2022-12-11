@@ -38,6 +38,7 @@ namespace ReversiFEI.Controller
         private void GoToMainMenuAsGuest()
         {
             networkUtilities.Playername = "guest#" + GD.Randi() % 99999999998 + 1;
+            networkUtilities.IsGuest = true;
             GetTree().ChangeScene("res://src/scene/userInterface/MainMenu.tscn");
         }
         
@@ -81,7 +82,10 @@ namespace ReversiFEI.Controller
         
         private void GoToCustomizeProfile()
         {
-            GetTree().ChangeScene("res://src/scene/userInterface/CustomizeProfile.tscn");
+            if(networkUtilities.IsGuest)
+                GoToSound();
+            else
+                GetTree().ChangeScene("res://src/scene/userInterface/CustomizeProfile.tscn");
         }
 
 
@@ -222,6 +226,7 @@ namespace ReversiFEI.Controller
                 networkUtilities.LogIn(email, password);
                 
             await ToSignal(networkUtilities, "LoggedIn");
+            networkUtilities.IsGuest = false;
             GoToMainMenu();
         }
         
@@ -397,7 +402,7 @@ namespace ReversiFEI.Controller
             return validNickname;
         }
         
-        private void _on_Panel_ready()
+        private void CustomizeProfileOnReady()
         {
             var userNickname = networkUtilities.Playername;
             GetNode<Label>("UserNicknameTitle").Text = userNickname;

@@ -60,6 +60,8 @@ namespace ReversiFEI.Network
         
         public int PlayerAvatar { get; set;}
         
+        public bool IsGuest { get; set;}
+        
         public int OpponentId { get; set;}
         
         public int FriendId { get; set;}
