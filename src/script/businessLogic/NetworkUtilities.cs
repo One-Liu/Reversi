@@ -417,10 +417,9 @@ namespace ReversiFEI.Network
         [Remote]
         private void RemovePlayer(int peerId)
         {
-            if(players.ContainsKey(peerId))
+            if(Players.ContainsKey(peerId))
             {
-                Playername = null;
-                players.Remove(peerId);
+                Players.Remove(peerId);
                 EmitSignal(nameof(PlayersOnline));
                 GD.Print($"Player no.{peerId} has disconnected.");
             }
