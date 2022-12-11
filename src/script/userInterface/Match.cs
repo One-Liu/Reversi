@@ -20,6 +20,7 @@ namespace ReversiFEI.Matches
             opponentNickname = GetNode<Label>("OpponentHBoxContainer/OpponentVBoxContainer/OpponentNickname");
             opponentTotalPoints = GetNode<Label>("OpponentHBoxContainer/OpponentTotalPoints");
             SetPlayerNames();
+            SetScores(2,2);
         }
         
         private void SetPlayerNames()
