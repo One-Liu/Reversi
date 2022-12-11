@@ -468,6 +468,7 @@ namespace ReversiFEI.Network
         {
             GD.Print("Logged in successfully.");
             Playername = nickname;
+            PlayerAvatar = 1;
             LeaveGame();
             EmitSignal(nameof(LoggedIn));
         }

@@ -60,6 +60,8 @@ size_flags_horizontal = 3
 size_flags_vertical = 6
 text = "PLAYER"
 
+[node name="PlayerAvatar" type="Sprite" parent="PlayerHBoxContainer/PlayerVBoxContainer"]
+
 [node name="PlayerPoints" type="Label" parent="PlayerHBoxContainer"]
 margin_left = 183.0
 margin_top = 44.0
@@ -95,6 +97,8 @@ margin_bottom = 43.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
 text = "OPPONENT"
+
+[node name="OpponentAvatar" type="Sprite" parent="OpponentHBoxContainer/OpponentVBoxContainer"]
 
 [node name="OpponentPoints" type="Label" parent="OpponentHBoxContainer"]
 margin_left = 183.0
