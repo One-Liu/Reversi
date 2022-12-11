@@ -39,20 +39,14 @@ namespace ReversiFEI.Matches
 
             Columns = boardSize;
             PlayerPiece = networkUtilities.MyPiece;
-
             if(PlayerPiece == 1)
-            {
                 OpponentPiece = -1;
-                PlayerTexture = (Texture) ResourceLoader.Load("res://resources/square_set1piece1.png");
-                OpponentTexture = (Texture) ResourceLoader.Load("res://resources/square_set1piece2.png");
-            }
             else
-            {
                 OpponentPiece = 1;
-                PlayerTexture = (Texture) ResourceLoader.Load("res://resources/square_set1piece2.png");
-                OpponentTexture = (Texture) ResourceLoader.Load("res://resources/square_set1piece1.png");
-            }
+            
             ValidTexture = (Texture) ResourceLoader.Load("res://resources/square_valid.png");
+            
+            SetPlayerSprites();
             
             board = CreateBoard(boardSize);
             Populate(boardSize);
@@ -72,6 +66,90 @@ namespace ReversiFEI.Matches
             }
             
             return newBoard;
+        }
+        
+        private void SetPlayerSprites()
+        {
+            if(PlayerPiece == 1)
+            {
+                switch(networkUtilities.PlayerSet)
+                {
+                    case 1:
+                        PlayerTexture = (Texture) ResourceLoader.Load("res://resources/square_set1piece1.png");
+                        break;
+                    case 2:
+                        PlayerTexture = (Texture) ResourceLoader.Load("res://resources/square_set2piece1.png");
+                        break;
+                    case 3:
+                        PlayerTexture = (Texture) ResourceLoader.Load("res://resources/square_set3piece1.png");
+                        break;
+                    case 4:
+                        PlayerTexture = (Texture) ResourceLoader.Load("res://resources/square_set4piece1.png");
+                        break;
+                    default:
+                        PlayerTexture = (Texture) ResourceLoader.Load("res://resources/square_set1piece1.png");
+                        break;
+                }
+                
+                switch(networkUtilities.OpponentSet)
+                {
+                    case 1:
+                        OpponentTexture = (Texture) ResourceLoader.Load("res://resources/square_set1piece2.png");
+                        break;
+                    case 2:
+                        OpponentTexture = (Texture) ResourceLoader.Load("res://resources/square_set2piece2.png");
+                        break;
+                    case 3:
+                        OpponentTexture = (Texture) ResourceLoader.Load("res://resources/square_set3piece2.png");
+                        break;
+                    case 4:
+                        OpponentTexture = (Texture) ResourceLoader.Load("res://resources/square_set4piece2.png");
+                        break;
+                    default:
+                        OpponentTexture = (Texture) ResourceLoader.Load("res://resources/square_set1piece2.png");
+                        break;
+                }
+            }
+            else
+            {
+                switch(networkUtilities.PlayerSet)
+                {
+                    case 1:
+                        PlayerTexture = (Texture) ResourceLoader.Load("res://resources/square_set1piece2.png");
+                        break;
+                    case 2:
+                        PlayerTexture = (Texture) ResourceLoader.Load("res://resources/square_set2piece2.png");
+                        break;
+                    case 3:
+                        PlayerTexture = (Texture) ResourceLoader.Load("res://resources/square_set3piece2.png");
+                        break;
+                    case 4:
+                        PlayerTexture = (Texture) ResourceLoader.Load("res://resources/square_set4piece2.png");
+                        break;
+                    default:
+                        PlayerTexture = (Texture) ResourceLoader.Load("res://resources/square_set1piece2.png");
+                        break;
+                }
+                
+                switch(networkUtilities.OpponentSet)
+                {
+                    case 1:
+                        OpponentTexture = (Texture) ResourceLoader.Load("res://resources/square_set1piece1.png");
+                        break;
+                    case 2:
+                        OpponentTexture = (Texture) ResourceLoader.Load("res://resources/square_set2piece1.png");
+                        break;
+                    case 3:
+                        OpponentTexture = (Texture) ResourceLoader.Load("res://resources/square_set3piece1.png");
+                        break;
+                    case 4:
+                        OpponentTexture = (Texture) ResourceLoader.Load("res://resources/square_set4piece1.png");
+                        break;
+                    default:
+                        OpponentTexture = (Texture) ResourceLoader.Load("res://resources/square_set1piece1.png");
+                        break;
+                }
+            }
         }
         
         private void GameStartState()
@@ -110,6 +188,9 @@ namespace ReversiFEI.Matches
             }
             CheckBoard(newState, xPosition, yPosition);
             UpdateGameState(board);
+            
+            var match = GetParent() as Match;
+            match.SetScores(myPieces, opponentPieces);
         }
         
         public void MakeMove(int xPosition, int yPosition, int newState)
@@ -321,7 +402,6 @@ namespace ReversiFEI.Matches
                         count++;
                 }
             }
-            
             return count;
         }
         
