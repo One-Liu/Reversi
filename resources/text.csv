@@ -39,7 +39,7 @@ EMAIL,Email,Correo electrónico
 RETURN,Return,Regresar
 PASSWORD,Password,Contraseña
 CONFIRM_PASSWORD,Confirm password,Confirmar contraseña
-INCORRECT_EMAIL_OR_PASSWORD,Incorrect email or password.,Email o contraseña incorrecta.
+INCORRECT_EMAIL_OR_PASSWORD,Incorrect email nickname or password.,Email apodo o contraseña incorrectos.
 REQUIRED_FIELD,Fields cannot be empty.,Los campos no pueden estar vacíos.
 PASSWORD_MISMATCH,Passwords don't match.,Las contraseñas no coinciden.
 ENTER_LOBBY,Enter lobby,Entrar al lobby

@@ -160,6 +160,7 @@ namespace ReversiFEI.Controller
             string email = GetNode<LineEdit>("EmailLineEdit").Text;
             email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
             string username = GetNode<LineEdit>("UsernameLineEdit").Text;
+            username = String.Concat(username.Where(c => !Char.IsWhiteSpace(c)));
             string password = GetNode<LineEdit>("PasswordLineEdit").Text;
             string confirmPassword = GetNode<LineEdit>("ConfirmPasswordLineEdit").Text;
             var emptyFields = GetNode<Label>("EmptyFields");
@@ -172,7 +173,7 @@ namespace ReversiFEI.Controller
                 invalidEmailOrPassword.Visible = false;
                 differentPasswords.Visible = false;
             }
-            else if(!ValidateEmail(email) || !ValidatePassword(password))
+            else if(!ValidateEmail(email) || !ValidatePassword(password) || !username.All(char.IsLetterOrDigit))
             {
                 emptyFields.Visible = false;
                 invalidEmailOrPassword.Visible = true;
