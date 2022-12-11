@@ -287,5 +287,27 @@ namespace ReversiFEI.UserTools
             
             return setOfPiecesUpdated;
         }
+        
+        public static List<string> GetLeaderboard()
+        {
+            using (var db = new PlayerContext())
+            {
+                try
+                {                 
+                    var leaderboard = 
+                        (from player in db.Player
+                        orderby player.GamesWon descending
+                        select player.Nickname
+                        ).Take(15).ToList();
+
+                    return leaderboard;
+                }
+                catch(MySqlException e)
+                {
+                    GD.PushError(e.Message);
+                    throw;
+                }
+            }
+        }
     }
 }

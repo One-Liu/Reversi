@@ -69,5 +69,11 @@ namespace Tests.Reversi
         {
             Assert.IsTrue(UserUtilities.ChangeSetOfPieces(playerNickname,newPlayerSetOfPieces));
         }
+        
+        [Test]
+        public void GetLeaderboardTest()
+        {
+            Assert.IsTrue(UserUtilities.GetLeaderboard() != null);
+        }
     }
 }

@@ -91,6 +91,13 @@ namespace ReversiFEI.Network
             get {return friends;}
         }
         
+        private List<string> leaderboard = new List<string>();
+        
+        public List<string> Leaderboard
+        {
+            get {return leaderboard;}
+        }
+        
         public override void _Ready()
         {
             GetTree().Connect("network_peer_connected", this, nameof(PlayerConnected));
@@ -542,6 +549,16 @@ namespace ReversiFEI.Network
             }
                 
             return avatarUpdated;
+        }
+        
+        public void UpdateLeaderboard()
+        {
+            if(!OS.HasFeature("Server"))
+            {
+                GD.Print("Updating leaderboard...");
+                leaderboard.Clear();
+                leaderboard = UserUtilities.GetLeaderboard();
+            }
         }
     }
 }
