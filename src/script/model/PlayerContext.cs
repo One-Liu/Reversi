@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using MySql.Data.MySqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace ReversiFEI.DatabaseContext
@@ -11,11 +12,15 @@ namespace ReversiFEI.DatabaseContext
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //for local testing
-            optionsBuilder.UseMySQL("server=localhost;database=Reversi;user=reversi;password=Z4Sj(Ba#%3JY=8X");
+            var connstring = new MySqlConnectionStringBuilder
+                              {
+                                  Server = "localhost",
+                                  UserID = "reversi",
+                                  Password = "Z4Sj(Ba#%3JY=8X",
+                                  Database = "Reversi"
+                              };
             
-            //for production deployment through dotnet user secrets:
-            //optionsBuilder.UseMySQL(Configuration.GetConnectionString("ReversiDatabase"));    
+            optionsBuilder.UseMySQL(connstring.ToString());
         }
     }
     
