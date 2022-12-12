@@ -23,7 +23,7 @@ namespace Tests.Reversi
         
         public void RunBeforeTestMethod()
         {
-            playerNickname = "pepe";
+            playerNickname = "ganttz";
             email = "lester@gmail.com";
             password = "luisito123";
             newPlayerNickname = "punisher";
@@ -62,6 +62,12 @@ namespace Tests.Reversi
         public void ChangePasswordTest()
         {
             Assert.IsTrue(UserUtilities.ChangePassword(playerNickname,newPlayerPassword));
+        }
+        
+        [Test]
+        public void AddVictoryTest()
+        {
+            Assert.IsTrue(UserUtilities.AddVictory(playerNickname));
         }
         
         [Test]
