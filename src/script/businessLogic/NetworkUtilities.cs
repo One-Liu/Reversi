@@ -179,6 +179,16 @@ namespace ReversiFEI.Network
             ((NetworkedMultiplayerENet)GetTree().NetworkPeer).CloseConnection();
             GetTree().NetworkPeer = null;
         }
+        
+        public void EnteredMatch()
+        {
+            RpcId(0,nameof(RemovePlayer), GetTree().GetNetworkUniqueId());
+        }
+        
+        public void LeftMatch()
+        {
+            Rpc(nameof(RegisterPlayer), Playername);
+        }
 
         public void SendMessage(string message)
         {

@@ -35,6 +35,9 @@ namespace ReversiFEI.Matches
             SetPlayersProfile();
             PlayMusic(networkUtilities.soundEnabled);
             SetScores(2,2);
+            
+            networkUtilities.EnteredMatch();
+            controls.InMatch = true;
         }
 
         public override void _Input(InputEvent inputEvent)

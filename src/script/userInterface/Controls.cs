@@ -17,10 +17,12 @@ namespace ReversiFEI.Controller
     public class Controls : Node
     {
         private NetworkUtilities networkUtilities;
+        public bool InMatch { get; set;}
 
         public override void _Ready()
         {
             networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
+            InMatch = false;
             GD.Randomize();
         }
 
@@ -64,6 +66,11 @@ namespace ReversiFEI.Controller
         
         public void GoToLobby()
         {
+            if(InMatch == true)
+            {
+                networkUtilities.LeftMatch();
+                InMatch = false;
+            }
             GetTree().ChangeScene("res://src/scene/userInterface/Lobby.tscn");
         }
 
