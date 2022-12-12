@@ -116,7 +116,7 @@ namespace ReversiFEI.Network
                     networkUtilities.OpponentId = player.Key;
             }
            //AnchorLeft=GetNode<ItemList>("OnlinePlayersList/OnlinePlayers").GetItemAtPosition(index).AnchorLeft();
-            GetNode<Popup>("OnlinePlayersList/OnlinePlayers/Popup").Show();
+            GetNode<Popup>("OnlinePlayersList/OnlinePlayers/Popup").Popup_();
            // AnchorLeft=911;
             //AnchorTop=774;
             //AnchorRight=911;
@@ -179,6 +179,11 @@ namespace ReversiFEI.Network
             networkUtilities.SendFriendRequest(networkUtilities.FriendId);
         }
         
+        private void KickPlayer()
+        {
+            networkUtilities.KickPlayer();
+        }
+        
         private void FriendRequestReplyReceived()
         {
             if(friendRequestStatus)
@@ -189,13 +194,5 @@ namespace ReversiFEI.Network
             else
                 GD.Print("Friend request declined.");
         }
-        
-        
     }
 }
-
-
-
-
-
-
