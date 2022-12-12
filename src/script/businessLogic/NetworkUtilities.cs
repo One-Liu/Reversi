@@ -524,50 +524,39 @@ namespace ReversiFEI.Network
             }
         }
         
-        public bool ChangeNickname(string newNickname)
+        public void ChangeNickname(string newNickname)
         {
-            var nicknameUpdated = UserUtilities.ChangeNickname(Playername, newNickname);
-            
-            if(nicknameUpdated)
-            {
-                Playername = newNickname;
-                GD.Print("Nickname updated");
-            }
-            else
-            {
-                GD.Print("Nickname was not updated");
-            }
-            return nicknameUpdated;
+            RpcId(1,nameof(ReceiveNicknameChange),Playername,newNickname);
+            Playername = newNickname;
         }
         
-        public bool ChangePassword(string newPassword)
+        [Remote]
+        private void ReceiveNicknameChange(string name, string newNickname)
         {
-            var passwordUpdated = UserUtilities.ChangePassword(Playername, newPassword);
-            
-            if(passwordUpdated)
-            {
-                GD.Print("Password updated");
-            }
-            else
-            {
-                GD.Print("Password was not updated");
-            }
-            return passwordUpdated;
+            UserUtilities.ChangeNickname(Playername, newNickname);
         }
         
-        public bool ChangeSetOfPieces(int setOfPieces)
+        public void ChangePassword(string newPassword)
         {
-            var setOfPiecesUpdated = UserUtilities.ChangeSetOfPieces(Playername, setOfPieces);
-            
-            if(setOfPiecesUpdated)
-            {
-                GD.Print("Set of pieces updated");
-            }
-            else
-            {
-                GD.Print("Set of pieces was not updated");
-            }
-            return setOfPiecesUpdated;
+            RpcId(1,nameof(ReceivePasswordChange),Playername,newPassword);
+        }
+        
+        [Remote]
+        private void ReceivePasswordChange(string name, string newPassword)
+        {
+            UserUtilities.ChangePassword(Playername, newPassword);
+        }
+        
+        public void ChangeSetOfPieces(int setOfPieces)
+        {
+            RpcId(1,nameof(ReceiveSetOfPiecesChange),Playername,setOfPieces);
+            PlayerSet = setOfPieces;
+        }
+        
+        [Remote]
+        private void ReceiveSetOfPiecesChange(string name, int setOfPieces)
+        {
+            UserUtilities.ChangeSetOfPieces(name, setOfPieces);
         }
         
         public bool ChangeAvatar(int avatar)

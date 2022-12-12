@@ -31,6 +31,8 @@ namespace ReversiFEI.Controller
         
         private void GoToMainMenu()
         {
+            if(networkUtilities.IsHosting())
+                networkUtilities.LeaveGame();
             GetTree().ChangeScene("res://src/scene/userInterface/MainMenu.tscn");
         }
         
@@ -92,11 +94,13 @@ namespace ReversiFEI.Controller
 
         private void GoToSound()
         {
+            networkUtilities.LeaveGame();
             GetTree().ChangeScene("res://src/scene/userInterface/Sound.tscn");
         }
 
         private void GoToLanguage()
         {
+            networkUtilities.LeaveGame();
             GetTree().ChangeScene("res://src/scene/userInterface/Language.tscn");
         }
         
@@ -378,13 +382,9 @@ namespace ReversiFEI.Controller
             
             if(ValidNickname(userNickname, newNickname))
             {
-                var nicknameUpdated = networkUtilities.ChangeNickname(newNickname);
-            
-                if(nicknameUpdated)
-                {
-                    GetParent().GetNode<Label>("UserNicknameTitle").Text = newNickname;
-                    ShowNicknameUpdatedPopUp();
-                }
+                networkUtilities.ChangeNickname(newNickname);
+                GetParent().GetNode<Label>("UserNicknameTitle").Text = newNickname;
+                ShowNicknameUpdatedPopUp();
             }
             
             GetNode<WindowDialog>("ChangeNickname").Visible = false;
@@ -402,6 +402,7 @@ namespace ReversiFEI.Controller
         
         private void CustomizeProfileOnReady()
         {
+            networkUtilities.JoinGame();
             var userNickname = networkUtilities.Playername;
             GetNode<Label>("UserNicknameTitle").Text = userNickname;
         }
@@ -413,12 +414,8 @@ namespace ReversiFEI.Controller
             
             if(ValidatePassword(newPassword))
             {
-                var passwordUpdated = networkUtilities.ChangePassword(newPassword);
-                
-                if(passwordUpdated)
-                {
-                    ShowPasswordUpdatedPopUp();
-                } 
+                networkUtilities.ChangePassword(newPassword);
+                ShowPasswordUpdatedPopUp();
             }
             
             HideChangePasswordPopUp();
@@ -470,7 +467,6 @@ namespace ReversiFEI.Controller
         
         private void ChangeSetOfPieces()
         {
-            var setOfPiecesUpdated = false;
             var set1 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer1/SetOfPieces1Button");
             var set2 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer1/SetOfPieces2Button");
             var set3 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer2/SetOfPieces3Button");
@@ -478,25 +474,22 @@ namespace ReversiFEI.Controller
             
             if(set1.Pressed)
             {
-                setOfPiecesUpdated = networkUtilities.ChangeSetOfPieces(1);
+                networkUtilities.ChangeSetOfPieces(1);
             }
             else if(set2.Pressed)
             {
-                setOfPiecesUpdated = networkUtilities.ChangeSetOfPieces(2);
+                networkUtilities.ChangeSetOfPieces(2);
             }
             else if(set3.Pressed)
             {
-                setOfPiecesUpdated = networkUtilities.ChangeSetOfPieces(3);
+                networkUtilities.ChangeSetOfPieces(3);
             }
             else if(set4.Pressed)
             {
-                setOfPiecesUpdated = networkUtilities.ChangeSetOfPieces(4);
+                networkUtilities.ChangeSetOfPieces(4);
             }
             
-            if(setOfPiecesUpdated)
-            {
-                ShowSetOfPiecesUpdatedPopUp();
-            }
+            ShowSetOfPiecesUpdatedPopUp();
             
             HideChangeSetOfPiecesPopUp();
         }
@@ -547,7 +540,7 @@ namespace ReversiFEI.Controller
         
         private void ChangeAvatar()
         {
-            var avatarUpdated = false;
+            
             var avatar1 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer1/Avatar1Button");
             var avatar2 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer1/Avatar2Button");
             var avatar3 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer2/Avatar3Button");
@@ -555,25 +548,23 @@ namespace ReversiFEI.Controller
             
             if(avatar1.Pressed)
             {
-                avatarUpdated = networkUtilities.ChangeAvatar(1);
+                networkUtilities.ChangeAvatar(1);
             }
             else if(avatar2.Pressed)
             {
-                avatarUpdated = networkUtilities.ChangeAvatar(2);
+                networkUtilities.ChangeAvatar(2);
             }
             else if(avatar3.Pressed)
             {
-                avatarUpdated = networkUtilities.ChangeAvatar(3);
+                networkUtilities.ChangeAvatar(3);
             }
             else if(avatar4.Pressed)
             {
-                avatarUpdated = networkUtilities.ChangeAvatar(4);
+                networkUtilities.ChangeAvatar(4);
             }
             
-            if(avatarUpdated)
-            {
-                ShowAvatarUpdatedPopUp();
-            }
+            
+            ShowAvatarUpdatedPopUp();
             
             HideChangeAvatarPopUp();
         }

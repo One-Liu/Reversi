@@ -167,7 +167,6 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "EXIT"
 
 [node name="PopUp" parent="." instance=ExtResource( 2 )]
-visible = false
 
 [connection signal="ready" from="." to="." method="CustomizeProfileOnReady"]
 [connection signal="pressed" from="CustomizeProfileButton" to="." method="GoToCustomizeProfile"]
