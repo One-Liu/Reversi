@@ -199,9 +199,6 @@ namespace ReversiFEI.Controller
                     GD.Print("Sign up failed.");
                 else
                     networkUtilities.SignUp(email, username, password);
-                
-                await ToSignal(networkUtilities, "SignedUp");
-                LogIn(email,password);
             }
         }
 

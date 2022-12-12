@@ -21,9 +21,6 @@ namespace ReversiFEI.Network
         delegate void MessageReceived();
         
         [Signal]
-        delegate void SignedUp();
-        
-        [Signal]
         delegate void LoggedIn();
         
         [Signal]
@@ -479,7 +476,6 @@ namespace ReversiFEI.Network
         {
             GD.Print("Signed up successfully.");
             LeaveGame();
-            EmitSignal(nameof(SignedUp));
         }
         
         [Puppet]
