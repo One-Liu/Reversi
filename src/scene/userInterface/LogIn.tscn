@@ -117,7 +117,6 @@ margin_bottom = 115.0
 text = "RETURN"
 
 [node name="PopUp" parent="." instance=ExtResource( 1 )]
-visible = false
 margin_left = 522.0
 margin_top = 337.0
 margin_right = 522.0
@@ -132,7 +131,6 @@ texture = ExtResource( 3 )
 material = SubResource( 2 )
 position = Vector2( 637, 81 )
 rotation = -2.87979
-scale = Vector2( 1, 1 )
 process_material = SubResource( 3 )
 texture = ExtResource( 4 )
 

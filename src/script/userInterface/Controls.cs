@@ -17,8 +17,7 @@ namespace ReversiFEI.Controller
     public class Controls : Node
     {
         private NetworkUtilities networkUtilities;
-        private TelegramMessageSender sendMsg;
-        
+
         public override void _Ready()
         {
             networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
@@ -166,6 +165,7 @@ namespace ReversiFEI.Controller
         }
 
         private async Task SignUp()
+        {
             Random generator = new Random();
             string email = GetNode<LineEdit>("EmailLineEdit").Text;
             email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
@@ -210,8 +210,6 @@ namespace ReversiFEI.Controller
             }
         }
         
-        
-
         private void LogIn()
         {
             

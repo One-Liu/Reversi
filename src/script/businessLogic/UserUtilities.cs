@@ -207,7 +207,6 @@ namespace ReversiFEI.UserTools
                     GD.PushError(e.Message);
                     throw;
                 }
-                return friendRegistered;
             }
         }
          private static int GetPlayerId(string nickname)

@@ -125,7 +125,6 @@ texture = ExtResource( 1 )
 material = SubResource( 7 )
 position = Vector2( 637, 81 )
 rotation = -2.87979
-scale = Vector2( 1, 1 )
 process_material = SubResource( 8 )
 texture = ExtResource( 4 )
 

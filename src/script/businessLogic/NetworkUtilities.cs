@@ -310,7 +310,7 @@ namespace ReversiFEI.Network
             EmitSignal(nameof(FriendRequestReceived));
         }
         
-        public void ReplyToFriendRequest(bool acceptFriendRequest,string playerNameOne,string playerNameTwo)
+        public void ReplyToFriendRequest(bool acceptFriendRequest)
         {
             RpcId(1,nameof(FriendRequestConfirmation),acceptFriendRequest,addFriend1,addFriend2);
         }

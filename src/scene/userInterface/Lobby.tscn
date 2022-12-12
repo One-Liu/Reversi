@@ -239,8 +239,8 @@ margin_left = -100.0
 margin_top = -35.0
 margin_right = 100.0
 margin_bottom = 35.0
-window_title = "NEW_FRIEND_REQUEST"
 rect_min_size = Vector2( 150, 52.5 )
+window_title = "NEW_FRIEND_REQUEST"
 dialog_text = "FRIEND_REQUEST_MESSAGE"
 
 [node name="DeleteFriendNotice" type="ConfirmationDialog" parent="."]
@@ -257,11 +257,11 @@ dialog_text = "DELETE_FRIEND"
 [connection signal="about_to_show" from="OnlinePlayersList/OnlinePlayers/Popup" to="." method="PopupPlayers"]
 [connection signal="pressed" from="OnlinePlayersList/OnlinePlayers/Popup/ChallengeButton" to="." method="ChallengePlayer"]
 [connection signal="pressed" from="OnlinePlayersList/OnlinePlayers/Popup/AddFriendButton" to="." method="AddFriend"]
+[connection signal="pressed" from="OnlinePlayersList/OnlinePlayers/Popup/KickButton" to="." method="KickPlayer"]
 [connection signal="item_activated" from="OnlineFriendsList/OnlineFriends" to="." method="OnlineFriendSelected"]
 [connection signal="about_to_show" from="OnlineFriendsList/OnlineFriends/Popup" to="." method="PopupFriends"]
 [connection signal="pressed" from="OnlineFriendsList/OnlineFriends/Popup/ChallengeButton" to="." method="ChallengePlayer"]
 [connection signal="pressed" from="OnlineFriendsList/OnlineFriends/Popup/DeleteFriendButton" to="." method="DeleteFriend"]
-[connection signal="pressed" from="OnlinePlayersList/OnlinePlayers/Popup/KickButton" to="." method="KickPlayer"]
 [connection signal="pressed" from="ReturnButton" to="ReturnButton" method="ExitLobby"]
 [connection signal="confirmed" from="ChallengeNotice" to="." method="AcceptChallenge"]
 [connection signal="confirmed" from="FriendRequestNotice" to="." method="AcceptFriendRequest"]

@@ -178,11 +178,9 @@ texture = ExtResource( 2 )
 material = SubResource( 2 )
 position = Vector2( 637, 81 )
 rotation = -2.87979
-scale = Vector2( 1, 1 )
 process_material = SubResource( 3 )
 texture = ExtResource( 3 )
 
 [connection signal="pressed" from="LogInButton" to="." method="GoToLogIn"]
 [connection signal="pressed" from="RegisterButton" to="." method="SignUp"]
 [connection signal="pressed" from="ReturnButton" to="." method="GoToReversiMenu"]
-[connection signal="pressed" from="Verification/VerificationButton" to="." method="VerificationButtonPressed"]
