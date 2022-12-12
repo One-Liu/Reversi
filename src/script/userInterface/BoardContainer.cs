@@ -20,7 +20,7 @@ namespace ReversiFEI.Matches
         public int PlayerPiece { get; set;}
         public int OpponentPiece { get; set;}
         
-        private int[,] board;
+        public int[,] board;
         private int myPieces = 0;
         private int opponentPieces = 0;
         
@@ -53,7 +53,7 @@ namespace ReversiFEI.Matches
             GameStartState();
         }
         
-        private int[,] CreateBoard(int size)
+        public int[,] CreateBoard(int size)
         {
             int[,] newBoard = new int[size, size];
             
@@ -152,7 +152,7 @@ namespace ReversiFEI.Matches
             }
         }
         
-        private void GameStartState()
+        public void GameStartState()
         {
             if(boardSize % 2 == 0 || boardSize >= 6)
             {
@@ -230,7 +230,7 @@ namespace ReversiFEI.Matches
             }
         }
         
-        private bool IsInsideBoard(int coordinate)
+        public bool IsInsideBoard(int coordinate)
         {
             bool insideBoard = false;
             
@@ -240,7 +240,7 @@ namespace ReversiFEI.Matches
             return insideBoard;
         }
         
-        private bool IsLegalMove(int xCoordinate, int yCoordinate)
+        public bool IsLegalMove(int xCoordinate, int yCoordinate)
         {
             bool legalMove = false;
             
@@ -273,7 +273,7 @@ namespace ReversiFEI.Matches
             return legalMove;
         }
         
-        private bool MovesAvailable()
+        public bool MovesAvailable()
         {
             bool availableMoves = false;
             foreach(Tile t in GetChildren())
@@ -390,7 +390,7 @@ namespace ReversiFEI.Matches
             opponentPieces = CountPieces(OpponentPiece);
         }
         
-        private int CountPieces(int piece)
+        public int CountPieces(int piece)
         {
             int count = 0;
             
