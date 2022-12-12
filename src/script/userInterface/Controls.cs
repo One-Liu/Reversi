@@ -1,11 +1,13 @@
 using Godot;
 using System;
+using System.Net.Mail;
 using EmailValidation;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using ReversiFEI.Network;
+using System.Text;
 
 namespace ReversiFEI.Controller
 {
@@ -160,7 +162,7 @@ namespace ReversiFEI.Controller
         }
 
         private async Task SignUp()
-        {
+            Random generator = new Random();
             string email = GetNode<LineEdit>("EmailLineEdit").Text;
             email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
             string username = GetNode<LineEdit>("UsernameLineEdit").Text;

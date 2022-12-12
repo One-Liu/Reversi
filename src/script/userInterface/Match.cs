@@ -1,5 +1,9 @@
 using Godot;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using ReversiFEI.Controller;
 using ReversiFEI.Network;
 
 namespace ReversiFEI.Matches
@@ -7,8 +11,10 @@ namespace ReversiFEI.Matches
     public class Match : Control
     {
         private NetworkUtilities networkUtilities;
+        private Controls controls;
         private Label playerNickname;
         private Sprite playerAvatar;
+
         private Label playerTotalPoints;
         private Label opponentNickname;
         private Sprite opponentAvatar;
@@ -16,6 +22,10 @@ namespace ReversiFEI.Matches
         
         public override void _Ready()
         {
+            controls = GetNode("/root/Controls") as Controls;
+            networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
+            networkUtilities.Connect("MessageReceivedMatch",this,nameof(ReceiveMessages));
+            
             networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
             playerNickname = GetNode<Label>("PlayerHBoxContainer/PlayerVBoxContainer/PlayersNickname");
             playerAvatar = GetNode<Sprite>("PlayerAvatar");
@@ -26,7 +36,27 @@ namespace ReversiFEI.Matches
             SetPlayersProfile();
             SetScores(2,2);
         }
-        
+
+        public override void _Input(InputEvent inputEvent)
+        {
+            if (inputEvent.IsActionPressed("lobby_SendMessage"))
+            {
+                SendMessage();
+            }
+        }
+      
+        private void SendMessage()
+        {
+            var message = GetNode<LineEdit>("Panel/ChatLineEdit").Text;
+            networkUtilities.SendMessageMatch(message);
+            GetNode<LineEdit>("Panel/ChatLineEdit").Clear();
+        }
+      
+        private void ReceiveMessages()
+        {
+         GetNode("Panel").GetNode<TextEdit>("Chat").Text += networkUtilities.MessagesMatch.Last();
+        }
+      
         private void SetPlayersProfile()
         {
             var avatar1 = (Texture)GD.Load("res://resources/Avatar1.png");

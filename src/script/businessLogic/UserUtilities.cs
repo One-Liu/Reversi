@@ -102,6 +102,38 @@ namespace ReversiFEI.UserTools
             return userRegistered;
         }
         
+         public static bool AddFriend(string playerOne, string playerTwo)
+        {
+            using (var db = new PlayerContext())
+            {
+                Friends friendRegistration= new Friends();
+                int playerId1 = GetPlayerId(playerOne);
+                int playerId2 = GetPlayerId(playerTwo);
+                friendRegistration.Player1Id=GetPlayerId(playerOne);;
+                friendRegistration.Player2Id=GetPlayerId(playerTwo);
+                bool friendRegistered;
+                try
+                {
+                    db.Friends.Add(friendRegistration);
+                    
+                    if(db.SaveChanges() == 1)
+                    {
+                        friendRegistered = true;
+                    }
+                    else
+                    {
+                        friendRegistered = false;
+                    }
+                }
+                catch (MySqlException e)
+                {
+                    GD.PushError(e.Message);
+                    throw;
+                }
+                return friendRegistered
+            }
+        }
+
         public static List<string> GetFriends(string playerName)
         {
             var playerId = GetPlayerId(playerName);
@@ -132,10 +164,10 @@ namespace ReversiFEI.UserTools
                     GD.PushError(e.Message);
                     throw;
                 }
+                return friendRegistered;
             }
         }
-
-        private static int GetPlayerId(string nickname)
+         private static int GetPlayerId(string nickname)
         {
             using (var db = new PlayerContext())
             {

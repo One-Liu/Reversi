@@ -193,8 +193,8 @@ margin_left = -100.0
 margin_top = -35.0
 margin_right = 100.0
 margin_bottom = 35.0
+window_title = "NEW_FRIEND_REQUEST"
 rect_min_size = Vector2( 150, 52.5 )
-window_title = "Por favor, Confirma..."
 dialog_text = "FRIEND_REQUEST_MESSAGE"
 
 [connection signal="gui_input" from="." to="OnlinePlayersList/OnlinePlayers/Popup" method="_on_Popup_gui_input"]

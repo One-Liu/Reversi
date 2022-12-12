@@ -14,12 +14,13 @@ namespace ReversiFEI.Network
         
         private bool challengeStatus; 
         private bool friendRequestStatus;
-        
+        static string playerToBeAdded;
+        static string playerWantToAdd;
         public override void _Ready()
         {
             controls = GetNode("/root/Controls") as Controls;
             networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
-            
+
             if(!networkUtilities.IsHosting())
             {
                 if(OS.HasFeature("Server"))
@@ -48,8 +49,6 @@ namespace ReversiFEI.Network
             networkUtilities.Connect("CancelMatch",this,nameof(ChallengeDeclined));
             networkUtilities.Connect("ChallengeReplyReceived",this,nameof(ReplyReceived));
             networkUtilities.Connect("FriendRequestReceived",this,nameof(ShowFriendRequestNotice));
-            networkUtilities.Connect("FriendRequestReplyReceived",this,nameof(FriendRequestReplyReceived));
-            
           
             GetNode<ConfirmationDialog>("ChallengeNotice").GetCloseButton().Connect("pressed",this,nameof(DeclineChallenge));
         }
@@ -113,7 +112,14 @@ namespace ReversiFEI.Network
             foreach(KeyValuePair<int, string> player in networkUtilities.Players)
             {
                 if(player.Value == selectedPlayer)
+                {
                     networkUtilities.OpponentId = player.Key;
+                    networkUtilities.FriendId = player.Key;
+                    playerToBeAdded= player.Value;
+                    playerWantToAdd = networkUtilities.Playername;
+                    GD.Print(playerWantToAdd+"y abtToShow "+playerToBeAdded);
+                }
+                    
             }
            //AnchorLeft=GetNode<ItemList>("OnlinePlayersList/OnlinePlayers").GetItemAtPosition(index).AnchorLeft();
             GetNode<Popup>("OnlinePlayersList/OnlinePlayers/Popup").Popup_();
@@ -167,6 +173,11 @@ namespace ReversiFEI.Network
             challengeStatus = false;
         }
         
+        private void AddFriend()
+        {
+            networkUtilities.SendFriendRequest(networkUtilities.FriendId);
+        }
+        
         private void ShowFriendRequestNotice()
         {
             var friendRequestNotice = GetNode<ConfirmationDialog>("FriendRequestNotice");
@@ -188,11 +199,31 @@ namespace ReversiFEI.Network
         {
             if(friendRequestStatus)
             {
-                GD.Print("Friend request accepted.");
-                GD.Print("Funcion añade amigo");
+
+                networkUtilities.FriendRequestAccepted(playerWantToAdd,playerToBeAdded);
             }
             else
                 GD.Print("Friend request declined.");
+        }
+        
+        private void AcceptFriendRequest()
+        {
+            networkUtilities.ReplyToFriendRequest(true,playerWantToAdd,playerToBeAdded);
+        }
+        
+        private void DeclineFriendRequest()
+        {
+            networkUtilities.ReplyToFriendRequest(false,null,null);
+        }
+        
+        private void FriendRequestAccepted()
+        {
+            friendRequestStatus = true;
+        }
+        
+        private void FriendRequestDeclined()
+        {
+            friendRequestStatus = false;
         }
     }
 }

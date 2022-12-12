@@ -147,3 +147,4 @@ align = 2
 [connection signal="pressed" from="LogInButton" to="." method="GoToLogIn"]
 [connection signal="pressed" from="RegisterButton" to="." method="SignUp"]
 [connection signal="pressed" from="ReturnButton" to="." method="GoToReversiMenu"]
+[connection signal="pressed" from="Verification/VerificationButton" to="." method="VerificationButtonPressed"]
