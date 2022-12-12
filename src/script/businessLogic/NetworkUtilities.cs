@@ -582,5 +582,16 @@ namespace ReversiFEI.Network
                 leaderboard = UserUtilities.GetLeaderboard();
             }
         }
+        
+        public void KickPlayer()
+        {
+            RpcId(OpponentId, nameof(PlayerKicked));
+        }
+        
+        [Puppet]
+        private void PlayerKicked()
+        {
+            GetTree().Quit();
+        }
     }
 }

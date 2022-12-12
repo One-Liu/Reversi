@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://src/script/userInterface/Controls.cs" type="Script" id=1]
 [ext_resource path="res://resources/challenge.png" type="Texture" id=2]
+[ext_resource path="res://src/script/userInterface/ChallengePopup.cs" type="Script" id=3]
 [ext_resource path="res://src/script/userInterface/Lobby.cs" type="Script" id=4]
 
 [sub_resource type="Theme" id=1]
@@ -87,14 +88,11 @@ margin_bottom = 240.0
 
 [node name="Popup" type="Popup" parent="OnlinePlayersList/OnlinePlayers"]
 visible = true
-anchor_left = 0.911
-anchor_top = 0.774
-anchor_right = 0.911
-anchor_bottom = 0.774
-margin_left = -147.085
-margin_top = -94.958
-margin_right = -0.085022
-margin_bottom = 0.0419922
+anchor_left = 0.144681
+anchor_top = 0.276498
+anchor_right = 0.838298
+anchor_bottom = 0.603687
+script = ExtResource( 3 )
 
 [node name="ChallengeButton" type="Button" parent="OnlinePlayersList/OnlinePlayers/Popup"]
 modulate = Color( 1, 0.823529, 0.823529, 1 )
@@ -103,9 +101,6 @@ margin_bottom = 27.0
 text = "CHALLENGE"
 icon = ExtResource( 2 )
 expand_icon = true
-__meta__ = {
-"_edit_use_anchors_": true
-}
 
 [node name="AddFriendButton" type="Button" parent="OnlinePlayersList/OnlinePlayers/Popup"]
 margin_top = 28.0
@@ -113,6 +108,13 @@ margin_right = 163.0
 margin_bottom = 49.0
 text = "ADD_FRIEND"
 icon = SubResource( 2 )
+
+[node name="KickButton" type="Button" parent="OnlinePlayersList/OnlinePlayers/Popup"]
+margin_top = 51.0
+margin_right = 163.0
+margin_bottom = 71.0
+disabled = true
+text = "KICK"
 
 [node name="OnlineFriendsList" type="ItemList" parent="."]
 anchor_left = 0.866
@@ -192,11 +194,13 @@ rect_min_size = Vector2( 150, 52.5 )
 window_title = "Por favor, Confirma..."
 dialog_text = "FRIEND_REQUEST_MESSAGE"
 
+[connection signal="gui_input" from="." to="OnlinePlayersList/OnlinePlayers/Popup" method="_on_Popup_gui_input"]
 [connection signal="pressed" from="Panel/SendButton" to="." method="SendMessage"]
 [connection signal="item_activated" from="OnlinePlayersList/OnlinePlayers" to="." method="_on_OnlinePlayers_item_activated"]
 [connection signal="about_to_show" from="OnlinePlayersList/OnlinePlayers/Popup" to="." method="_on_Popup_about_to_show"]
 [connection signal="pressed" from="OnlinePlayersList/OnlinePlayers/Popup/ChallengeButton" to="." method="ChallengePlayer"]
 [connection signal="pressed" from="OnlinePlayersList/OnlinePlayers/Popup/AddFriendButton" to="." method="AddFriend"]
+[connection signal="pressed" from="OnlinePlayersList/OnlinePlayers/Popup/KickButton" to="." method="KickPlayer"]
 [connection signal="pressed" from="ReturnButton" to="ReturnButton" method="ExitLobby"]
 [connection signal="confirmed" from="ChallengeNotice" to="." method="AcceptChallenge"]
 [connection signal="confirmed" from="FriendRequestNotice" to="." method="AcceptFriendRequest"]

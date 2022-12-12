@@ -90,12 +90,10 @@ namespace ReversiFEI.Controller
                 GetTree().ChangeScene("res://src/scene/userInterface/CustomizeProfile.tscn");
         }
 
-
         private void GoToSound()
         {
             GetTree().ChangeScene("res://src/scene/userInterface/Sound.tscn");
         }
-
 
         private void GoToLanguage()
         {
