@@ -18,12 +18,13 @@ namespace ReversiFEI.Matches
         {
             networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
             playerNickname = GetNode<Label>("PlayerHBoxContainer/PlayerVBoxContainer/PlayersNickname");
-            playerAvatar = GetNode<Sprite>("PlayerHBoxContainer/PlayerVBoxContainer/PlayerAvatar");
+            playerAvatar = GetNode<Sprite>("PlayerAvatar");
             playerTotalPoints = GetNode<Label>("PlayerHBoxContainer/PlayerTotalPoints");
             opponentNickname = GetNode<Label>("OpponentHBoxContainer/OpponentVBoxContainer/OpponentNickname");
-            opponentAvatar = GetNode<Sprite>("OpponentHBoxContainer/OpponentVBoxContainer/OpponentAvatar");
+            opponentAvatar = GetNode<Sprite>("OpponentAvatar");
             opponentTotalPoints = GetNode<Label>("OpponentHBoxContainer/OpponentTotalPoints");
             SetPlayersProfile();
+            SetScores(2,2);
         }
         
         private void SetPlayersProfile()
@@ -49,9 +50,31 @@ namespace ReversiFEI.Matches
                 case 4:
                     playerAvatar.Texture = avatar4;
                     break;
+                default:
+                    playerAvatar.Texture = avatar1;
+                    break;
             }
             
             opponentNickname.Text = networkUtilities.Players[networkUtilities.OpponentId];
+            
+            switch(networkUtilities.OpponentAvatar)
+            {
+                case 1:
+                    opponentAvatar.Texture = avatar1;
+                    break;
+                case 2:
+                    opponentAvatar.Texture = avatar2;
+                    break;
+                case 3:
+                    opponentAvatar.Texture = avatar3;
+                    break;
+                case 4:
+                    opponentAvatar.Texture = avatar4;
+                    break;
+                default:
+                    opponentAvatar.Texture = avatar1;
+                    break;
+            }
         }
         
         public void SetScores(int playerScore, int opponentScore)

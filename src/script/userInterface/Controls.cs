@@ -4,7 +4,6 @@ using EmailValidation;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using MySql.Data.MySqlClient;
 using ReversiFEI.Network;
 
@@ -38,6 +37,9 @@ namespace ReversiFEI.Controller
         private void GoToMainMenuAsGuest()
         {
             networkUtilities.Playername = "guest#" + GD.Randi() % 99999999998 + 1;
+            var rng = new RandomNumberGenerator();
+            rng.Randomize();
+            networkUtilities.PlayerSet = rng.RandiRange(1,4);
             networkUtilities.IsGuest = true;
             GetTree().ChangeScene("res://src/scene/userInterface/MainMenu.tscn");
         }
