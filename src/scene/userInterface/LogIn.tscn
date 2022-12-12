@@ -1,8 +1,28 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/scene/userInterface/PopUp.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/script/userInterface/Controls.cs" type="Script" id=2]
-[ext_resource path="res://resources/ReversiLogo.png" type="Texture" id=3]
+[ext_resource path="res://resources/reverisLogo3.png" type="Texture" id=3]
+[ext_resource path="res://resources/floaty_128.png" type="Texture" id=4]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+particles_animation = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="CanvasItemMaterial" id=2]
+blend_mode = 1
+particles_animation = true
+particles_anim_h_frames = 7
+particles_anim_v_frames = 7
+particles_anim_loop = false
+
+[sub_resource type="ParticlesMaterial" id=3]
+flag_disable_z = true
+gravity = Vector3( 0, 98, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
 
 [node name="LogIn" type="Control"]
 modulate = Color( 1, 0.984314, 0.858824, 1 )
@@ -13,6 +33,15 @@ margin_top = -2.0
 margin_right = -2.0
 margin_bottom = -2.0
 script = ExtResource( 2 )
+
+[node name="Panel" type="Panel" parent="."]
+modulate = Color( 0.0313726, 1, 0, 1 )
+material = SubResource( 1 )
+margin_left = 4.0
+margin_top = -1.0
+margin_right = 1025.0
+margin_bottom = 594.0
+input_pass_on_modal_close_click = false
 
 [node name="EmailLineEdit" type="LineEdit" parent="."]
 anchor_left = 0.5
@@ -87,17 +116,25 @@ margin_right = 161.0
 margin_bottom = 115.0
 text = "RETURN"
 
-[node name="ReversiLogo" type="Sprite" parent="."]
-position = Vector2( 515, 60 )
-scale = Vector2( 1.20661, 1.59859 )
-texture = ExtResource( 3 )
-
 [node name="PopUp" parent="." instance=ExtResource( 1 )]
 visible = false
 margin_left = 522.0
 margin_top = 337.0
 margin_right = 522.0
 margin_bottom = 337.0
+
+[node name="ReverisLogo3" type="Sprite" parent="."]
+position = Vector2( 485, 110 )
+scale = Vector2( 1.33929, 1.26351 )
+texture = ExtResource( 3 )
+
+[node name="Particles2D" type="Particles2D" parent="."]
+material = SubResource( 2 )
+position = Vector2( 637, 81 )
+rotation = -2.87979
+scale = Vector2( 1, 1 )
+process_material = SubResource( 3 )
+texture = ExtResource( 4 )
 
 [connection signal="pressed" from="RegisterButton" to="." method="GoToSignUp"]
 [connection signal="pressed" from="LogInButton" to="." method="LogIn"]

@@ -49,6 +49,9 @@ namespace ReversiFEI.Network
         delegate void FriendRequestReplyReceived();
         
         [Signal]
+        delegate void DeleteFriendUpdate();
+        
+        [Signal]
         delegate void PiecePlaced(int x, int y, int piece);
         
         [Signal]
@@ -78,6 +81,9 @@ namespace ReversiFEI.Network
         public bool MyTurn { get; set;}
         
         public int MyPiece { get; set;}
+        
+        public string addFriend1;
+        public string addFriend2;
         
         private List<string> messages = new List<string>();
         
@@ -110,7 +116,9 @@ namespace ReversiFEI.Network
         {
             get {return friends;}
         }
-        
+
+        public bool soundEnabled;
+
         private List<string> leaderboard = new List<string>();
         
         public List<string> Leaderboard
@@ -167,7 +175,6 @@ namespace ReversiFEI.Network
         
         public void LeaveGame()
         {
-            GD.Print("Leaving current game");
             players.Clear();
             Rpc(nameof(RemovePlayer), GetTree().GetNetworkUniqueId());
             ((NetworkedMultiplayerENet)GetTree().NetworkPeer).CloseConnection();
@@ -287,11 +294,13 @@ namespace ReversiFEI.Network
             OpponentAvatar = avatar;
         }
         
+        
          public void SendFriendRequest(int playerid)
         {
-             GD.Print($"Friend request sent to {playerid}");
+            GD.Print($"Friend request sent to {playerid}");
             RpcId(playerid, nameof(ReceiveFriendRequest));
         }
+        
         
          [Remote]
         private void ReceiveFriendRequest()
@@ -303,11 +312,16 @@ namespace ReversiFEI.Network
         
         public void ReplyToFriendRequest(bool acceptFriendRequest,string playerNameOne,string playerNameTwo)
         {
-            GD.Print("Responding succesfully.");
+            RpcId(1,nameof(FriendRequestConfirmation),acceptFriendRequest,addFriend1,addFriend2);
+        }
+        
+        [Master]
+        public void FriendRequestConfirmation(bool acceptFriendRequest,string playerNameOne,string playerNameTwo)
+        {
+            FriendId = GetTree().GetRpcSenderId();
             if(acceptFriendRequest)
             {
-                UserUtilities.AddFriend(playerNameOne,playerNameTwo);
-                RpcId(FriendId,nameof(FriendRequestAccepted));
+                RpcId(FriendId,nameof(FriendRequestAccepted), playerNameOne,playerNameTwo);
             }
             else
             {
@@ -321,26 +335,40 @@ namespace ReversiFEI.Network
         {
             if(FriendId == GetTree().GetRpcSenderId())
             {
-                GD.Print(playerFriend+"y FRA "+playerToBeAdded);
-                UserUtilities.AddFriend(playerToBeAdded,playerFriend);
-                GD.Print("Añade amigo");
+
+                UserUtilities.AddFriend(playerFriend,playerToBeAdded);
             }
-           
             else
             {
-                //Add friend
                 FriendId = -1;
             }
             EmitSignal(nameof(FriendRequestReplyReceived));
         }
         
-        [Remote]
+          [Remote]
         private void FriendRequestDeclined()
         {
             EmitSignal(nameof(FriendRequestReplyReceived));
             OpponentId = -1;
         }
         
+        public void GetFriendToDelete(int playerid)
+        {
+            RpcId(playerid, nameof(FriendToBeDeleted));
+        }
+        
+        [Remote]
+        private void FriendToBeDeleted()
+        {
+            FriendId = GetTree().GetRpcSenderId();
+            EmitSignal(nameof(DeleteFriendUpdate));
+        }
+        
+        public void DeleteFriendAccepted(string playerOne,string playerTwo)
+        {
+                UserUtilities.DeleteFriend(playerOne,playerTwo);
+        }
+
         public void SendMove(int x, int y, int piece)
         {
             RpcId(OpponentId,nameof(ReceiveMove),x,y,piece);
@@ -423,13 +451,11 @@ namespace ReversiFEI.Network
         public void LogIn(string email, string password)
         {
             RpcId(SERVER_ID, nameof(LogInPlayer), email, password);
-            GD.Print("Login request sent");
         }
         
         public void SignUp(string email, string username, string password)
         {
             RpcId(SERVER_ID, nameof(SignUpPlayer), email, username, password);
-            GD.Print("Signup request sent");
         }
 
         [RemoteSync]
@@ -548,7 +574,6 @@ namespace ReversiFEI.Network
         {
             if(!OS.HasFeature("Server"))
             {
-                GD.Print("Updating friends list...");
                 friends.Clear();
                 friends = UserUtilities.GetFriends(Playername);
             }

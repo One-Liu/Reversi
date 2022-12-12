@@ -115,7 +115,6 @@ namespace ReversiFEI.UserTools
                 try
                 {
                     db.Friends.Add(friendRegistration);
-                    
                     if(db.SaveChanges() == 1)
                     {
                         friendRegistered = true;
@@ -130,10 +129,54 @@ namespace ReversiFEI.UserTools
                     GD.PushError(e.Message);
                     throw;
                 }
-                return friendRegistered
+                return friendRegistered;
             }
         }
-
+        
+        public static bool DeleteFriend(string playerOne, string playerTwo)
+        {
+            using (var db = new PlayerContext())
+            {
+                int playerId2 = GetPlayerId(playerOne);
+                int playerId1 = GetPlayerId(playerTwo);
+                bool friendDeleted;
+                try
+                {
+                    var friendsToRemove = (from friends in db.Friends
+                                            where friends.Player2Id == playerId1 && friends.Player1Id == playerId2
+                                            select friends);
+                    db.Friends.RemoveRange(friendsToRemove);
+                    if(db.SaveChanges() == 1)
+                    {
+                        friendDeleted=true;
+                    }
+                    else
+                    {
+                        var friendsToRemoveTwo = (from friends in db.Friends
+                                            where friends.Player2Id == playerId2 && friends.Player1Id == playerId1
+                                            select friends);
+                        db.Friends.RemoveRange(friendsToRemoveTwo);
+                        if(db.SaveChanges()==1)
+                        {
+                            friendDeleted=true;
+                            
+                        }
+                        else
+                        {
+                            friendDeleted=false;
+                        }
+                    }
+                     
+                    return friendDeleted;
+                }
+                catch(MySqlException e)
+                {
+                    GD.PushError(e.Message);
+                    throw;
+                }
+            }
+        }
+        
         public static List<string> GetFriends(string playerName)
         {
             var playerId = GetPlayerId(playerName);

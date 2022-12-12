@@ -14,8 +14,11 @@ namespace ReversiFEI.Network
         
         private bool challengeStatus; 
         private bool friendRequestStatus;
-        static string playerToBeAdded;
-        static string playerWantToAdd;
+        private string playerToBeAdded;
+        private string playerWantToAdd;
+        private string friendToBeDeleted;
+        private string friendWantToDelete;
+
         public override void _Ready()
         {
             controls = GetNode("/root/Controls") as Controls;
@@ -49,13 +52,15 @@ namespace ReversiFEI.Network
             networkUtilities.Connect("CancelMatch",this,nameof(ChallengeDeclined));
             networkUtilities.Connect("ChallengeReplyReceived",this,nameof(ReplyReceived));
             networkUtilities.Connect("FriendRequestReceived",this,nameof(ShowFriendRequestNotice));
-          
+            networkUtilities.Connect("FriendRequestReplyReceived",this,nameof(FriendRequestReply));
+            networkUtilities.Connect("DeleteFriendUpdate",this,nameof(UpdateFriendsDeleted));
+
             GetNode<ConfirmationDialog>("ChallengeNotice").GetCloseButton().Connect("pressed",this,nameof(DeclineChallenge));
         }
         
         public override void _Input(InputEvent inputEvent)
         {
-            if (inputEvent.IsActionPressed("lobby_SendMessage"))
+            if (inputEvent.IsActionPressed("EnterSendMessage"))
             {
                 SendMessage();
             }
@@ -67,6 +72,7 @@ namespace ReversiFEI.Network
             networkUtilities.SendMessage(message);
             GetNode("Panel").GetNode<LineEdit>("ChatLineEdit").Clear();
         }
+        
         
         private void ReceiveMessages()
         {
@@ -100,13 +106,12 @@ namespace ReversiFEI.Network
             playerList.SortItemsByText();
         }
         
-        private void _on_OnlinePlayers_item_activated(int index)
+        private void OnlinePlayersActivated(int index)
         {
-            
-            _on_Popup_about_to_show(index);
+            PopupPlayers(index);
         }
         
-        private void _on_Popup_about_to_show(int index)
+        private void PopupPlayers(int index)
         {
             string selectedPlayer = GetNode<ItemList>("OnlinePlayersList/OnlinePlayers").GetItemText(index);
             foreach(KeyValuePair<int, string> player in networkUtilities.Players)
@@ -117,16 +122,9 @@ namespace ReversiFEI.Network
                     networkUtilities.FriendId = player.Key;
                     playerToBeAdded= player.Value;
                     playerWantToAdd = networkUtilities.Playername;
-                    GD.Print(playerWantToAdd+"y abtToShow "+playerToBeAdded);
                 }
-                    
             }
-           //AnchorLeft=GetNode<ItemList>("OnlinePlayersList/OnlinePlayers").GetItemAtPosition(index).AnchorLeft();
             GetNode<Popup>("OnlinePlayersList/OnlinePlayers/Popup").Popup_();
-           // AnchorLeft=911;
-            //AnchorTop=774;
-            //AnchorRight=911;
-           // AnchorBottom=774;
         }
         
         private void ShowChallengeNotice()
@@ -145,7 +143,6 @@ namespace ReversiFEI.Network
         {
             if(challengeStatus)
             {
-                GD.Print("Challenge accepted.");
                 controls.GoToMatch();
             }
             else
@@ -185,35 +182,60 @@ namespace ReversiFEI.Network
             friendRequestNotice.Visible = true;
         }
         
-        private void AddFriend()
+         private void AcceptFriendRequest()
         {
-            networkUtilities.SendFriendRequest(networkUtilities.FriendId);
+            friendRequestStatus = true;
+            networkUtilities.ReplyToFriendRequest(friendRequestStatus);
+            SetOnlinePlayers();
         }
-        
-        private void KickPlayer()
-        {
-            networkUtilities.KickPlayer();
-        }
-        
-        private void FriendRequestReplyReceived()
+
+        private void FriendRequestReply()
         {
             if(friendRequestStatus)
             {
-
                 networkUtilities.FriendRequestAccepted(playerWantToAdd,playerToBeAdded);
             }
-            else
-                GD.Print("Friend request declined.");
         }
-        
-        private void AcceptFriendRequest()
-        {
-            networkUtilities.ReplyToFriendRequest(true,playerWantToAdd,playerToBeAdded);
-        }
-        
+
         private void DeclineFriendRequest()
         {
-            networkUtilities.ReplyToFriendRequest(false,null,null);
+             friendRequestStatus = false;
+            networkUtilities.ReplyToFriendRequest(friendRequestStatus);
+        }
+        
+        private void DeleteFriend()
+        {
+            var deleteFriendNotice = GetNode<ConfirmationDialog>("DeleteFriendNotice");
+            deleteFriendNotice.PopupExclusive = true;
+            deleteFriendNotice.Visible = true;
+        }
+        
+        private void OnlineFriendSelected(int index)
+        {
+            string selectedPlayer = GetNode<ItemList>("OnlineFriendsList/OnlineFriends").GetItemText(index);
+            foreach(KeyValuePair<int, string> player in networkUtilities.Players)
+            {
+                if(player.Value == selectedPlayer)
+                    networkUtilities.OpponentId = player.Key;
+                    networkUtilities.FriendId = player.Key;
+                    friendToBeDeleted= player.Value;
+                    friendWantToDelete = networkUtilities.Playername;
+            }
+            GetNode<Popup>("OnlineFriendsList/OnlineFriends/Popup").Popup_();
+        }
+        
+        private void AcceptDeleteFriend()
+        {
+             var deleteFriendNotice = GetNode<ConfirmationDialog>("DeleteFriendNotice");
+             networkUtilities.DeleteFriendAccepted(friendToBeDeleted,friendWantToDelete);
+             SetOnlinePlayers();
+            networkUtilities.GetFriendToDelete(networkUtilities.FriendId);
+            deleteFriendNotice.Visible = false;
+        }
+        
+        private void UpdateFriendsDeleted()
+        {
+            SetOnlinePlayers();
         }
         
         private void FriendRequestAccepted()
@@ -224,6 +246,11 @@ namespace ReversiFEI.Network
         private void FriendRequestDeclined()
         {
             friendRequestStatus = false;
+        }
+        
+        private void KickPlayer()
+        {
+            networkUtilities.KickPlayer();
         }
     }
 }

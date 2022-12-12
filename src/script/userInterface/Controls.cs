@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using ReversiFEI.Network;
+using System.Net;
+using System.Text.Json;
+using ReversiFEI.Email;
 using System.Text;
 
 namespace ReversiFEI.Controller
@@ -14,6 +17,7 @@ namespace ReversiFEI.Controller
     public class Controls : Node
     {
         private NetworkUtilities networkUtilities;
+        private TelegramMessageSender sendMsg;
         
         public override void _Ready()
         {
@@ -205,16 +209,21 @@ namespace ReversiFEI.Controller
                     networkUtilities.SignUp(email, username, password);
             }
         }
+        
+        
 
         private void LogIn()
         {
+            
             string email = GetNode<LineEdit>("EmailLineEdit").Text;
             string password = GetNode<LineEdit>("PasswordLineEdit").Text;
             
-            if(!ValidateEmail(email) || !ValidatePassword(password)) 
+          //  if(!ValidateEmail(email) || !ValidatePassword(password)) 
+           // {
+             //   GetNode<Label>("InvalidEmailOrPassword").Visible = true;
+         //   } else 
             {
-                GetNode<Label>("InvalidEmailOrPassword").Visible = true;
-            } else {
+                
                 email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
                 LogIn(email,password);
             }   
@@ -368,11 +377,11 @@ namespace ReversiFEI.Controller
         {
             if(GetNode<CheckButton>("SoundCheckButton").Pressed)
             {
-                GD.Print("On");
+                networkUtilities.soundEnabled=true;
             }
             else
             {
-                GD.Print("Off");
+                networkUtilities.soundEnabled=false;
             }
         }
         
