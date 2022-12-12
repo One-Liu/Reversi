@@ -72,4 +72,6 @@ FRIENDS_LIST,Friends list,Lista de amigos
 LEADERBOARD,Leaderboard,Tabla de clasificaciÃ³n
 KICK,Kick player,Sacar jugador
 POINTS:,Points:,Puntos:
-FRIEND_REQUEST_MESSAGE,You have received a friend request!,¡Te han enviado una solicitud de amistad!
+FRIEND_REQUEST_MESSAGE,You have received a friend request,Te han enviado una solicitud de amistad
+NEW_FRIEND_REQUEST,New friend request,Nueva solicitud de amistad
+NEW_DELETE_FRIEND,"Please , confirm….","Por favor, Confirma..."

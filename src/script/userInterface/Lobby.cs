@@ -172,7 +172,7 @@ namespace ReversiFEI.Network
         
         private void AddFriend()
         {
-            networkUtilities.SendFriendRequest(networkUtilities.FriendId);
+            networkUtilities.SendFriendRequest(networkUtilities.FriendId,playerToBeAdded,playerWantToAdd);
         }
         
         private void ShowFriendRequestNotice()
@@ -191,10 +191,8 @@ namespace ReversiFEI.Network
 
         private void FriendRequestReply()
         {
-            if(friendRequestStatus)
-            {
-                networkUtilities.FriendRequestAccepted(playerWantToAdd,playerToBeAdded);
-            }
+               // networkUtilities.FriendRequestAccepted(playerWantToAdd,playerToBeAdded);
+                SetOnlinePlayers();
         }
 
         private void DeclineFriendRequest()

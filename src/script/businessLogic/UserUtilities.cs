@@ -116,11 +116,8 @@ namespace ReversiFEI.UserTools
                     if(db.SaveChanges() == 1)
                     {
                         friendRegistered = true;
-                    }
-                    else
-                    {
-                        friendRegistered = false;
-                    }
+                    }else
+                       friendRegistered=false;
                 }
                 catch (MySqlException e)
                 {

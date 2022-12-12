@@ -81,6 +81,7 @@ namespace ReversiFEI.Network
         
         public int MyPiece { get; set;}
         
+        public int friendSender;
         public string addFriend1;
         public string addFriend2;
         
@@ -294,9 +295,13 @@ namespace ReversiFEI.Network
         }
         
         
-         public void SendFriendRequest(int playerid)
+         public void SendFriendRequest(int playerid,string playerNumberOne,string playerNumberTwo)
         {
             GD.Print($"Friend request sent to {playerid}");
+            GD.Print(playerNumberOne+" yy "+playerNumberTwo);
+            addFriend1=playerNumberOne;
+            addFriend2=playerNumberTwo;
+            friendSender=playerid;
             RpcId(playerid, nameof(ReceiveFriendRequest));
         }
         
@@ -311,16 +316,15 @@ namespace ReversiFEI.Network
         
         public void ReplyToFriendRequest(bool acceptFriendRequest)
         {
-            RpcId(1,nameof(FriendRequestConfirmation),acceptFriendRequest,addFriend1,addFriend2);
+            RpcId(1,nameof(FriendRequestConfirmation),acceptFriendRequest);
         }
         
         [Master]
-        public void FriendRequestConfirmation(bool acceptFriendRequest,string playerNameOne,string playerNameTwo)
+        public void FriendRequestConfirmation(bool acceptFriendRequest)
         {
-            FriendId = GetTree().GetRpcSenderId();
             if(acceptFriendRequest)
             {
-                RpcId(FriendId,nameof(FriendRequestAccepted), playerNameOne,playerNameTwo);
+                RpcId(FriendId,nameof(FriendRequestAccepted));
             }
             else
             {
@@ -330,18 +334,19 @@ namespace ReversiFEI.Network
         }
         
         [Remote]
-        public void FriendRequestAccepted(string playerFriend, string playerToBeAdded)
+        public void FriendRequestAccepted()
         {
-            if(FriendId == GetTree().GetRpcSenderId())
-            {
-
-                UserUtilities.AddFriend(playerFriend,playerToBeAdded);
-            }
-            else
-            {
-                FriendId = -1;
-            }
-            EmitSignal(nameof(FriendRequestReplyReceived));
+            GD.Print(FriendId);
+            GD.Print(addFriend1);
+            GD.Print(addFriend2);
+            RpcId(FriendId,nameof(ReceiveFriends),addFriend1,addFriend2);
+           // EmitSignal(nameof(FriendRequestReplyReceived));
+        }
+        
+        [Remote]
+        private void ReceiveFriends(string friend1,string  friend2)
+        {
+            UserUtilities.AddFriend(friend1, friend2);
         }
         
           [Remote]
