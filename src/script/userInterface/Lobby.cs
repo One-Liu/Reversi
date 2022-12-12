@@ -172,7 +172,7 @@ namespace ReversiFEI.Network
         
         private void AddFriend()
         {
-            networkUtilities.SendFriendRequest(networkUtilities.FriendId,playerToBeAdded,playerWantToAdd);
+            networkUtilities.SendFriendRequest(playerToBeAdded,playerWantToAdd);
         }
         
         private void ShowFriendRequestNotice()
@@ -214,10 +214,12 @@ namespace ReversiFEI.Network
             foreach(KeyValuePair<int, string> player in networkUtilities.Players)
             {
                 if(player.Value == selectedPlayer)
+                {
                     networkUtilities.OpponentId = player.Key;
                     networkUtilities.FriendId = player.Key;
                     friendToBeDeleted= player.Value;
                     friendWantToDelete = networkUtilities.Playername;
+                }
             }
             GetNode<Popup>("OnlineFriendsList/OnlineFriends/Popup").Popup_();
         }
