@@ -23,7 +23,7 @@ namespace Tests.Reversi
         
         public void RunBeforeTestMethod()
         {
-            playerNickname = "pepe";
+            playerNickname = "ganttz";
             email = "lester@gmail.com";
             password = "luisito123";
             newPlayerNickname = "punisher";
@@ -65,9 +65,21 @@ namespace Tests.Reversi
         }
         
         [Test]
+        public void AddVictoryTest()
+        {
+            Assert.IsTrue(UserUtilities.AddVictory(playerNickname));
+        }
+        
+        [Test]
         public void ChangeSetOfPiecesTest()
         {
             Assert.IsTrue(UserUtilities.ChangeSetOfPieces(playerNickname,newPlayerSetOfPieces));
+        }
+        
+        [Test]
+        public void GetLeaderboardTest()
+        {
+            Assert.IsTrue(UserUtilities.GetLeaderboard() != null);
         }
     }
 }

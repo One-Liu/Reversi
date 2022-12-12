@@ -7,32 +7,37 @@
 [node name="Match" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = 2.0
+margin_bottom = 2.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_horizontal_guides_": [  ]
 }
 
-[node name="ChatVBoxContainer" type="VBoxContainer" parent="."]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_left = 14.0
-margin_top = -288.0
+[node name="Panel" type="Panel" parent="."]
+margin_left = 15.0
+margin_top = 16.0
 margin_right = 299.0
-margin_bottom = 282.0
+margin_bottom = 580.0
 
-[node name="Chat" type="RichTextLabel" parent="ChatVBoxContainer"]
-margin_right = 285.0
-margin_bottom = 542.0
-size_flags_vertical = 3
+[node name="SendButton" type="Button" parent="Panel"]
+margin_left = 237.0
+margin_top = 543.0
+margin_right = 283.0
+margin_bottom = 563.0
+text = "SEND"
 
-[node name="ChatHBoxContainer" type="HBoxContainer" parent="ChatVBoxContainer"]
-margin_top = 546.0
-margin_right = 285.0
-margin_bottom = 570.0
+[node name="Chat" type="TextEdit" parent="Panel"]
+margin_top = 2.0
+margin_right = 282.0
+margin_bottom = 538.0
+readonly = true
 
-[node name="ChatLineEdit" type="LineEdit" parent="ChatVBoxContainer/ChatHBoxContainer"]
-margin_right = 235.0
-margin_bottom = 24.0
+[node name="ChatLineEdit" type="LineEdit" parent="Panel"]
+margin_left = 4.0
+margin_top = 539.0
+margin_right = 234.0
+margin_bottom = 563.0
 size_flags_horizontal = 3
 text = "TYPE_MESSAGE"
 
@@ -41,6 +46,10 @@ margin_left = 239.0
 margin_right = 285.0
 margin_bottom = 24.0
 text = "SEND"
+
+[node name="PlayerAvatar" type="Sprite" parent="."]
+position = Vector2( 384, 536 )
+scale = Vector2( 0.2, 0.2 )
 
 [node name="PlayerHBoxContainer" type="HBoxContainer" parent="."]
 margin_left = 478.0
@@ -78,11 +87,15 @@ margin_bottom = 58.0
 size_flags_horizontal = 3
 text = "POINTS"
 
+[node name="OpponentAvatar" type="Sprite" parent="."]
+position = Vector2( 384, 64 )
+scale = Vector2( 0.2, 0.2 )
+
 [node name="OpponentHBoxContainer" type="HBoxContainer" parent="."]
-margin_left = 478.0
-margin_top = 1.0
-margin_right = 1024.0
-margin_bottom = 74.0
+margin_left = 480.0
+margin_top = 32.0
+margin_right = 1026.0
+margin_bottom = 105.0
 
 [node name="OpponentVBoxContainer" type="VBoxContainer" parent="OpponentHBoxContainer"]
 margin_right = 179.0

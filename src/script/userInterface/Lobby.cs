@@ -18,13 +18,12 @@ namespace ReversiFEI.Network
         private string playerWantToAdd;
         private string friendToBeDeleted;
         private string friendWantToDelete;
-        
-        
+
         public override void _Ready()
         {
             controls = GetNode("/root/Controls") as Controls;
             networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
-            
+
             if(!networkUtilities.IsHosting())
             {
                 if(OS.HasFeature("Server"))
@@ -55,7 +54,7 @@ namespace ReversiFEI.Network
             networkUtilities.Connect("FriendRequestReceived",this,nameof(ShowFriendRequestNotice));
             networkUtilities.Connect("FriendRequestReplyReceived",this,nameof(FriendRequestReply));
             networkUtilities.Connect("DeleteFriendUpdate",this,nameof(UpdateFriendsDeleted));
-            
+
             GetNode<ConfirmationDialog>("ChallengeNotice").GetCloseButton().Connect("pressed",this,nameof(DeclineChallenge));
         }
         
@@ -189,7 +188,7 @@ namespace ReversiFEI.Network
             networkUtilities.ReplyToFriendRequest(friendRequestStatus);
             SetOnlinePlayers();
         }
-        
+
         private void FriendRequestReply()
         {
             if(friendRequestStatus)
@@ -197,9 +196,7 @@ namespace ReversiFEI.Network
                 networkUtilities.FriendRequestAccepted(playerWantToAdd,playerToBeAdded);
             }
         }
-        
-       
-        
+
         private void DeclineFriendRequest()
         {
              friendRequestStatus = false;
@@ -241,6 +238,19 @@ namespace ReversiFEI.Network
             SetOnlinePlayers();
         }
         
+        private void FriendRequestAccepted()
+        {
+            friendRequestStatus = true;
+        }
+        
+        private void FriendRequestDeclined()
+        {
+            friendRequestStatus = false;
+        }
+        
+        private void KickPlayer()
+        {
+            networkUtilities.KickPlayer();
+        }
     }
 }
-

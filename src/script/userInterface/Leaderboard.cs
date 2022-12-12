@@ -6,21 +6,20 @@ using System.Collections.Generic;
 
 namespace ReversiFEI.Network
 {
-    public class FriendsList : Control
+    public class Leaderboard : Control
     {
-
         private NetworkUtilities networkUtilities;
 
         public override void _Ready()
         {
             networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
-            SetFriends();
+            SetLeaderboard();
         }
         
-        private async Task SetFriends()
+        private async Task SetLeaderboard()
         {
-            var friendsList = GetNode<ItemList>("FriendsList");
-            friendsList.Clear();
+            var leaderboard = GetNode<ItemList>("TopPlayersItemList");
+            leaderboard.Clear();
                 
             networkUtilities.JoinGame();
             await ToSignal(GetTree(), "connected_to_server");
@@ -31,16 +30,20 @@ namespace ReversiFEI.Network
             }
             else
             {
-                networkUtilities.UpdateFriends();
+                networkUtilities.UpdateLeaderboard();
                 networkUtilities.LeaveGame();
-                foreach(string friend in networkUtilities.Friends)
-                {
-                    if(friend != null)
-                        friendsList.AddItem(friend);
-                }
                 
-                friendsList.SortItemsByText();
+                int position = 0; 
+                
+                foreach(string player in networkUtilities.Leaderboard)
+                {
+                    if(player != null)
+                    {
+                        position += 1;
+                        leaderboard.AddItem($"{position}) {player}");
+                    }
+                }
             }
         }
     }
-}
+} 

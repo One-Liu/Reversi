@@ -102,8 +102,6 @@ namespace ReversiFEI.UserTools
             return userRegistered;
         }
         
-        
-        
          public static bool AddFriend(string playerOne, string playerTwo)
         {
             using (var db = new PlayerContext())
@@ -209,10 +207,10 @@ namespace ReversiFEI.UserTools
                     GD.PushError(e.Message);
                     throw;
                 }
+                return friendRegistered;
             }
         }
-
-        private static int GetPlayerId(string nickname)
+         private static int GetPlayerId(string nickname)
         {
             using (var db = new PlayerContext())
             {
@@ -231,6 +229,33 @@ namespace ReversiFEI.UserTools
                     throw;
                 }
             }
+        }
+        
+        public static int GetPlayerPieceSet(string nickname)
+        {
+            int setOfPieces = 1;
+            
+            using (var db = new PlayerContext())
+            {
+                try
+                {
+                    var player = db.Player
+                                 .SingleOrDefault(b => b.Nickname == nickname)
+                                 ?? new Player(0);
+                    
+                    setOfPieces = player.PiecesSet;
+                }
+                catch(MySqlException e)
+                {
+                    GD.PushError(e.Message);
+                    throw;
+                }
+            }
+            
+            if(setOfPieces <= 0)
+                setOfPieces = 1;
+            
+            return setOfPieces;
         }
         
         public static bool ChangeNickname(string nickname, string newNickname)
@@ -363,6 +388,28 @@ namespace ReversiFEI.UserTools
             }
             
             return setOfPiecesUpdated;
+        }
+        
+        public static List<string> GetLeaderboard()
+        {
+            using (var db = new PlayerContext())
+            {
+                try
+                {                 
+                    var leaderboard = 
+                        (from player in db.Player
+                        orderby player.GamesWon descending
+                        select player.Nickname
+                        ).Take(15).ToList();
+
+                    return leaderboard;
+                }
+                catch(MySqlException e)
+                {
+                    GD.PushError(e.Message);
+                    throw;
+                }
+            }
         }
     }
 }

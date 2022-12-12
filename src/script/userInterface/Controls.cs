@@ -1,15 +1,16 @@
 using Godot;
 using System;
+using System.Net.Mail;
 using EmailValidation;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using MySql.Data.MySqlClient;
 using ReversiFEI.Network;
 using System.Net;
 using System.Text.Json;
 using ReversiFEI.Email;
+using System.Text;
 
 namespace ReversiFEI.Controller
 {
@@ -36,12 +37,18 @@ namespace ReversiFEI.Controller
         
         private void GoToMainMenu()
         {
+            if(networkUtilities.IsHosting())
+                networkUtilities.LeaveGame();
             GetTree().ChangeScene("res://src/scene/userInterface/MainMenu.tscn");
         }
         
         private void GoToMainMenuAsGuest()
         {
             networkUtilities.Playername = "guest#" + GD.Randi() % 99999999998 + 1;
+            var rng = new RandomNumberGenerator();
+            rng.Randomize();
+            networkUtilities.PlayerSet = rng.RandiRange(1,4);
+            networkUtilities.IsGuest = true;
             GetTree().ChangeScene("res://src/scene/userInterface/MainMenu.tscn");
         }
         
@@ -85,18 +92,21 @@ namespace ReversiFEI.Controller
         
         private void GoToCustomizeProfile()
         {
-            GetTree().ChangeScene("res://src/scene/userInterface/CustomizeProfile.tscn");
+            if(networkUtilities.IsGuest)
+                GoToSound();
+            else
+                GetTree().ChangeScene("res://src/scene/userInterface/CustomizeProfile.tscn");
         }
-
 
         private void GoToSound()
         {
+            networkUtilities.LeaveGame();
             GetTree().ChangeScene("res://src/scene/userInterface/Sound.tscn");
         }
 
-
         private void GoToLanguage()
         {
+            networkUtilities.LeaveGame();
             GetTree().ChangeScene("res://src/scene/userInterface/Language.tscn");
         }
         
@@ -156,10 +166,11 @@ namespace ReversiFEI.Controller
         }
 
         private async Task SignUp()
-        {
+            Random generator = new Random();
             string email = GetNode<LineEdit>("EmailLineEdit").Text;
             email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
             string username = GetNode<LineEdit>("UsernameLineEdit").Text;
+            username = String.Concat(username.Where(c => !Char.IsWhiteSpace(c)));
             string password = GetNode<LineEdit>("PasswordLineEdit").Text;
             string confirmPassword = GetNode<LineEdit>("ConfirmPasswordLineEdit").Text;
             var emptyFields = GetNode<Label>("EmptyFields");
@@ -172,7 +183,7 @@ namespace ReversiFEI.Controller
                 invalidEmailOrPassword.Visible = false;
                 differentPasswords.Visible = false;
             }
-            else if(!ValidateEmail(email) || !ValidatePassword(password))
+            else if(!ValidateEmail(email) || !ValidatePassword(password) || !username.All(char.IsLetterOrDigit))
             {
                 emptyFields.Visible = false;
                 invalidEmailOrPassword.Visible = true;
@@ -196,9 +207,6 @@ namespace ReversiFEI.Controller
                     GD.Print("Sign up failed.");
                 else
                     networkUtilities.SignUp(email, username, password);
-                
-                await ToSignal(networkUtilities, "SignedUp");
-                LogIn(email,password);
             }
         }
         
@@ -231,6 +239,7 @@ namespace ReversiFEI.Controller
                 networkUtilities.LogIn(email, password);
                 
             await ToSignal(networkUtilities, "LoggedIn");
+            networkUtilities.IsGuest = false;
             GoToMainMenu();
         }
         
@@ -384,13 +393,9 @@ namespace ReversiFEI.Controller
             
             if(ValidNickname(userNickname, newNickname))
             {
-                var nicknameUpdated = networkUtilities.ChangeNickname(newNickname);
-            
-                if(nicknameUpdated)
-                {
-                    GetParent().GetNode<Label>("UserNicknameTitle").Text = newNickname;
-                    ShowNicknameUpdatedPopUp();
-                }
+                networkUtilities.ChangeNickname(newNickname);
+                GetParent().GetNode<Label>("UserNicknameTitle").Text = newNickname;
+                ShowNicknameUpdatedPopUp();
             }
             
             GetNode<WindowDialog>("ChangeNickname").Visible = false;
@@ -406,8 +411,9 @@ namespace ReversiFEI.Controller
             return validNickname;
         }
         
-        private void _on_Panel_ready()
+        private void CustomizeProfileOnReady()
         {
+            networkUtilities.JoinGame();
             var userNickname = networkUtilities.Playername;
             GetNode<Label>("UserNicknameTitle").Text = userNickname;
         }
@@ -419,12 +425,8 @@ namespace ReversiFEI.Controller
             
             if(ValidatePassword(newPassword))
             {
-                var passwordUpdated = networkUtilities.ChangePassword(newPassword);
-                
-                if(passwordUpdated)
-                {
-                    ShowPasswordUpdatedPopUp();
-                } 
+                networkUtilities.ChangePassword(newPassword);
+                ShowPasswordUpdatedPopUp();
             }
             
             HideChangePasswordPopUp();
@@ -476,7 +478,6 @@ namespace ReversiFEI.Controller
         
         private void ChangeSetOfPieces()
         {
-            var setOfPiecesUpdated = false;
             var set1 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer1/SetOfPieces1Button");
             var set2 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer1/SetOfPieces2Button");
             var set3 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer2/SetOfPieces3Button");
@@ -484,25 +485,22 @@ namespace ReversiFEI.Controller
             
             if(set1.Pressed)
             {
-                setOfPiecesUpdated = networkUtilities.ChangeSetOfPieces(1);
+                networkUtilities.ChangeSetOfPieces(1);
             }
             else if(set2.Pressed)
             {
-                setOfPiecesUpdated = networkUtilities.ChangeSetOfPieces(2);
+                networkUtilities.ChangeSetOfPieces(2);
             }
             else if(set3.Pressed)
             {
-                setOfPiecesUpdated = networkUtilities.ChangeSetOfPieces(3);
+                networkUtilities.ChangeSetOfPieces(3);
             }
             else if(set4.Pressed)
             {
-                setOfPiecesUpdated = networkUtilities.ChangeSetOfPieces(4);
+                networkUtilities.ChangeSetOfPieces(4);
             }
             
-            if(setOfPiecesUpdated)
-            {
-                ShowSetOfPiecesUpdatedPopUp();
-            }
+            ShowSetOfPiecesUpdatedPopUp();
             
             HideChangeSetOfPiecesPopUp();
         }
@@ -553,7 +551,7 @@ namespace ReversiFEI.Controller
         
         private void ChangeAvatar()
         {
-            var avatarUpdated = false;
+            
             var avatar1 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer1/Avatar1Button");
             var avatar2 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer1/Avatar2Button");
             var avatar3 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer2/Avatar3Button");
@@ -561,25 +559,23 @@ namespace ReversiFEI.Controller
             
             if(avatar1.Pressed)
             {
-                avatarUpdated = networkUtilities.ChangeAvatar(1);
+                networkUtilities.ChangeAvatar(1);
             }
             else if(avatar2.Pressed)
             {
-                avatarUpdated = networkUtilities.ChangeAvatar(2);
+                networkUtilities.ChangeAvatar(2);
             }
             else if(avatar3.Pressed)
             {
-                avatarUpdated = networkUtilities.ChangeAvatar(3);
+                networkUtilities.ChangeAvatar(3);
             }
             else if(avatar4.Pressed)
             {
-                avatarUpdated = networkUtilities.ChangeAvatar(4);
+                networkUtilities.ChangeAvatar(4);
             }
             
-            if(avatarUpdated)
-            {
-                ShowAvatarUpdatedPopUp();
-            }
+            
+            ShowAvatarUpdatedPopUp();
             
             HideChangeAvatarPopUp();
         }
