@@ -314,7 +314,6 @@ namespace ReversiFEI.Network
         {
             if(acceptFriendRequest)
             {
-                FriendRequestAccepted();
                 RpcId(1,nameof(ReceiveFriends),addFriend1,addFriend2);
             }
             else
