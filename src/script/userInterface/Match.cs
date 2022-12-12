@@ -33,6 +33,7 @@ namespace ReversiFEI.Matches
             opponentAvatar = GetNode<Sprite>("OpponentAvatar");
             opponentTotalPoints = GetNode<Label>("OpponentHBoxContainer/OpponentTotalPoints");
             SetPlayersProfile();
+            PlayMusic(networkUtilities.soundEnabled);
             SetScores(2,2);
         }
 
