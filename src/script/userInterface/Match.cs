@@ -24,8 +24,8 @@ namespace ReversiFEI.Matches
         public override void _Ready()
         {
             controls = GetNode("/root/Controls") as Controls;
-            networkUtilities.Connect("MessageReceivedMatch",this,nameof(ReceiveMessages));
             networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
+            networkUtilities.Connect("MessageReceivedMatch",this,nameof(ReceiveMessages));
             playerNickname = GetNode<Label>("PlayerHBoxContainer/PlayerVBoxContainer/PlayersNickname");
             playerAvatar = GetNode<Sprite>("PlayerAvatar");
             playerTotalPoints = GetNode<Label>("PlayerHBoxContainer/PlayerTotalPoints");
@@ -38,7 +38,7 @@ namespace ReversiFEI.Matches
 
         public override void _Input(InputEvent inputEvent)
         {
-            if (inputEvent.IsActionPressed("lobby_SendMessage"))
+            if (inputEvent.IsActionPressed("EnterSendMessage"))
             {
                 SendMessage();
             }
