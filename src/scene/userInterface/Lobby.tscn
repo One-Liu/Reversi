@@ -117,10 +117,10 @@ disabled = true
 text = "KICK"
 
 [node name="OnlineFriendsList" type="ItemList" parent="."]
-anchor_left = 0.866
-anchor_top = 0.5
-anchor_right = 0.866
-anchor_bottom = 0.5
+anchor_left = 0.911
+anchor_top = 0.774
+anchor_right = 0.911
+anchor_bottom = 0.774
 margin_left = -119.784
 margin_top = -229.0
 margin_right = 119.216
