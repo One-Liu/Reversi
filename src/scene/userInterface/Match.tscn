@@ -139,3 +139,5 @@ script = ExtResource( 2 )
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
 volume_db = -18.573
+
+[connection signal="pressed" from="Panel/SendButton" to="." method="SendMessage"]

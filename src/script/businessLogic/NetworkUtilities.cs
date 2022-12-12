@@ -23,7 +23,6 @@ namespace ReversiFEI.Network
         [Signal]
         delegate void MessageReceivedMatch();
         
-        
         [Signal]
         delegate void LoggedIn();
         

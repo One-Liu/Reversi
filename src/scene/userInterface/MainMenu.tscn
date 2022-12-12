@@ -118,7 +118,6 @@ modulate = Color( 1, 0.996078, 0.737255, 1 )
 material = SubResource( 2 )
 position = Vector2( 643, 72 )
 rotation = -2.61799
-scale = Vector2( 1, 1 )
 process_material = SubResource( 3 )
 texture = ExtResource( 3 )
 

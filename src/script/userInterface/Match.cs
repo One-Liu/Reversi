@@ -38,7 +38,7 @@ namespace ReversiFEI.Matches
 
         public override void _Input(InputEvent inputEvent)
         {
-            if (inputEvent.IsActionPressed("lobby_SendMessage"))
+            if (inputEvent.IsActionPressed("EnterSendMessage"))
             {
                 SendMessage();
             }
@@ -121,3 +121,4 @@ namespace ReversiFEI.Matches
         }
     }
 }
+
