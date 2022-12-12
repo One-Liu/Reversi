@@ -131,48 +131,18 @@ margin_bottom = 28.0
 text = "PASSWORD_MISMATCH"
 align = 2
 
-[node name="Verification" type="WindowDialog" parent="."]
+[node name="InvalidEmailOrPassword" type="Label" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -250.0
-margin_top = -165.5
-margin_right = 250.0
-margin_bottom = 165.5
-window_title = "Verification code"
-
-[node name="Label" type="Label" parent="Verification"]
-margin_left = 25.0
-margin_top = 23.5
-margin_right = 525.0
-margin_bottom = 118.5
-text = "VERIFICATION_CODE_TEXT"
-
-[node name="TextEdit" type="TextEdit" parent="Verification"]
-margin_left = 28.0
-margin_top = 130.5
-margin_right = 459.0
-margin_bottom = 265.5
-
-[node name="VerificationButton" type="Button" parent="Verification"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -219.0
-margin_top = -32.0
-margin_right = 213.0
-margin_bottom = -12.0
-text = "SEND"
-
-[node name="IncorrectDialog" type="AcceptDialog" parent="Verification"]
-margin_left = 111.0
-margin_top = 57.5
-margin_right = 378.0
-margin_bottom = 226.5
-window_title = "¡Alerta!"
-dialog_text = "Your code is incorrect, please try again."
+margin_left = -161.0
+margin_top = 7.0
+margin_right = 160.0
+margin_bottom = 28.0
+text = "INCORRECT_EMAIL_OR_PASSWORD"
+align = 2
 
 [connection signal="pressed" from="LogInButton" to="." method="GoToLogIn"]
 [connection signal="pressed" from="RegisterButton" to="." method="SignUp"]

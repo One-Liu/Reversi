@@ -5,7 +5,6 @@ using EmailValidation;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using MySql.Data.MySqlClient;
 using ReversiFEI.Network;
 using System.Text;
@@ -34,12 +33,18 @@ namespace ReversiFEI.Controller
         
         private void GoToMainMenu()
         {
+            if(networkUtilities.IsHosting())
+                networkUtilities.LeaveGame();
             GetTree().ChangeScene("res://src/scene/userInterface/MainMenu.tscn");
         }
         
         private void GoToMainMenuAsGuest()
         {
             networkUtilities.Playername = "guest#" + GD.Randi() % 99999999998 + 1;
+            var rng = new RandomNumberGenerator();
+            rng.Randomize();
+            networkUtilities.PlayerSet = rng.RandiRange(1,4);
+            networkUtilities.IsGuest = true;
             GetTree().ChangeScene("res://src/scene/userInterface/MainMenu.tscn");
         }
         
@@ -83,17 +88,21 @@ namespace ReversiFEI.Controller
         
         private void GoToCustomizeProfile()
         {
-            GetTree().ChangeScene("res://src/scene/userInterface/CustomizeProfile.tscn");
+            if(networkUtilities.IsGuest)
+                GoToSound();
+            else
+                GetTree().ChangeScene("res://src/scene/userInterface/CustomizeProfile.tscn");
         }
-
 
         private void GoToSound()
         {
+            networkUtilities.LeaveGame();
             GetTree().ChangeScene("res://src/scene/userInterface/Sound.tscn");
         }
 
         private void GoToLanguage()
         {
+            networkUtilities.LeaveGame();
             GetTree().ChangeScene("res://src/scene/userInterface/Language.tscn");
         }
         
@@ -118,10 +127,10 @@ namespace ReversiFEI.Controller
             }
         }
         
-        private bool ValidateEmail(String email) {
+        private bool ValidateEmail(string email) {
             var validEmail = true;
             
-            if(String.IsNullOrEmpty(email))
+            if(string.IsNullOrEmpty(email))
             {
                 validEmail = false;
             }
@@ -129,92 +138,100 @@ namespace ReversiFEI.Controller
             {
                 validEmail = false;
             }
+            
             return validEmail;
         }
         
-        private bool ValidatePassword(String password) {        
-            return !String.IsNullOrEmpty(password);
+        private bool ValidatePassword(string password) {
+            var validPassword = true;
+            
+            if(string.IsNullOrEmpty(password))
+            {
+                validPassword = false;
+            }
+            else if(password.Length <= 8)
+            {
+                validPassword = false;
+            }
+            else if(!password.All(char.IsLetterOrDigit))
+            {
+                validPassword = false;
+            }
+            
+            return validPassword;
         }
 
         private async Task SignUp()
             Random generator = new Random();
             string email = GetNode<LineEdit>("EmailLineEdit").Text;
+            email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
             string username = GetNode<LineEdit>("UsernameLineEdit").Text;
+            username = String.Concat(username.Where(c => !Char.IsWhiteSpace(c)));
             string password = GetNode<LineEdit>("PasswordLineEdit").Text;
             string confirmPassword = GetNode<LineEdit>("ConfirmPasswordLineEdit").Text;
-            int verificationCode = generator.Next(100000, 1000000);
-                
-                SmtpClient client = new SmtpClient("smtp-mail.outlook.com");
-                        client.Port = 587;
-                        client.DeliveryMethod = SmtpDeliveryMethod.Network;
-                        client.UseDefaultCredentials = false;
-                        System.Net.NetworkCredential credential =
-                            new System.Net.NetworkCredential("reversifei@outlook.com", "reversi123");
-                        client.EnableSsl = true;
-                        client.Credentials = credential;
-
-                        MailMessage message = new MailMessage("reversifei@outlook.com", "reversifei@gmail.com");
-                        message.Subject = "Test mail";
-                        message.Body = "This is a test";
-                        client.Send(message);
-                
-            if(ValidateEmail(email) && password.Equals(confirmPassword))
-            {
-                try
-                    {
-                        
-                        //int verification =  int.Parse(GetNode<LineEdit>("Verification/TextEdit").Text);
-                       GetNode<WindowDialog>("Verification").Visible = true;
-                       // VerificationButtonPressed(email,username,password,verificationCode,verification);
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-            }
-        }
-
-        private async Task LogIn()
-        {
-            string email = GetNode<LineEdit>("EmailLineEdit").Text;
-            string password = GetNode<LineEdit>("PasswordLineEdit").Text;
-            
-            if(ValidateEmail(email) && ValidatePassword(password)) 
-            {
-                email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
-                
-                networkUtilities.JoinGame();
-                await ToSignal(GetTree(), "connected_to_server");
-                if(GetTree().NetworkPeer == null)
-                    GD.Print("Log in failed.");
-                else
-                    networkUtilities.LogIn(email, password);
-                    
-                await ToSignal(networkUtilities, "LoggedIn");
-                //ShowNicknameUpdatedPopUp();
-                GoToMainMenu();
-            } else {
-                GD.Print("Invalid email or password");
-            }   
-        }
+            var emptyFields = GetNode<Label>("EmptyFields");
+            var invalidEmailOrPassword = GetNode<Label>("InvalidEmailOrPassword");
+            var differentPasswords = GetNode<Label>("DifferentPasswords");
         
-        private async Task VerificationButtonPressed(string email, string username, string password, int verificationCode,int codeEntered)
-        {
-            if(verificationCode==codeEntered)
+            if(string.IsNullOrEmpty(username) || string.IsNullOrEmpty(confirmPassword))
             {
+                emptyFields.Visible = true;
+                invalidEmailOrPassword.Visible = false;
+                differentPasswords.Visible = false;
+            }
+            else if(!ValidateEmail(email) || !ValidatePassword(password) || !username.All(char.IsLetterOrDigit))
+            {
+                emptyFields.Visible = false;
+                invalidEmailOrPassword.Visible = true;
+                differentPasswords.Visible = false;
+            }
+            else if(!password.Equals(confirmPassword))
+            {
+                emptyFields.Visible = false;
+                invalidEmailOrPassword.Visible = false;
+                differentPasswords.Visible = true;
+            }
+            else
+            {
+                emptyFields.Visible = false;
+                invalidEmailOrPassword.Visible = false;
+                differentPasswords.Visible = false;
+                
                 networkUtilities.JoinGame();
                 await ToSignal(GetTree(), "connected_to_server");
                 if(GetTree().NetworkPeer == null)
                     GD.Print("Sign up failed.");
                 else
-                {
                     networkUtilities.SignUp(email, username, password);
-                }
-            }else
-            {
-                GetNode<AcceptDialog>("IncorrectDialog").Visible = true;
-                string verification = GetNode<LineEdit>("Verification/TextEdit").Text;
             }
+        }
+
+        private void LogIn()
+        {
+            string email = GetNode<LineEdit>("EmailLineEdit").Text;
+            string password = GetNode<LineEdit>("PasswordLineEdit").Text;
+            
+            if(!ValidateEmail(email) || !ValidatePassword(password)) 
+            {
+                GetNode<Label>("InvalidEmailOrPassword").Visible = true;
+            } else {
+                email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
+                LogIn(email,password);
+            }   
+        }
+        
+        private async Task LogIn(string email, string password)
+        {
+            networkUtilities.JoinGame();
+            await ToSignal(GetTree(), "connected_to_server");
+            if(GetTree().NetworkPeer == null)
+                GD.Print("Log in failed.");
+            else
+                networkUtilities.LogIn(email, password);
+                
+            await ToSignal(networkUtilities, "LoggedIn");
+            networkUtilities.IsGuest = false;
+            GoToMainMenu();
         }
         
         private void ShowConnectionFailedPopUp()
@@ -367,13 +384,9 @@ namespace ReversiFEI.Controller
             
             if(ValidNickname(userNickname, newNickname))
             {
-                var nicknameUpdated = networkUtilities.ChangeNickname(newNickname);
-            
-                if(nicknameUpdated)
-                {
-                    GetParent().GetNode<Label>("UserNicknameTitle").Text = newNickname;
-                    ShowNicknameUpdatedPopUp();
-                }
+                networkUtilities.ChangeNickname(newNickname);
+                GetParent().GetNode<Label>("UserNicknameTitle").Text = newNickname;
+                ShowNicknameUpdatedPopUp();
             }
             
             GetNode<WindowDialog>("ChangeNickname").Visible = false;
@@ -389,8 +402,9 @@ namespace ReversiFEI.Controller
             return validNickname;
         }
         
-        private void _on_Panel_ready()
+        private void CustomizeProfileOnReady()
         {
+            networkUtilities.JoinGame();
             var userNickname = networkUtilities.Playername;
             GetNode<Label>("UserNicknameTitle").Text = userNickname;
         }
@@ -400,27 +414,13 @@ namespace ReversiFEI.Controller
             var password = GetNode<LineEdit>("ChangePassword/NewPasswordLineEdit").Text;
             var newPassword = String.Concat(password.Where(c => !Char.IsWhiteSpace(c)));
             
-            if(ValidPassword(newPassword))
+            if(ValidatePassword(newPassword))
             {
-                var passwordUpdated = networkUtilities.ChangePassword(newPassword);
-                
-                if(passwordUpdated)
-                {
-                    ShowPasswordUpdatedPopUp();
-                } 
+                networkUtilities.ChangePassword(newPassword);
+                ShowPasswordUpdatedPopUp();
             }
             
             HideChangePasswordPopUp();
-        }
-        
-        private bool ValidPassword(string newPassword)
-        {
-            var validPassword = false;
-            
-            if(!string.IsNullOrEmpty(newPassword) && newPassword.All(char.IsLetterOrDigit))
-                validPassword = true;
-            
-            return validPassword;
         }
         
         private void SelectSetOfPieces1()
@@ -469,7 +469,6 @@ namespace ReversiFEI.Controller
         
         private void ChangeSetOfPieces()
         {
-            var setOfPiecesUpdated = false;
             var set1 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer1/SetOfPieces1Button");
             var set2 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer1/SetOfPieces2Button");
             var set3 = GetNode<Button>("ChangeSetOfPieces/SetsOfPiecesVBoxContainer/HBoxContainer2/SetOfPieces3Button");
@@ -477,25 +476,22 @@ namespace ReversiFEI.Controller
             
             if(set1.Pressed)
             {
-                setOfPiecesUpdated = networkUtilities.ChangeSetOfPieces(1);
+                networkUtilities.ChangeSetOfPieces(1);
             }
             else if(set2.Pressed)
             {
-                setOfPiecesUpdated = networkUtilities.ChangeSetOfPieces(2);
+                networkUtilities.ChangeSetOfPieces(2);
             }
             else if(set3.Pressed)
             {
-                setOfPiecesUpdated = networkUtilities.ChangeSetOfPieces(3);
+                networkUtilities.ChangeSetOfPieces(3);
             }
             else if(set4.Pressed)
             {
-                setOfPiecesUpdated = networkUtilities.ChangeSetOfPieces(4);
+                networkUtilities.ChangeSetOfPieces(4);
             }
             
-            if(setOfPiecesUpdated)
-            {
-                ShowSetOfPiecesUpdatedPopUp();
-            }
+            ShowSetOfPiecesUpdatedPopUp();
             
             HideChangeSetOfPiecesPopUp();
         }
@@ -546,7 +542,7 @@ namespace ReversiFEI.Controller
         
         private void ChangeAvatar()
         {
-            var avatarUpdated = false;
+            
             var avatar1 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer1/Avatar1Button");
             var avatar2 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer1/Avatar2Button");
             var avatar3 = GetNode<Button>("ChangeAvatar/AvatarsVBoxContainer/HBoxContainer2/Avatar3Button");
@@ -554,25 +550,23 @@ namespace ReversiFEI.Controller
             
             if(avatar1.Pressed)
             {
-                avatarUpdated = networkUtilities.ChangeAvatar(1);
+                networkUtilities.ChangeAvatar(1);
             }
             else if(avatar2.Pressed)
             {
-                avatarUpdated = networkUtilities.ChangeAvatar(2);
+                networkUtilities.ChangeAvatar(2);
             }
             else if(avatar3.Pressed)
             {
-                avatarUpdated = networkUtilities.ChangeAvatar(3);
+                networkUtilities.ChangeAvatar(3);
             }
             else if(avatar4.Pressed)
             {
-                avatarUpdated = networkUtilities.ChangeAvatar(4);
+                networkUtilities.ChangeAvatar(4);
             }
             
-            if(avatarUpdated)
-            {
-                ShowAvatarUpdatedPopUp();
-            }
+            
+            ShowAvatarUpdatedPopUp();
             
             HideChangeAvatarPopUp();
         }

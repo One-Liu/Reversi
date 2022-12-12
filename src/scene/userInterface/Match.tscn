@@ -40,6 +40,16 @@ margin_bottom = 563.0
 size_flags_horizontal = 3
 text = "TYPE_MESSAGE"
 
+[node name="SendButton" type="Button" parent="ChatVBoxContainer/ChatHBoxContainer"]
+margin_left = 239.0
+margin_right = 285.0
+margin_bottom = 24.0
+text = "SEND"
+
+[node name="PlayerAvatar" type="Sprite" parent="."]
+position = Vector2( 384, 536 )
+scale = Vector2( 0.2, 0.2 )
+
 [node name="PlayerHBoxContainer" type="HBoxContainer" parent="."]
 margin_left = 478.0
 margin_top = 485.0
@@ -76,11 +86,15 @@ margin_bottom = 58.0
 size_flags_horizontal = 3
 text = "POINTS"
 
+[node name="OpponentAvatar" type="Sprite" parent="."]
+position = Vector2( 384, 64 )
+scale = Vector2( 0.2, 0.2 )
+
 [node name="OpponentHBoxContainer" type="HBoxContainer" parent="."]
-margin_left = 478.0
-margin_top = 1.0
-margin_right = 1024.0
-margin_bottom = 74.0
+margin_left = 480.0
+margin_top = 32.0
+margin_right = 1026.0
+margin_bottom = 105.0
 
 [node name="OpponentVBoxContainer" type="VBoxContainer" parent="OpponentHBoxContainer"]
 margin_right = 179.0

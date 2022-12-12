@@ -12,28 +12,28 @@ namespace ReversiFEI.UserTools
     {
         public static string LogIn(string email, string password)
         {
+            string playerNickname = null;
+            
             using (var db = new PlayerContext())
             {
                 try
                 {
                     var player = db.Player
-                        .SingleOrDefault(b => b.Email == email) 
-                        ?? new Player();
+                        .SingleOrDefault(b => b.Email == email);
                     
-                    byte[] salt = player.Salt;
-                    byte[] key = player.Password;
-            
-                    using (var deriveBytes = new Rfc2898DeriveBytes(password, salt))
+                    if(player != null)
                     {
-                        byte[] newKey = deriveBytes.GetBytes(64);
+                        byte[] salt = player.Salt;
+                        byte[] key = player.Password;
                         
-                        if(newKey.SequenceEqual(key))
+                        using (var deriveBytes = new Rfc2898DeriveBytes(password, salt))
                         {
-                            return player.Nickname;
-                        } 
-                        else
-                        {
-                            return null;
+                            byte[] newKey = deriveBytes.GetBytes(64);
+                            
+                            if(newKey.SequenceEqual(key))
+                            {
+                                playerNickname = player.Nickname;
+                            }
                         }
                     }
                 }
@@ -42,11 +42,14 @@ namespace ReversiFEI.UserTools
                     GD.PushError(e.Message);
                     throw;
                 }
+                
+                return playerNickname;
             }
         }
         
         public static bool SignUp(string email, string username, string password)
         {
+            bool userRegistered;
             byte[] salt;
             byte[] passwordBytes;
             
@@ -60,22 +63,34 @@ namespace ReversiFEI.UserTools
             playerRegistration.Email = email;
             playerRegistration.Nickname = username;
             playerRegistration.Password = passwordBytes;
+            playerRegistration.PiecesSet = 1;
             playerRegistration.Salt = salt;
             
             using (var db = new PlayerContext())
             {
-                bool userRegistered;
                 try
                 {
-                    db.Player.Add(playerRegistration);
+                    var emailAlreadyRegistered = db.Player
+                        .SingleOrDefault(b => b.Email == email);
+                    var nicknameAlreadyRegistered = db.Player
+                        .SingleOrDefault(b => b.Nickname == username);
                     
-                    if(db.SaveChanges() == 1)
+                    if(emailAlreadyRegistered != null)
                     {
-                        userRegistered = true;
+                        userRegistered = false;
+                    }
+                    else if(nicknameAlreadyRegistered != null)
+                    {
+                        userRegistered = false;
                     }
                     else
                     {
-                        userRegistered = false;
+                        db.Player.Add(playerRegistration);
+                    
+                        if(db.SaveChanges() == 1)
+                            userRegistered = true;
+                        else
+                            userRegistered = false;
                     }
                 }
                 catch (MySqlException e)
@@ -83,8 +98,8 @@ namespace ReversiFEI.UserTools
                     GD.PushError(e.Message);
                     throw;
                 }
-                return userRegistered;
             }
+            return userRegistered;
         }
         
          public static bool AddFriend(string playerOne, string playerTwo)
@@ -171,6 +186,33 @@ namespace ReversiFEI.UserTools
                     throw;
                 }
             }
+        }
+        
+        public static int GetPlayerPieceSet(string nickname)
+        {
+            int setOfPieces = 1;
+            
+            using (var db = new PlayerContext())
+            {
+                try
+                {
+                    var player = db.Player
+                                 .SingleOrDefault(b => b.Nickname == nickname)
+                                 ?? new Player(0);
+                    
+                    setOfPieces = player.PiecesSet;
+                }
+                catch(MySqlException e)
+                {
+                    GD.PushError(e.Message);
+                    throw;
+                }
+            }
+            
+            if(setOfPieces <= 0)
+                setOfPieces = 1;
+            
+            return setOfPieces;
         }
         
         public static bool ChangeNickname(string nickname, string newNickname)
@@ -303,6 +345,28 @@ namespace ReversiFEI.UserTools
             }
             
             return setOfPiecesUpdated;
+        }
+        
+        public static List<string> GetLeaderboard()
+        {
+            using (var db = new PlayerContext())
+            {
+                try
+                {                 
+                    var leaderboard = 
+                        (from player in db.Player
+                        orderby player.GamesWon descending
+                        select player.Nickname
+                        ).Take(15).ToList();
+
+                    return leaderboard;
+                }
+                catch(MySqlException e)
+                {
+                    GD.PushError(e.Message);
+                    throw;
+                }
+            }
         }
     }
 }
