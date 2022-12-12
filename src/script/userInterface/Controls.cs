@@ -212,16 +212,9 @@ namespace ReversiFEI.Controller
         
         private void LogIn()
         {
-            
             string email = GetNode<LineEdit>("EmailLineEdit").Text;
             string password = GetNode<LineEdit>("PasswordLineEdit").Text;
-            
-          //  if(!ValidateEmail(email) || !ValidatePassword(password)) 
-           // {
-             //   GetNode<Label>("InvalidEmailOrPassword").Visible = true;
-         //   } else 
             {
-                
                 email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
                 LogIn(email,password);
             }   
