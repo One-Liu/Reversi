@@ -87,11 +87,11 @@ margin_bottom = 240.0
 
 [node name="Popup" type="Popup" parent="OnlinePlayersList/OnlinePlayers"]
 visible = true
-anchor_left = 0.911
+anchor_left = 0.897
 anchor_top = 0.774
-anchor_right = 0.911
+anchor_right = 0.938
 anchor_bottom = 0.774
-margin_left = -147.085
+margin_left = -146.0
 margin_top = -94.958
 margin_right = -0.085022
 margin_bottom = 0.0419922
@@ -135,9 +135,52 @@ align = 1
 valign = 1
 
 [node name="OnlineFriends" type="ItemList" parent="OnlineFriendsList"]
-margin_top = 20.0
-margin_right = 237.0
-margin_bottom = 230.0
+anchor_left = 0.121
+anchor_top = 0.282
+anchor_right = 0.121
+anchor_bottom = 0.282
+margin_left = -27.0
+margin_top = -47.116
+margin_right = 208.081
+margin_bottom = 162.884
+
+[node name="Popup" type="Popup" parent="OnlineFriendsList/OnlineFriends"]
+visible = true
+anchor_left = 1.0
+anchor_top = 0.405
+anchor_right = 1.0
+anchor_bottom = 0.662
+margin_left = -138.0
+margin_top = -43.475
+margin_bottom = 43.475
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="ChallengeButton" type="Button" parent="OnlineFriendsList/OnlineFriends/Popup"]
+modulate = Color( 1, 0.823529, 0.823529, 1 )
+anchor_left = -0.500044
+anchor_top = -0.156358
+anchor_right = 0.673913
+anchor_bottom = 0.00709621
+margin_left = 0.00600433
+margin_top = 0.0340004
+text = "CHALLENGE"
+icon = ExtResource( 2 )
+expand_icon = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="DeleteFriendButton" type="Button" parent="OnlineFriendsList/OnlineFriends/Popup"]
+margin_left = -70.0
+margin_right = 93.0
+margin_bottom = 21.0
+text = "DELETE_FRIEND"
+icon = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="TitleSocial" type="Label" parent="."]
 anchor_left = 0.866
@@ -164,7 +207,6 @@ text = "RETURN"
 script = ExtResource( 1 )
 
 [node name="ChallengeNotice" type="ConfirmationDialog" parent="."]
-visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -192,11 +234,24 @@ rect_min_size = Vector2( 150, 52.5 )
 window_title = "Por favor, Confirma..."
 dialog_text = "FRIEND_REQUEST_MESSAGE"
 
+[node name="DeleteFriendNotice" type="ConfirmationDialog" parent="."]
+margin_left = 409.0
+margin_top = 264.0
+margin_right = 612.0
+margin_bottom = 334.0
+window_title = "Por favor, Confirma..."
+dialog_text = "DELETE_FRIEND"
+
 [connection signal="pressed" from="Panel/SendButton" to="." method="SendMessage"]
-[connection signal="item_activated" from="OnlinePlayersList/OnlinePlayers" to="." method="_on_OnlinePlayers_item_activated"]
-[connection signal="about_to_show" from="OnlinePlayersList/OnlinePlayers/Popup" to="." method="_on_Popup_about_to_show"]
+[connection signal="item_activated" from="OnlinePlayersList/OnlinePlayers" to="." method="OnlinePlayersActivated"]
+[connection signal="about_to_show" from="OnlinePlayersList/OnlinePlayers/Popup" to="." method="PopupPlayers"]
 [connection signal="pressed" from="OnlinePlayersList/OnlinePlayers/Popup/ChallengeButton" to="." method="ChallengePlayer"]
 [connection signal="pressed" from="OnlinePlayersList/OnlinePlayers/Popup/AddFriendButton" to="." method="AddFriend"]
+[connection signal="item_activated" from="OnlineFriendsList/OnlineFriends" to="." method="OnlineFriendSelected"]
+[connection signal="about_to_show" from="OnlineFriendsList/OnlineFriends/Popup" to="." method="PopupFriends"]
+[connection signal="pressed" from="OnlineFriendsList/OnlineFriends/Popup/ChallengeButton" to="." method="ChallengePlayer"]
+[connection signal="pressed" from="OnlineFriendsList/OnlineFriends/Popup/DeleteFriendButton" to="." method="DeleteFriend"]
 [connection signal="pressed" from="ReturnButton" to="ReturnButton" method="ExitLobby"]
 [connection signal="confirmed" from="ChallengeNotice" to="." method="AcceptChallenge"]
 [connection signal="confirmed" from="FriendRequestNotice" to="." method="AcceptFriendRequest"]
+[connection signal="confirmed" from="DeleteFriendNotice" to="." method="AcceptDeleteFriend"]
