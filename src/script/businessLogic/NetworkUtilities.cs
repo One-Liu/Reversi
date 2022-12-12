@@ -97,8 +97,8 @@ namespace ReversiFEI.Network
         
         public List<string> MessagesMatch
         {
-            get {return messages;}
-            set {messages = value;}
+            get {return messagesMatch;}
+            set {messagesMatch = value;}
         }
         
 
