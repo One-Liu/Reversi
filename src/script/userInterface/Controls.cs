@@ -99,13 +99,15 @@ namespace ReversiFEI.Controller
 
         private void GoToSound()
         {
-            networkUtilities.LeaveGame();
+            if(!networkUtilities.IsGuest && networkUtilities.IsHosting())
+                networkUtilities.LeaveGame();
             GetTree().ChangeScene("res://src/scene/userInterface/Sound.tscn");
         }
 
         private void GoToLanguage()
         {
-            networkUtilities.LeaveGame();
+            if(!networkUtilities.IsGuest && networkUtilities.IsHosting())
+                networkUtilities.LeaveGame();
             GetTree().ChangeScene("res://src/scene/userInterface/Language.tscn");
         }
         
