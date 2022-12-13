@@ -294,11 +294,9 @@ namespace ReversiFEI.Network
             OpponentAvatar = avatar;
         }
         
-        
          public void SendFriendRequest(int playerid,string playerNumberOne,string playerNumberTwo)
         {
             GD.Print($"Friend request sent to {playerid}");
-            GD.Print(playerNumberOne+" yy "+playerNumberTwo);
             addFriend1=playerNumberOne;
             addFriend2=playerNumberTwo;
             friendSender=playerid;
@@ -319,7 +317,7 @@ namespace ReversiFEI.Network
             RpcId(1,nameof(FriendRequestConfirmation),acceptFriendRequest);
         }
         
-        [Master]
+        [Remote]
         public void FriendRequestConfirmation(bool acceptFriendRequest)
         {
             if(acceptFriendRequest)
@@ -336,17 +334,17 @@ namespace ReversiFEI.Network
         [Remote]
         public void FriendRequestAccepted()
         {
-            GD.Print(FriendId);
-            GD.Print(addFriend1);
-            GD.Print(addFriend2);
-            RpcId(FriendId,nameof(ReceiveFriends),addFriend1,addFriend2);
-           // EmitSignal(nameof(FriendRequestReplyReceived));
+           ReceiveFriends(addFriend1,addFriend2);
         }
         
         [Remote]
         private void ReceiveFriends(string friend1,string  friend2)
         {
-            UserUtilities.AddFriend(friend1, friend2);
+            if(friend1==null || friend2==null)
+            {
+                GD.Print("error");
+            }else
+             UserUtilities.AddFriend(friend1, friend2);
         }
         
           [Remote]
