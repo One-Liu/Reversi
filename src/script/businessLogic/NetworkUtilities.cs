@@ -14,7 +14,7 @@ namespace ReversiFEI.Network
         private readonly int SERVER_ID = 1;
         private readonly int DEFAULT_PORT = 4321;
         private readonly int MAX_PLAYERS = 30;
-        private readonly string ADDRESS = "localhost"; //for local testing
+        private readonly string ADDRESS = "192.168.82.76"; //for local testing
        // private readonly string ADDRESS = "x"; //for live functionality
         
         [Signal]
@@ -312,23 +312,22 @@ namespace ReversiFEI.Network
         
         public void AcceptFriendRequest()
         {
-            RpcId(SERVER_ID,nameof(ReceiveFriends),addFriend1,addFriend2,FriendId);
-            FriendId = -1;
-            OpponentId = -1;
+            RpcId(SERVER_ID,nameof(ReceiveFriends),addFriend1,addFriend2);
         }
         
-        [Master]
-        private void ReceiveFriends(string friend1,string friend2,int friendId)
+        [Remote]
+        private void ReceiveFriends(string friend1,string friend2)
         {
             int senderId = GetTree().GetRpcSenderId();
+            GD.Print(senderId);
             if(UserUtilities.AddFriend(friend1, friend2))
             {
                 RpcId(senderId, nameof(FriendRequestWasAccepted));
-                RpcId(friendId, nameof(FriendRequestWasAccepted));
+                //RpcId(friendId, nameof(FriendRequestWasAccepted));
             }
         }
         
-        [Puppet]
+        [Remote]
         private void FriendRequestWasAccepted()
         {
             EmitSignal(nameof(FriendRequestAccepted));
