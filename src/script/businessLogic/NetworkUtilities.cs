@@ -45,7 +45,7 @@ namespace ReversiFEI.Network
         delegate void FriendRequestReceived();
         
         [Signal]
-        delegate void FriendRequestReplyReceived();
+        delegate void FriendRequestAccepted();
         
         [Signal]
         delegate void DeleteFriendUpdate();
@@ -310,30 +310,28 @@ namespace ReversiFEI.Network
             EmitSignal(nameof(FriendRequestReceived));
         }
         
-        public void ReplyToFriendRequest(bool acceptFriendRequest)
+        public void AcceptFriendRequest()
         {
-            if(acceptFriendRequest)
-            {
-                RpcId(1,nameof(ReceiveFriends),addFriend1,addFriend2);
-            }
-            else
-            {
-                RpcId(FriendId,nameof(FriendRequestDeclined));
-                FriendId = -1;
-            }
-        }
-        
-        [Remote]
-        private void ReceiveFriends(string friend1,string  friend2)
-        {
-            UserUtilities.AddFriend(friend1, friend2);
-        }
-        
-        [Remote]
-        private void FriendRequestDeclined()
-        {
-            EmitSignal(nameof(FriendRequestReplyReceived));
+            RpcId(SERVER_ID,nameof(ReceiveFriends),addFriend1,addFriend2,FriendId);
+            FriendId = -1;
             OpponentId = -1;
+        }
+        
+        [Master]
+        private void ReceiveFriends(string friend1,string friend2,int friendId)
+        {
+            int senderId = GetTree().GetRpcSenderId();
+            if(UserUtilities.AddFriend(friend1, friend2))
+            {
+                RpcId(senderId, nameof(FriendRequestWasAccepted));
+                RpcId(friendId, nameof(FriendRequestWasAccepted));
+            }
+        }
+        
+        [Puppet]
+        private void FriendRequestWasAccepted()
+        {
+            EmitSignal(nameof(FriendRequestAccepted));
         }
         
         public void GetFriendToDelete(int playerid)

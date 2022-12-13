@@ -12,8 +12,7 @@ namespace ReversiFEI.Network
         private NetworkUtilities networkUtilities;
         private Controls controls;
         
-        private bool challengeStatus; 
-        private bool friendRequestStatus;
+        private bool challengeStatus;
         private string playerToBeAdded;
         private string playerWantToAdd;
         private string friendToBeDeleted;
@@ -52,8 +51,8 @@ namespace ReversiFEI.Network
             networkUtilities.Connect("CancelMatch",this,nameof(ChallengeDeclined));
             networkUtilities.Connect("ChallengeReplyReceived",this,nameof(ReplyReceived));
             networkUtilities.Connect("FriendRequestReceived",this,nameof(ShowFriendRequestNotice));
-            networkUtilities.Connect("FriendRequestReplyReceived",this,nameof(FriendRequestReply));
             networkUtilities.Connect("DeleteFriendUpdate",this,nameof(UpdateFriendsDeleted));
+            networkUtilities.Connect("FriendRequestAccepted",this,nameof(SetOnlinePlayers));
 
             GetNode<ConfirmationDialog>("ChallengeNotice").GetCloseButton().Connect("pressed",this,nameof(DeclineChallenge));
         }
@@ -184,21 +183,7 @@ namespace ReversiFEI.Network
         
          private void AcceptFriendRequest()
         {
-            friendRequestStatus = true;
-            networkUtilities.ReplyToFriendRequest(friendRequestStatus);
-            SetOnlinePlayers();
-        }
-
-        private void FriendRequestReply()
-        {
-               // networkUtilities.FriendRequestAccepted(playerWantToAdd,playerToBeAdded);
-                SetOnlinePlayers();
-        }
-
-        private void DeclineFriendRequest()
-        {
-             friendRequestStatus = false;
-            networkUtilities.ReplyToFriendRequest(friendRequestStatus);
+            networkUtilities.AcceptFriendRequest();
         }
         
         private void DeleteFriend()
@@ -236,16 +221,6 @@ namespace ReversiFEI.Network
         private void UpdateFriendsDeleted()
         {
             SetOnlinePlayers();
-        }
-        
-        private void FriendRequestAccepted()
-        {
-            friendRequestStatus = true;
-        }
-        
-        private void FriendRequestDeclined()
-        {
-            friendRequestStatus = false;
         }
         
         private void KickPlayer()

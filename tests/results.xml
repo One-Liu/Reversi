@@ -1,15 +1,7 @@
 <?xml version="1.0" ?>
-<testsuites failures="1" name="TestXML" tests="1" time="0.063">
-	<testsuite name="BoardContainer tests" failures="4"  tests="5" time="0">
-		<testcase name="CreateBoardTest" time="0">
-			<failure message="EXPECTED: |boolean| False == true but GOT |boolean| False == false"></failure></testcase>
-		<testcase name="IsInsideBoardTest" time="0">
-			<failure message="EXPECTED: |boolean| False == true but GOT |boolean| False == false"></failure></testcase>
-		<testcase name="IsLegalMoveTest" time="0">
-			<failure message="EXPECTED: |boolean| False == true but GOT |boolean| False == false"></failure></testcase>
-		<testcase name="MovesAvailableTest" time="0">
-			<failure message="EXPECTED: |boolean| False == true but GOT |boolean| False == false"></failure></testcase>
-		<testcase name="CountPiecesTest" time="0"></testcase>
+<testsuites failures="0" name="TestXML" tests="1" time="0.837">
+	<testsuite name="UserUtilities tests" failures="0"  tests="1" time="0">
+		<testcase name="AddFriendTest" time="0"></testcase>
 	</testsuite>
 
 </testsuites>
