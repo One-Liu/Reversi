@@ -80,23 +80,50 @@ namespace ReversiFEI.Network
         
         public int MyPiece { get; set;}
         
-        public int FriendSender { get; set;}
+        public int friendSender;
+        public string addFriend1;
+        public string addFriend2;
         
-        public string AddFriend1 { get; set;}
+        private List<string> messages = new List<string>();
         
-        public string AddFriend2 { get; set;}
+        public List<string> Messages
+        {
+            get {return messages;}
+            set {messages = value;}
+        }
         
-        public List<string> Messages { get; set;}
+        private List<string> messagesMatch = new List<string>();
         
-        public List<string> MessagesMatch { get; set;}
+        public List<string> MessagesMatch
+        {
+            get {return messagesMatch;}
+            set {messagesMatch = value;}
+        }
+        
 
-        public Dictionary<int, string> Players { get; set;}
+        private Dictionary<int, string> players = new Dictionary<int, string>();
+        
+        public Dictionary<int, string> Players
+        {
+            get {return players;}
+            set {players = value;}
+        }
 
-        public List<string> Friends { get; set;}
+        private List<string> friends = new List<string>();
+        
+        public List<string> Friends
+        {
+            get {return friends;}
+        }
 
         public bool SoundEnabled { get; set;}
 
-        public List<string> Leaderboard { get; set;}
+        private List<string> leaderboard = new List<string>();
+        
+        public List<string> Leaderboard
+        {
+            get {return leaderboard;}
+        }
         
         public override void _Ready()
         {
@@ -147,7 +174,7 @@ namespace ReversiFEI.Network
         
         public void LeaveGame()
         {
-            Players.Clear();
+            players.Clear();
             Rpc(nameof(RemovePlayer), GetTree().GetNetworkUniqueId());
             ((NetworkedMultiplayerENet)GetTree().NetworkPeer).CloseConnection();
             GetTree().NetworkPeer = null;
@@ -269,9 +296,9 @@ namespace ReversiFEI.Network
          public void SendFriendRequest(int playerid,string playerNumberOne,string playerNumberTwo)
         {
             GD.Print($"Friend request sent to {playerid}");
-            AddFriend1 = playerNumberOne;
-            AddFriend2 = playerNumberTwo;
-            FriendSender=playerid;
+            addFriend1=playerNumberOne;
+            addFriend2=playerNumberTwo;
+            friendSender=playerid;
             RpcId(playerid, nameof(ReceiveFriendRequest));
         }
         
@@ -306,7 +333,7 @@ namespace ReversiFEI.Network
         [Remote]
         public void FriendRequestAccepted()
         {
-           RpcId(1,nameof(ReceiveFriends),AddFriend1,AddFriend2);
+           RpcId(1,nameof(ReceiveFriends),addFriend1,addFriend2);
         }
         
         [Master]
@@ -384,7 +411,7 @@ namespace ReversiFEI.Network
         [Master]
         private void RegisterVictory()
         {
-            string username = Players[GetTree().GetRpcSenderId()];
+            string username = players[GetTree().GetRpcSenderId()];
             
             UserUtilities.AddVictory(username);
         }
@@ -435,7 +462,7 @@ namespace ReversiFEI.Network
             var peerId = GetTree().GetRpcSenderId();
             bool alreadyRegistered = false;
             
-            foreach(string player in Players.Select(player => player.Value))
+            foreach(string player in players.Select(player => player.Value))
             {
                 if(player == playername)
                     alreadyRegistered = true;
@@ -443,7 +470,7 @@ namespace ReversiFEI.Network
             
             if(!alreadyRegistered)
             {
-                Players.Add(peerId, Playername);
+                players.Add(peerId, playername);
                 EmitSignal(nameof(PlayersOnline));
                 GD.Print($"player {playername} added with peer ID {peerId}");
             }
@@ -545,8 +572,8 @@ namespace ReversiFEI.Network
         {
             if(!OS.HasFeature("Server"))
             {
-                Friends.Clear();
-                Friends = UserUtilities.GetFriends(Playername);
+                friends.Clear();
+                friends = UserUtilities.GetFriends(Playername);
             }
         }
         
@@ -608,8 +635,8 @@ namespace ReversiFEI.Network
             if(!OS.HasFeature("Server"))
             {
                 GD.Print("Updating leaderboard...");
-                Leaderboard.Clear();
-                Leaderboard = UserUtilities.GetLeaderboard();
+                leaderboard.Clear();
+                leaderboard = UserUtilities.GetLeaderboard();
             }
         }
         
