@@ -38,9 +38,27 @@ namespace Tests.Reversi
         }
         
         [Test]
+        public void LogInFailedTest()
+        {
+            Assert.IsFalse(UserUtilities.LogIn(email, "123456789") != null);
+        }
+        
+        [Test]
         public void SignUpTest()
         {
             Assert.IsTrue(UserUtilities.SignUp(newPlayerEmail,newPlayerNickname,newPlayerPassword));
+        }
+        
+        [Test]
+        public void SignUpFailedEmailAlreadyRegisteredTest()
+        {
+            Assert.IsFalse(UserUtilities.SignUp("lester@gmail.com",newPlayerNickname,newPlayerPassword));
+        }
+        
+        [Test]
+        public void SignUpFailedNicknameAlreadyRegisteredTest()
+        {
+            Assert.IsFalse(UserUtilities.SignUp(newPlayerEmail,"lester",newPlayerPassword));
         }
         
         [Test]
@@ -68,15 +86,27 @@ namespace Tests.Reversi
         }
         
         [Test]
+        public void GetPlayerPieceSetFailedTest()
+        {
+            Assert.IsFalse(UserUtilities.GetPlayerPieceSet("bryanbroos") == 2);
+        }
+        
+        [Test]
         public void ChangeNicknameTest()
         {
             Assert.IsTrue(UserUtilities.ChangeNickname("littledemoon", "littledemon"));
         }
         
         [Test]
+        public void ChangeNicknameFailedNicknameAlreadyRegisteredTest()
+        {
+            Assert.IsFailed(UserUtilities.ChangeNickname("bryanbroos", "wildwolf"));
+        }
+        
+        [Test]
         public void ChangePasswordTest()
         {
-            Assert.IsTrue(UserUtilities.ChangePassword("Mark","trainspotting"));
+            Assert.IsTrue(UserUtilities.ChangePassword("Mark","mark12345"));
         }
         
         [Test]
@@ -88,7 +118,7 @@ namespace Tests.Reversi
         [Test]
         public void ChangeSetOfPiecesTest()
         {
-            Assert.IsTrue(UserUtilities.ChangeSetOfPieces("Mark",2));
+            Assert.IsTrue(UserUtilities.ChangeSetOfPieces("Mark",4));
         }
         
         [Test]

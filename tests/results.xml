@@ -1,6 +1,22 @@
 <?xml version="1.0" ?>
-<testsuites failures="0" name="TestXML" tests="1" time="0.035">
-	<testsuite name="UserUtilities tests" failures="0"  tests="1" time="0">
+<testsuites failures="1" name="TestXML" tests="1" time="1.008">
+	<testsuite name="UserUtilities tests" failures="1"  tests="16" time="0">
+		<testcase name="LogInTest" time="0"></testcase>
+		<testcase name="LogInFailedTest" time="0"></testcase>
+		<testcase name="SignUpTest" time="0"></testcase>
+		<testcase name="SignUpFailedEmailAlreadyRegisteredTest" time="0"></testcase>
+		<testcase name="SignUpFailedNicknameAlreadyRegisteredTest" time="0"></testcase>
+		<testcase name="AddFriendTest" time="0"></testcase>
+		<testcase name="DeleteFriendTest" time="0"></testcase>
+		<testcase name="GetFriendsTest" time="0"></testcase>
+		<testcase name="GetPlayerPieceSetTest" time="0"></testcase>
+		<testcase name="GetPlayerPieceSetFailedTest" time="0"></testcase>
+		<testcase name="ChangeNicknameTest" time="0"></testcase>
+		<testcase name="ChangeNicknameFailedNicknameAlreadyRegisteredTest" time="0">
+			<failure message="EXPECTED: |boolean| False == true but GOT |boolean| False == false"></failure></testcase>
+		<testcase name="ChangePasswordTest" time="0"></testcase>
+		<testcase name="AddVictoryTest" time="0"></testcase>
+		<testcase name="ChangeSetOfPiecesTest" time="0"></testcase>
 		<testcase name="GetLeaderboardTest" time="0"></testcase>
 	</testsuite>
 
