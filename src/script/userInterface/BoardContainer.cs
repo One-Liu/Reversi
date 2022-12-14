@@ -429,7 +429,6 @@ namespace ReversiFEI.Matches
             if(myPieces > opponentPieces)
             {
                 RegisterVictory(1);
-                return;
             }
             else if(myPieces < opponentPieces)
             {
