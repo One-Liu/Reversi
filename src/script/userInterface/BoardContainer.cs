@@ -240,7 +240,8 @@ namespace ReversiFEI.Matches
         {
             bool insideBoard = false;
             
-            if(coordinate < Columns && coordinate >= 0)
+            //if(coordinate < Columns && coordinate >= 0)
+            if(coordinate < boardSize && coordinate >= 0)
                 insideBoard = true;
             
             return insideBoard;
