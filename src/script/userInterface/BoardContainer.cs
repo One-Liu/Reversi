@@ -70,6 +70,7 @@ namespace ReversiFEI.Matches
                 } 
             }
             
+            Columns = boardSize;
             return newBoard;
         }
         
