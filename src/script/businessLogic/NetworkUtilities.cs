@@ -14,7 +14,7 @@ namespace ReversiFEI.Network
         private readonly int SERVER_ID = 1;
         private readonly int DEFAULT_PORT = 4321;
         private readonly int MAX_PLAYERS = 30;
-        private readonly string ADDRESS = "localhost"; 
+        private readonly string ADDRESS = "localhost";
         
         [Signal]
         delegate void MessageReceived();
