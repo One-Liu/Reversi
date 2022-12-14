@@ -100,7 +100,7 @@ namespace Tests.Reversi
         [Test]
         public void ChangeNicknameFailedNicknameAlreadyRegisteredTest()
         {
-            Assert.IsFailed(UserUtilities.ChangeNickname("bryanbroos", "wildwolf"));
+            Assert.IsFalse(UserUtilities.ChangeNickname("bryanbroos", "wildwolf"));
         }
         
         [Test]
