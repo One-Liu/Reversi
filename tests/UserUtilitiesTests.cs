@@ -65,6 +65,12 @@ namespace Tests.Reversi
         }
         
         [Test]
+        public void AddFriendTest()
+        {
+            Assert.IsTrue(UserUtilities.AddFriend("niddej","bryanbroos"));
+        }
+        
+        [Test]
         public void AddVictoryTest()
         {
             Assert.IsTrue(UserUtilities.AddVictory(playerNickname));

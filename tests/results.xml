@@ -1,8 +1,7 @@
 <?xml version="1.0" ?>
-<testsuites failures="1" name="TestXML" tests="1" time="0.121">
-	<testsuite name="BoardContainer tests" failures="1"  tests="1" time="0">
-		<testcase name="MovesAvailableTest" time="0">
-			<failure message="EXPECTED: |boolean| False == true but GOT |boolean| False == false"></failure></testcase>
+<testsuites failures="0" name="TestXML" tests="1" time="0.837">
+	<testsuite name="UserUtilities tests" failures="0"  tests="1" time="0">
+		<testcase name="AddFriendTest" time="0"></testcase>
 	</testsuite>
 
 </testsuites>

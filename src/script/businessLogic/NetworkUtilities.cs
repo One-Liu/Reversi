@@ -14,7 +14,7 @@ namespace ReversiFEI.Network
         private readonly int SERVER_ID = 1;
         private readonly int DEFAULT_PORT = 4321;
         private readonly int MAX_PLAYERS = 30;
-        private readonly string ADDRESS = "localhost"; //for local testing
+        private readonly string ADDRESS = "192.168.82.76"; //for local testing
        // private readonly string ADDRESS = "x"; //for live functionality
         
         [Signal]
@@ -45,7 +45,7 @@ namespace ReversiFEI.Network
         delegate void FriendRequestReceived();
         
         [Signal]
-        delegate void FriendRequestReplyReceived();
+        delegate void FriendRequestAccepted();
         
         [Signal]
         delegate void DeleteFriendUpdate();
@@ -81,7 +81,6 @@ namespace ReversiFEI.Network
         
         public int MyPiece { get; set;}
         
-        public int friendSender;
         public string addFriend1;
         public string addFriend2;
         
@@ -295,18 +294,15 @@ namespace ReversiFEI.Network
         }
         
         
-         public void SendFriendRequest(int playerid,string playerNumberOne,string playerNumberTwo)
+         public void SendFriendRequest(string playerNumberOne,string playerNumberTwo)
         {
-            GD.Print($"Friend request sent to {playerid}");
-            GD.Print(playerNumberOne+" yy "+playerNumberTwo);
             addFriend1=playerNumberOne;
             addFriend2=playerNumberTwo;
-            friendSender=playerid;
-            RpcId(playerid, nameof(ReceiveFriendRequest));
+            RpcId(FriendId, nameof(ReceiveFriendRequest));
         }
         
         
-         [Remote]
+        [Remote]
         private void ReceiveFriendRequest()
         {
             FriendId = GetTree().GetRpcSenderId();
@@ -314,46 +310,27 @@ namespace ReversiFEI.Network
             EmitSignal(nameof(FriendRequestReceived));
         }
         
-        public void ReplyToFriendRequest(bool acceptFriendRequest)
+        public void AcceptFriendRequest()
         {
-            RpcId(1,nameof(FriendRequestConfirmation),acceptFriendRequest);
+            RpcId(SERVER_ID,nameof(ReceiveFriends),addFriend1,addFriend2);
         }
         
-        [Master]
-        public void FriendRequestConfirmation(bool acceptFriendRequest)
+        [Remote]
+        private void ReceiveFriends(string friend1,string friend2)
         {
-            if(acceptFriendRequest)
+            int senderId = GetTree().GetRpcSenderId();
+            GD.Print(senderId);
+            if(UserUtilities.AddFriend(friend1, friend2))
             {
-                RpcId(FriendId,nameof(FriendRequestAccepted));
-            }
-            else
-            {
-                RpcId(FriendId,nameof(FriendRequestDeclined));
-                FriendId = -1;
+                RpcId(senderId, nameof(FriendRequestWasAccepted));
+                //RpcId(friendId, nameof(FriendRequestWasAccepted));
             }
         }
         
         [Remote]
-        public void FriendRequestAccepted()
+        private void FriendRequestWasAccepted()
         {
-            GD.Print(FriendId);
-            GD.Print(addFriend1);
-            GD.Print(addFriend2);
-            RpcId(FriendId,nameof(ReceiveFriends),addFriend1,addFriend2);
-           // EmitSignal(nameof(FriendRequestReplyReceived));
-        }
-        
-        [Remote]
-        private void ReceiveFriends(string friend1,string  friend2)
-        {
-            UserUtilities.AddFriend(friend1, friend2);
-        }
-        
-          [Remote]
-        private void FriendRequestDeclined()
-        {
-            EmitSignal(nameof(FriendRequestReplyReceived));
-            OpponentId = -1;
+            EmitSignal(nameof(FriendRequestAccepted));
         }
         
         public void GetFriendToDelete(int playerid)
