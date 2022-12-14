@@ -334,17 +334,14 @@ namespace ReversiFEI.Network
         [Remote]
         public void FriendRequestAccepted()
         {
-           ReceiveFriends(addFriend1,addFriend2);
+           RpcId(1,nameof(ReceiveFriends),addFriend1,addFriend2);
         }
         
-        [Remote]
+        [Master]
         private void ReceiveFriends(string friend1,string  friend2)
         {
-            if(friend1==null || friend2==null)
-            {
-                GD.Print("error");
-            }else
-             UserUtilities.AddFriend(friend1, friend2);
+            if(friend1!=null || friend2!=null)
+                UserUtilities.AddFriend(friend1, friend2);
         }
         
           [Remote]
