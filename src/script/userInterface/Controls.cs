@@ -366,11 +366,11 @@ namespace ReversiFEI.Controller
         {
             if(GetNode<CheckButton>("SoundCheckButton").Pressed)
             {
-                networkUtilities.soundEnabled=true;
+                networkUtilities.SoundEnabled = true;
             }
             else
             {
-                networkUtilities.soundEnabled=false;
+                networkUtilities.SoundEnabled = false;
             }
         }
         
