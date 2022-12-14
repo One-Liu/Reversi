@@ -47,6 +47,12 @@ namespace ReversiFEI.Network
         delegate void FriendRequestReplyReceived();
         
         [Signal]
+        delegate void SignUpFailedSignal();
+        
+        [Signal]
+        delegate void SignUpSuccessfulSignal();
+        
+        [Signal]
         delegate void DeleteFriendUpdate();
         
         [Signal]
@@ -528,14 +534,14 @@ namespace ReversiFEI.Network
         [Puppet]
         private void SignUpSuccesful()
         {
-            GD.Print("Signed up successfully.");
+            EmitSignal(nameof(SignUpSuccessfulSignal));
             LeaveGame();
         }
         
         [Puppet]
         private void SignUpFailed()
         {
-            GD.Print("Sign up failed.");
+            EmitSignal(nameof(SignUpFailedSignal));
             LeaveGame();
         }
         

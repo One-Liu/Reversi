@@ -16,10 +16,14 @@ namespace ReversiFEI.Controller
     public class Controls : Node
     {
         private NetworkUtilities networkUtilities;
-
+    
+    
         public override void _Ready()
         {
+            
             networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
+            networkUtilities.Connect("SignUpFailedSignal",this,nameof(SignUpFailedPopup));
+            networkUtilities.Connect("SignUpSuccessfulSignal",this,nameof(SignUpSuccessfulPopup));
             GD.Randomize();
         }
 
@@ -205,17 +209,35 @@ namespace ReversiFEI.Controller
                 await ToSignal(GetTree(), "connected_to_server");
                 if(GetTree().NetworkPeer == null)
                 {
-                    GD.Print("Sign up failed.");
                     GetNode<AcceptDialog>("SignUpError").Visible=true;
                 }
                 else
                 {
-                    GetNode<AcceptDialog>("SignUpSuccessful").Visible=true;
                     networkUtilities.SignUp(email, username, password);
                 }
             }
         }
         
+        private void SignUpFailedPopup()
+        {
+            try
+            {
+                GetNode<AcceptDialog>("SignUpError").Visible=true;
+            }catch(NullReferenceException n)
+            {
+                GD.PushError(n.Message);
+            }
+        }
+        private void SignUpSuccessfulPopup()
+        {
+            try
+            {
+                GetNode<AcceptDialog>("SignUpSuccessful").Visible=true;
+            }catch(NullReferenceException n)
+            {
+                GD.PushError(n.Message);
+            }
+        }
         private void LogIn()
         {
             string email = GetNode<LineEdit>("EmailLineEdit").Text;
