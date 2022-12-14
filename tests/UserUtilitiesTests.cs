@@ -18,18 +18,16 @@ namespace Tests.Reversi
         string newPlayerNickname;
         string newPlayerEmail;
         string newPlayerPassword;
-        List<string> friendsList = new List<string>();
         int newPlayerSetOfPieces;
         
         public void RunBeforeTestMethod()
         {
-            playerNickname = "ganttz";
+            playerNickname = "lester";
             email = "lester@gmail.com";
-            password = "luisito123";
-            newPlayerNickname = "punisher";
-            newPlayerEmail = "max@gmail.com";
-            newPlayerPassword = "pepe1234";
-            friendsList.Add("luisito");
+            password = "lester123";
+            newPlayerNickname = "denji";
+            newPlayerEmail = "denji@gmail.com";
+            newPlayerPassword = "denji1234";
             newPlayerSetOfPieces = 1;
         }
         
@@ -46,40 +44,57 @@ namespace Tests.Reversi
         }
         
         [Test]
+        public void AddFriendTest()
+        {
+            Assert.IsTrue(UserUtilities.AddFriend("Mark","SickBoy"));
+        }
+        
+        [Test]
+        public void DeleteFriendTest()
+        {
+            Assert.IsTrue(UserUtilities.DeleteFriend("Mark","SickBoy"));
+        }
+        
+        [Test]
         public void GetFriendsTest()
         {
-            var retrievedFriendsList = UserUtilities.GetFriends(playerNickname);
-            Assert.IsTrue(friendsList.All(retrievedFriendsList.Contains) && retrievedFriendsList.All(friendsList.Contains));
+            Assert.IsTrue(!UserUtilities.GetFriends("tnwlalo").Any());
+        }
+        
+        [Test]
+        public void GetPlayerPieceSetTest()
+        {
+            Assert.IsTrue(UserUtilities.GetPlayerPieceSet("bryanbroos") == 1);
         }
         
         [Test]
         public void ChangeNicknameTest()
         {
-            Assert.IsTrue(UserUtilities.ChangeNickname(playerNickname, newPlayerNickname));
+            Assert.IsTrue(UserUtilities.ChangeNickname("littledemoon", "littledemon"));
         }
         
         [Test]
         public void ChangePasswordTest()
         {
-            Assert.IsTrue(UserUtilities.ChangePassword(playerNickname,newPlayerPassword));
+            Assert.IsTrue(UserUtilities.ChangePassword("Mark","trainspotting"));
         }
         
         [Test]
         public void AddVictoryTest()
         {
-            Assert.IsTrue(UserUtilities.AddVictory(playerNickname));
+            Assert.IsTrue(UserUtilities.AddVictory("Mark"));
         }
         
         [Test]
         public void ChangeSetOfPiecesTest()
         {
-            Assert.IsTrue(UserUtilities.ChangeSetOfPieces(playerNickname,newPlayerSetOfPieces));
+            Assert.IsTrue(UserUtilities.ChangeSetOfPieces("Mark",2));
         }
         
         [Test]
         public void GetLeaderboardTest()
         {
-            Assert.IsTrue(UserUtilities.GetLeaderboard() != null);
+            Assert.IsTrue(UserUtilities.GetLeaderboard().Any());
         }
     }
 }
