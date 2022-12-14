@@ -20,7 +20,13 @@ namespace ReversiFEI.Matches
         public int PlayerPiece { get; set;}
         public int OpponentPiece { get; set;}
         
-        public int[,] board;
+        private int[,] board;
+        public int[,] Board
+        {
+            get {return board;}
+            set {board = value;}
+        }
+        
         private int myPieces = 0;
         private int opponentPieces = 0;
         
