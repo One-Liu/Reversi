@@ -32,11 +32,13 @@ namespace ReversiFEI.Matches
         
         private NetworkUtilities networkUtilities;
         private Controls controls;
+        private AcceptDialog matchWon;
         
         public override void _Ready()
         {
             networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
             controls = GetNode("/root/Controls") as Controls;
+            matchWon = GetNode<AcceptDialog>("../MatchWon");
             
             networkUtilities.Connect("PiecePlaced",this,nameof(ReceiveOpponentMove));
             networkUtilities.Connect("OpponentTurnSkipped",this,nameof(OpponentSkippedTurn));
@@ -415,7 +417,7 @@ namespace ReversiFEI.Matches
         {
             if(peerId == networkUtilities.OpponentId)
             {
-                RegisterVictory(true);
+                RegisterVictory(1);
             }
         }
         
@@ -426,25 +428,41 @@ namespace ReversiFEI.Matches
             
             if(myPieces > opponentPieces)
             {
-                GD.Print("You won!");
-                RegisterVictory(true);
+                RegisterVictory(1);
                 return;
             }
             else if(myPieces < opponentPieces)
             {
-                GD.Print("You lost...");
+                RegisterVictory(2);
             }
             else
-                GD.Print("Tie!?");
-            
-            RegisterVictory(false);
+                RegisterVictory(0);
         }
         
-        private void RegisterVictory(bool won)
+        private void RegisterVictory(int won)
         {
-            if(won)
-                networkUtilities.RequestVictoryRegistration();
+            matchWon.PopupExclusive = true;
             
+            if(won == 1)
+            {
+                matchWon.WindowTitle = "You won!";
+                matchWon.Visible = true;
+                networkUtilities.RequestVictoryRegistration();
+            }
+            else if(won == 2)
+            {
+                matchWon.WindowTitle = "You lost...";
+                matchWon.Visible = true;
+            }
+            else
+            {
+                matchWon.WindowTitle = "Tie!?";
+                matchWon.Visible = true;
+            }
+        }
+        
+        private void GoToLobby()
+        {
             controls.GoToLobby();
         }
     }
