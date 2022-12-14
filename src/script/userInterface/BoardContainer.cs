@@ -43,7 +43,6 @@ namespace ReversiFEI.Matches
             networkUtilities.Connect("MatchEnded",this,nameof(Results));
             GetTree().Connect("network_peer_disconnected", this, nameof(OpponentDisconnected));
 
-            Columns = boardSize;
             PlayerPiece = networkUtilities.MyPiece;
             if(PlayerPiece == 1)
                 OpponentPiece = -1;
@@ -240,7 +239,6 @@ namespace ReversiFEI.Matches
         {
             bool insideBoard = false;
             
-            //if(coordinate < Columns && coordinate >= 0)
             if(coordinate < boardSize && coordinate >= 0)
                 insideBoard = true;
             
