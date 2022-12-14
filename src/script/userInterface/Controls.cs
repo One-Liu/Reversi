@@ -9,7 +9,6 @@ using MySql.Data.MySqlClient;
 using ReversiFEI.Network;
 using System.Net;
 using System.Text.Json;
-using ReversiFEI.Email;
 using System.Text;
 
 namespace ReversiFEI.Controller
@@ -168,7 +167,6 @@ namespace ReversiFEI.Controller
 
         private async Task SignUp()
         {
-            Random generator = new Random();
             string email = GetNode<LineEdit>("EmailLineEdit").Text;
             email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
             string username = GetNode<LineEdit>("UsernameLineEdit").Text;
@@ -216,10 +214,8 @@ namespace ReversiFEI.Controller
         {
             string email = GetNode<LineEdit>("EmailLineEdit").Text;
             string password = GetNode<LineEdit>("PasswordLineEdit").Text;
-            {
-                email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
-                LogIn(email,password);
-            }   
+            email = String.Concat(email.Where(c => !Char.IsWhiteSpace(c)));
+            LogIn(email,password);
         }
         
         private async Task LogIn(string email, string password)

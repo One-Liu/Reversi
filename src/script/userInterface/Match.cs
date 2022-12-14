@@ -5,14 +5,12 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using ReversiFEI.Controller;
 using ReversiFEI.Network;
-using ReversiFEI.Controller;
 
 namespace ReversiFEI.Matches
 {
     public class Match : Control
     {
         private NetworkUtilities networkUtilities;
-        private Controls controls;
         private Label playerNickname;
         private Sprite playerAvatar;
 
@@ -23,7 +21,6 @@ namespace ReversiFEI.Matches
         
         public override void _Ready()
         {
-            controls = GetNode("/root/Controls") as Controls;
             networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
             networkUtilities.Connect("MessageReceivedMatch",this,nameof(ReceiveMessages));
             playerNickname = GetNode<Label>("PlayerHBoxContainer/PlayerVBoxContainer/PlayersNickname");
@@ -115,7 +112,7 @@ namespace ReversiFEI.Matches
         
         public void PlayMusic(bool music)
         {
-            if(music==true)
+            if(music)
                 GetNode<AudioStreamPlayer>("Music").Play(); 
             else
                 GetNode<AudioStreamPlayer>("Music").Stop(); 

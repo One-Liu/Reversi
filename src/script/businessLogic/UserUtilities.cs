@@ -107,7 +107,7 @@ namespace ReversiFEI.UserTools
             using (var db = new PlayerContext())
             {
                 Friends friendRegistration = new Friends();
-                friendRegistration.Player1Id = GetPlayerId(playerOne);;
+                friendRegistration.Player1Id = GetPlayerId(playerOne);
                 friendRegistration.Player2Id = GetPlayerId(playerTwo);
                 bool friendRegistered;
                 try
