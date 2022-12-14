@@ -20,7 +20,7 @@ namespace ReversiFEI.Matches
         public int PlayerPiece { get; set;}
         public int OpponentPiece { get; set;}
         
-        public int[,] board;
+        public int[,] Board { get; set;}
         private int myPieces = 0;
         private int opponentPieces = 0;
         
@@ -48,7 +48,7 @@ namespace ReversiFEI.Matches
             
             SetPlayerSprites();
             
-            board = CreateBoard(boardSize);
+            Board = CreateBoard(boardSize);
             Populate(boardSize);
             GameStartState();
         }
@@ -158,12 +158,12 @@ namespace ReversiFEI.Matches
             {
                 int coordinate1 = (int) Mathf.Floor((float)boardSize / 2.0F) - 1;
                 int coordinate2 = (int) Mathf.Floor((float)boardSize / 2.0F);
-                board[coordinate1,coordinate1] = 1;
-                board[coordinate2,coordinate2] = 1;
-                board[coordinate2,coordinate1] = -1;
-                board[coordinate1,coordinate2] = -1;
+                Board[coordinate1,coordinate1] = 1;
+                Board[coordinate2,coordinate2] = 1;
+                Board[coordinate2,coordinate1] = -1;
+                Board[coordinate1,coordinate2] = -1;
                 
-                UpdateGameState(board);
+                UpdateGameState(Board);
                 
                 if(networkUtilities.MyTurn)
                 {
@@ -182,12 +182,12 @@ namespace ReversiFEI.Matches
         
         private void ChangeTileState(int xPosition, int yPosition, int newState)
         {
-            if(board[xPosition,yPosition] == EMPTY_CELL)
+            if(Board[xPosition,yPosition] == EMPTY_CELL)
             {
-                board[xPosition,yPosition] = newState;
+                Board[xPosition,yPosition] = newState;
             }
             CheckBoard(newState, xPosition, yPosition);
-            UpdateGameState(board);
+            UpdateGameState(Board);
             
             var match = GetParent() as Match;
             match.SetScores(myPieces, opponentPieces);
@@ -245,22 +245,22 @@ namespace ReversiFEI.Matches
             bool legalMove = false;
             
             try{               
-                if(IsInsideBoard(xCoordinate + 1) && board[xCoordinate + 1, yCoordinate] == PlayerPiece)
+                if(IsInsideBoard(xCoordinate + 1) && Board[xCoordinate + 1, yCoordinate] == PlayerPiece)
                 {
                     legalMove = true;
                 }
                 
-                if(IsInsideBoard(xCoordinate - 1) && board[xCoordinate - 1, yCoordinate] == PlayerPiece)
+                if(IsInsideBoard(xCoordinate - 1) && Board[xCoordinate - 1, yCoordinate] == PlayerPiece)
                 {
                     legalMove = true;
                 }
                 
-                if(IsInsideBoard(yCoordinate + 1) && board[xCoordinate, yCoordinate + 1] == PlayerPiece)
+                if(IsInsideBoard(yCoordinate + 1) && Board[xCoordinate, yCoordinate + 1] == PlayerPiece)
                 {
                     legalMove = true;
                 }
                 
-                if(IsInsideBoard(yCoordinate - 1) && board[xCoordinate, yCoordinate - 1] == PlayerPiece)
+                if(IsInsideBoard(yCoordinate - 1) && Board[xCoordinate, yCoordinate - 1] == PlayerPiece)
                 {
                     legalMove = true;
                 }
@@ -279,7 +279,7 @@ namespace ReversiFEI.Matches
             foreach(Tile t in GetChildren())
             {
                 if(IsLegalMove(t.XPosition,t.YPosition) 
-                && board[t.XPosition,t.YPosition] == EMPTY_CELL)
+                && Board[t.XPosition,t.YPosition] == EMPTY_CELL)
                 {
                     availableMoves = true;
                     break;
@@ -310,7 +310,7 @@ namespace ReversiFEI.Matches
             foreach(Tile t in GetChildren())
             {
                 if(IsLegalMove(t.XPosition,t.YPosition) 
-                && board[t.XPosition,t.YPosition] == EMPTY_CELL)
+                && Board[t.XPosition,t.YPosition] == EMPTY_CELL)
                 {
                     t.Disabled = false;
                     t.TextureHover = ValidTexture;
@@ -343,41 +343,41 @@ namespace ReversiFEI.Matches
             int rowToCheck = row + xDirection;
             int colToCheck = col + yDirection;
             
-            while(rowToCheck >= 0 && rowToCheck < board.GetLength(0) && colToCheck >= 0 &&
-            colToCheck < board.GetLength(1) && board[rowToCheck, colToCheck] == otherPiece)
+            while(rowToCheck >= 0 && rowToCheck < Board.GetLength(0) && colToCheck >= 0 &&
+            colToCheck < Board.GetLength(1) && Board[rowToCheck, colToCheck] == otherPiece)
             {
                 tilesToFlip.Add((rowToCheck,colToCheck));
                 rowToCheck += xDirection;
                 colToCheck += yDirection;
             }
             
-            if (rowToCheck < 0 || rowToCheck > board.GetLength(0) - 1 || colToCheck < 0 ||
-                colToCheck > board.GetLength(1) - 1 || (rowToCheck - xDirection == row && colToCheck - yDirection == col) ||
-                board[rowToCheck, colToCheck] != piece)
+            if (rowToCheck < 0 || rowToCheck > Board.GetLength(0) - 1 || colToCheck < 0 ||
+                colToCheck > Board.GetLength(1) - 1 || (rowToCheck - xDirection == row && colToCheck - yDirection == col) ||
+                Board[rowToCheck, colToCheck] != piece)
             {
                 tilesToFlip.Clear();
             }
             
             foreach(var (x,y) in tilesToFlip)
             {
-                board[x,y] = piece;
+                Board[x,y] = piece;
             }
         }
         
-        private void UpdateGameState(int[,] board)
+        private void UpdateGameState(int[,] Board)
         {
             foreach(Tile t in GetChildren())
             {
-                for(int x = 0; x < board.GetLength(0); x++)
+                for(int x = 0; x < Board.GetLength(0); x++)
                 {
-                    for(int y = 0; y < board.GetLength(1); y++)
+                    for(int y = 0; y < Board.GetLength(1); y++)
                     {
-                        if(board[x,y] == PlayerPiece && t.XPosition == x && t.YPosition == y)
+                        if(Board[x,y] == PlayerPiece && t.XPosition == x && t.YPosition == y)
                         {
                             t.TextureDisabled = PlayerTexture;
                             t.Disabled = true;
                         }
-                        else if(board[x,y] == OpponentPiece && t.XPosition.Equals(x) && t.YPosition.Equals(y))
+                        else if(Board[x,y] == OpponentPiece && t.XPosition.Equals(x) && t.YPosition.Equals(y))
                         {
                             t.TextureDisabled = OpponentTexture;
                             t.Disabled = true;
@@ -394,11 +394,11 @@ namespace ReversiFEI.Matches
         {
             int count = 0;
             
-            for(int x = 0; x < board.GetLength(0); x++)
+            for(int x = 0; x < Board.GetLength(0); x++)
             {
-                for(int y = 0; y < board.GetLength(1); y++)
+                for(int y = 0; y < Board.GetLength(1); y++)
                 {
-                    if(board[x,y] == piece)
+                    if(Board[x,y] == piece)
                         count++;
                 }
             }

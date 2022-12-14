@@ -38,7 +38,7 @@ namespace Tests.Reversi
         {
             BoardContainer boardContainer = new BoardContainer();
             int[,] generatedBoard = boardContainer.CreateBoard(size);
-            boardContainer.board = generatedBoard;
+            boardContainer.Board = generatedBoard;
             
             bool validBoard = true;
             
@@ -60,7 +60,7 @@ namespace Tests.Reversi
         public void IsInsideBoardTest()
         {
             BoardContainer boardContainer = new BoardContainer();
-            boardContainer.board = newBoard;
+            boardContainer.Board = newBoard;
             boardContainer.PlayerPiece = 1;
             
             Assert.IsTrue(boardContainer.IsLegalMove(4,3));
@@ -70,7 +70,7 @@ namespace Tests.Reversi
         public void IsLegalMoveTest()
         {
             BoardContainer boardContainer = new BoardContainer();
-            boardContainer.board = newBoard;
+            boardContainer.Board = newBoard;
             boardContainer.PlayerPiece = 1;
             
             Assert.IsTrue(boardContainer.IsLegalMove(4,3));
@@ -80,7 +80,7 @@ namespace Tests.Reversi
         public void MovesAvailableTest()
         {
             BoardContainer boardContainer = new BoardContainer();
-            boardContainer.board = newBoard;
+            boardContainer.Board = newBoard;
             boardContainer.PlayerPiece = 1;
             
             Assert.IsTrue(boardContainer.MovesAvailable());
@@ -90,7 +90,7 @@ namespace Tests.Reversi
         public void CountPiecesTest()
         {
             BoardContainer boardContainer = new BoardContainer();
-            boardContainer.board = newBoard;
+            boardContainer.Board = newBoard;
             boardContainer.PlayerPiece = 1;
             
             Assert.IsTrue(boardContainer.CountPieces(boardContainer.PlayerPiece) == 2);
