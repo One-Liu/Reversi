@@ -14,7 +14,7 @@ namespace ReversiFEI.DatabaseContext
         {
             var connstring = new MySqlConnectionStringBuilder
                               {
-                                  Server = "localhost",
+                                  Server = "192.168.82.76",
                                   UserID = "reversi",
                                   Password = "Z4Sj(Ba#%3JY=8X",
                                   Database = "Reversi"

@@ -204,9 +204,15 @@ namespace ReversiFEI.Controller
                 networkUtilities.JoinGame();
                 await ToSignal(GetTree(), "connected_to_server");
                 if(GetTree().NetworkPeer == null)
+                {
                     GD.Print("Sign up failed.");
+                    GetNode<AcceptDialog>("SignUpError").Visible=true;
+                }
                 else
+                {
+                    GetNode<AcceptDialog>("SignUpSuccessful").Visible=true;
                     networkUtilities.SignUp(email, username, password);
+                }
             }
         }
         

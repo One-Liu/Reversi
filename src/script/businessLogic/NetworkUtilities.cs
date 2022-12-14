@@ -14,7 +14,7 @@ namespace ReversiFEI.Network
         private readonly int SERVER_ID = 1;
         private readonly int DEFAULT_PORT = 4321;
         private readonly int MAX_PLAYERS = 30;
-        private readonly string ADDRESS = "localhost";
+        private readonly string ADDRESS = "192.168.82.76";
         
         [Signal]
         delegate void MessageReceived();
@@ -629,6 +629,7 @@ namespace ReversiFEI.Network
                 
             return avatarUpdated;
         }
+        
         
         public void UpdateLeaderboard()
         {

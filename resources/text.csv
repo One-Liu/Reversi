@@ -74,4 +74,8 @@ KICK,Kick player,Sacar jugador
 POINTS:,Points:,Puntos:
 FRIEND_REQUEST_MESSAGE,You have received a friend request,Te han enviado una solicitud de amistad
 NEW_FRIEND_REQUEST,New friend request,Nueva solicitud de amistad
-NEW_DELETE_FRIEND,"Please , confirm….","Por favor, Confirma..."
+NEW_DELETE_FRIEND,Please confirm….,Por favor confirma...
+SIGN_UP_ERROR_POPUP,Sign up failed ,Registro fallido
+SIGN_UP_ERROR_MESSAGE,Sign up failed ,Registro fallido
+SIGN_UP_SUCCESFUL_POPUP,Sign up successful,Registro exitoso
+SIGN_UP_SUCCESFUL_MESSAGE,Sign up successful,Registro exitoso
