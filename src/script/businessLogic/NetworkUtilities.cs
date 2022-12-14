@@ -58,6 +58,9 @@ namespace ReversiFEI.Network
         [Signal]
         delegate void MatchEnded();
         
+        [Signal]
+        delegate void LeaderboardFinished(); 
+        
         public string Playername { get; set;}
         
         public int PlayerId{get; set;}
@@ -636,8 +639,27 @@ namespace ReversiFEI.Network
             {
                 GD.Print("Updating leaderboard...");
                 leaderboard.Clear();
-                leaderboard = UserUtilities.GetLeaderboard();
+                RpcId(SERVER_ID,nameof(GetLeaderboard));
             }
+        }
+        
+        [Remote]
+        public void GetLeaderboard()
+        {
+            int senderId = GetTree().GetRpcSenderId();
+            List<string> leaderboard = UserUtilities.GetLeaderboard();
+            for(int i=0; i<leaderboard.Count(); i++)
+            {
+                RpcId(senderId,nameof(ReceiveLeaderboard),leaderboard[i]);
+            }
+            
+            EmitSignal(nameof(LeaderboardFinished));
+        } 
+        
+        [Remote]
+        public void ReceiveLeaderboard(string leaderboardPlayer)
+        {
+            leaderboard.Add(leaderboardPlayer);
         }
         
         public void KickPlayer()

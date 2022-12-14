@@ -69,7 +69,7 @@ namespace ReversiFEI.Matches
                     newBoard[x,y] = 0;
                 } 
             }
-            
+            Columns = boardSize;
             return newBoard;
         }
         

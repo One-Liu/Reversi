@@ -13,14 +13,12 @@ namespace ReversiFEI.Network
         public override void _Ready()
         {
             networkUtilities = GetNode("/root/NetworkUtilities") as NetworkUtilities;
+            networkUtilities.Connect("LeaderboardFinished",this,nameof(UpdateLeaderboard));
             SetLeaderboard();
         }
         
         private async Task SetLeaderboard()
-        {
-            var leaderboard = GetNode<ItemList>("TopPlayersItemList");
-            leaderboard.Clear();
-                
+        {    
             networkUtilities.JoinGame();
             await ToSignal(GetTree(), "connected_to_server");
             
@@ -31,19 +29,27 @@ namespace ReversiFEI.Network
             else
             {
                 networkUtilities.UpdateLeaderboard();
-                networkUtilities.LeaveGame();
-                
-                int position = 0; 
-                
-                foreach(string player in networkUtilities.Leaderboard)
+            }
+        }
+        
+        private void UpdateLeaderboard()
+        {
+            var leaderboard = GetNode<ItemList>("TopPlayersItemList");
+            leaderboard.Clear();
+            
+            int position = 0; 
+            
+            foreach(string player in networkUtilities.Leaderboard)
+            {
+                if(player != null)
                 {
-                    if(player != null)
-                    {
-                        position += 1;
-                        leaderboard.AddItem($"{position}) {player}");
-                    }
+                    position += 1;
+                    leaderboard.AddItem($"{position}) {player}");
+                    GD.Print(player);
                 }
             }
+            
+            networkUtilities.LeaveGame();
         }
     }
 } 
